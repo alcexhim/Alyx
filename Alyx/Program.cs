@@ -36,6 +36,11 @@ namespace Alyx
 			// synthesizer.SelectVoice("Microsoft Zira Desktop");
 
 			speaker.StateChanged += speaker_StateChanged;
+
+			// speaker.Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
+
+			// speaker.Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
+
 			speaker.Speak("Hey Mike. How's it going?");
 
 			Application.Run();
@@ -90,6 +95,7 @@ namespace Alyx
 			foreach (Voice voice in speaker.GetVoices())
 			{
 				MenuItem mi = new MenuItem(voice.Name, menuVoice_Click);
+				mi.Enabled = voice.Enabled;
 				mi.Tag = voice;
 				menuVoice.MenuItems.Add(mi);
 			}
@@ -109,9 +115,16 @@ namespace Alyx
 		{
 			MenuItem mi = (sender as MenuItem);
 			Voice voice = (mi.Tag as Voice);
-			speaker.Voice = voice;
 
-			speaker.Speak("Hello, Michael. I am " + voice.Name + ".");
+			try
+			{
+				speaker.Voice = voice;
+				speaker.Speak("Hello, Michael. I am " + voice.Name + ".");
+			}
+			catch (Exception ex)
+			{
+				speaker.Speak("I can't use that voice. " + ex.Message);
+			}
 		}
 
 		private static void mnuTrayExit_Click(object sender, EventArgs e)
