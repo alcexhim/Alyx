@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Alyx Version="1.0">
+	<MessageCategories>
+		<MessageCategory ID="Hello">
+			<Messages>
+				<Message>
+					<Format>
+						<RandomLiteral>
+							<Possibility Value="Good to see you again" />
+							<Possibility Value="Hello" />
+							<Possibility Value="Hi" />
+						</RandomLiteral>
+						<Variable ID="Subject.Name" />
+					</Format>
+				</Message>
+			</Messages>
+		</MessageCategory>
+	</MessageCategories>
+</Alyx>

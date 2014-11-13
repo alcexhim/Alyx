@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Alyx Version="1.0">
+	<MessageCategories>
+		<MessageCategory ID="Goodbye">
+			<Messages>
+				<Message>
+					<Format>
+						<RandomLiteral>
+							<Possibility Value="See you later" />
+							<Possibility Value="Goodbye" />
+							<Possibility Value="Have a nice day" />
+						</RandomLiteral>
+						<Variable ID="Subject.Name" />
+					</Format>
+				</Message>
+			</Messages>
+		</MessageCategory>
+	</MessageCategories>
+</Alyx>

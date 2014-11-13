@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,10 +35,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs">
@@ -79,11 +77,11 @@
     <None Include="Resources\Alyx_Tray_Speaking.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
+    <ProjectReference Include="..\..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
       <Project>{617d9eb5-ca93-45d6-aa6b-5a012b7698ac}</Project>
       <Name>AwesomeControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Alyx.Speech\Alyx.Speech.csproj">
+    <ProjectReference Include="..\..\Libraries\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{d455c456-4eda-4b4f-8dad-1378f61248d3}</Project>
       <Name>Alyx.Speech</Name>
     </ProjectReference>

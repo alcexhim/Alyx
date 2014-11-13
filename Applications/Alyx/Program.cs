@@ -42,11 +42,32 @@ namespace Alyx
 
 			// speaker.Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 
-			speaker.Speak("Good to see you again Michael");
+			string[] WelcomeLiterals = new string[]
+			{
+				"Good to see you again {0}",
+				"Hello {0}",
+				"Hi {0}",
+				"Welcome back {0}"
+			};
+			string[] GoodbyeLiterals = new string[]
+			{
+				"See you later {0}",
+				"Bye {0}",
+				"Goodbye {0}",
+				"Have a nice day {0}"
+			};
+
+			Random random = new Random();
+			int r = 0;
+
+			r = random.Next(0, WelcomeLiterals.Length);
+			speaker.Speak(String.Format(WelcomeLiterals[r], "Michael"));
 
 			Application.Run();
 
-			speaker.Speak("See you later Michael");
+			r = random.Next(0, GoodbyeLiterals.Length);
+			speaker.Speak(String.Format(GoodbyeLiterals[r], "Michael"));
+
 			speaker.WaitUntilDone();
 
 			nid.Visible = false;
