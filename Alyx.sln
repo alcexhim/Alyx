@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx", "Applications\Alyx\Alyx.csproj", "{F8069AAD-BE73-4F64-A653-046F76115C7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Thought", "Alyx.Thought\Alyx.Thought.csproj", "{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Thought", "Libraries\Alyx.Thought\Alyx.Thought.csproj", "{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
