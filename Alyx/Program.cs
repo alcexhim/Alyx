@@ -27,6 +27,7 @@ namespace Alyx
 
 			nid.Text = "Alyx";
 			nid.ContextMenu = BuildContextMenu();
+			RefreshAvailableVoices();
 
 			nid.MouseDoubleClick += nid_MouseDoubleClick;
 
@@ -41,7 +42,7 @@ namespace Alyx
 
 			// speaker.Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 
-			speaker.Speak("Hey Mike. How's it going?");
+			speaker.Speak("Good to see you again Michael");
 
 			Application.Run();
 
@@ -92,13 +93,6 @@ namespace Alyx
 			menu.MenuItems.Add("-");
 
 			MenuItem menuVoice = new MenuItem("&Voice");
-			foreach (Voice voice in speaker.GetVoices())
-			{
-				MenuItem mi = new MenuItem(voice.Name, menuVoice_Click);
-				mi.Enabled = voice.Enabled;
-				mi.Tag = voice;
-				menuVoice.MenuItems.Add(mi);
-			}
 			menu.MenuItems.Add(menuVoice);
 
 			menu.MenuItems.Add(new MenuItem("-"));
@@ -106,12 +100,32 @@ namespace Alyx
 			return menu;
 		}
 
+		public static void RefreshAvailableVoices()
+		{
+			MenuItem menuVoice = nid.ContextMenu.MenuItems[2];
+			menuVoice.MenuItems.Clear();
+			foreach (Voice voice in speaker.GetVoices())
+			{
+				MenuItem mi = new MenuItem(voice.Name, menuTrayVoice_Click);
+				mi.Enabled = voice.Enabled;
+				mi.Tag = voice;
+				menuVoice.MenuItems.Add(mi);
+			}
+			menuVoice.MenuItems.Add("-");
+			menuVoice.MenuItems.Add(new MenuItem("&Refresh Available Voices", menuTrayVoiceRefresh_Click));
+		}
+
+		private static void menuTrayVoiceRefresh_Click(object sender, EventArgs e)
+		{
+			RefreshAvailableVoices();
+		}
+
 		private static void menuTrayOptions_Click(object sender, EventArgs e)
 		{
 			ShowMainWindow();
 		}
 
-		private static void menuVoice_Click(object sender, EventArgs e)
+		private static void menuTrayVoice_Click(object sender, EventArgs e)
 		{
 			MenuItem mi = (sender as MenuItem);
 			Voice voice = (mi.Tag as Voice);
