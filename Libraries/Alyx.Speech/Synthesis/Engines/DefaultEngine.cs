@@ -18,7 +18,7 @@ namespace Alyx.Speech.Synthesis.Engines
 		public DefaultEngine()
 		{
 			synthesizer.StateChanged += synthesizer_StateChanged;
-			synthesizer.Rate = 2;
+			synthesizer.Rate = 1;
 		}
 
 		private void synthesizer_StateChanged(object sender, System.Speech.Synthesis.StateChangedEventArgs e)
