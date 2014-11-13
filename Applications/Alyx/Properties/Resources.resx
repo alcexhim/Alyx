@@ -121,6 +121,9 @@
   <data name="Alyx_Tray_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Alyx_Tray_Default.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Alyx_Tray_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Alyx_Tray_Disabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Alyx_Tray_Speaking" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Alyx_Tray_Speaking.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

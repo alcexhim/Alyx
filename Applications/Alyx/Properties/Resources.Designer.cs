@@ -73,6 +73,16 @@ namespace Alyx.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon Alyx_Tray_Disabled {
+            get {
+                object obj = ResourceManager.GetObject("Alyx_Tray_Disabled", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon Alyx_Tray_Speaking {
             get {
                 object obj = ResourceManager.GetObject("Alyx_Tray_Speaking", resourceCulture);
