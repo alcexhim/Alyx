@@ -27,16 +27,19 @@ namespace Alyx.Speech.Synthesis.Engines
 			{
 				case SynthesizerState.Paused:
 				{
+					State = EngineState.Paused;
 					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Paused));
 					break;
 				}
 				case SynthesizerState.Ready:
 				{
+					State = EngineState.Ready;
 					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Ready));
 					break;
 				}
 				case SynthesizerState.Speaking:
 				{
+					State = EngineState.Speaking;
 					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Speaking));
 					break;
 				}
@@ -45,7 +48,7 @@ namespace Alyx.Speech.Synthesis.Engines
 
 		protected override void SpeakInternal(string text)
 		{
-			synthesizer.Speak(text);
+			synthesizer.SpeakAsync(text);
 		}
 
 		protected override Voice[] GetVoicesInternal()

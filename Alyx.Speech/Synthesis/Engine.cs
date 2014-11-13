@@ -33,5 +33,17 @@ namespace Alyx.Speech.Synthesis
 		public Voice Voice { get { return mvarVoice; } set { mvarVoice = value; SetVoiceInternal(value); } }
 
 		public abstract void SetVoiceInternal(Voice voice);
+
+		private EngineState mvarState = EngineState.Ready;
+		public EngineState State { get { return mvarState; } protected set { mvarState = value; } }
+
+		public void WaitUntilDone()
+		{
+			while (true)
+			{
+				System.Threading.Thread.Sleep(500);
+				if (State == EngineState.Ready) break;
+			}
+		}
 	}
 }
