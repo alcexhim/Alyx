@@ -58,7 +58,14 @@ namespace Alyx.Speech.Synthesis.Engines
 			System.Collections.ObjectModel.ReadOnlyCollection<InstalledVoice> realvoices = synthesizer.GetInstalledVoices();
 			foreach (InstalledVoice voice in realvoices)
 			{
-				voices.Add(new Voice(voice.VoiceInfo.Name));
+				if (voice.VoiceInfo.SupportedAudioFormats.Count == 0)
+				{
+					voices.Add(new Voice(voice.VoiceInfo.Name, false));
+				}
+				else
+				{
+					voices.Add(new Voice(voice.VoiceInfo.Name));
+				}
 			}
 			return voices.ToArray();
 		}
