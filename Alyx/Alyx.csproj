@@ -35,12 +35,23 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -68,6 +79,10 @@
     <None Include="Resources\Alyx_Tray_Speaking.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
+      <Project>{617d9eb5-ca93-45d6-aa6b-5a012b7698ac}</Project>
+      <Name>AwesomeControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{d455c456-4eda-4b4f-8dad-1378f61248d3}</Project>
       <Name>Alyx.Speech</Name>

@@ -28,22 +28,30 @@ namespace Alyx
 			nid.Text = "Alyx";
 			nid.ContextMenu = BuildContextMenu();
 
+			nid.MouseDoubleClick += nid_MouseDoubleClick;
+
 			nid.Icon = Properties.Resources.Alyx_Tray_Default;
 			nid.Visible = true;
 
 			// synthesizer.SelectVoice("Microsoft Zira Desktop");
 
 			speaker.StateChanged += speaker_StateChanged;
-			speaker.Speak("Hello Michael. This is Alix. I am ready for your command.");
+			speaker.Speak("Hey Mike. How's it going?");
 
 			Application.Run();
 
 			speaker.Speak("See you later Michael");
+			speaker.WaitUntilDone();
 
 			nid.Visible = false;
 		}
 
-		static void speaker_StateChanged(object sender, EngineStateChangedEventArgs e)
+		private static void nid_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			ShowMainWindow();
+		}
+
+		private static void speaker_StateChanged(object sender, EngineStateChangedEventArgs e)
 		{
 			switch (e.State)
 			{
@@ -60,10 +68,23 @@ namespace Alyx
 			}
 		}
 
+		private static MainWindow mvarMainWindow = null;
+		public static void ShowMainWindow()
+		{
+			if (mvarMainWindow == null) mvarMainWindow = new MainWindow();
+			if (mvarMainWindow.IsDisposed) mvarMainWindow = new MainWindow();
+			mvarMainWindow.Show();
+		}
+
 
 		private static ContextMenu BuildContextMenu()
 		{
 			ContextMenu menu = new ContextMenu();
+
+			menu.MenuItems.Add(new MenuItem("&Options", menuTrayOptions_Click));
+			menu.MenuItems[0].DefaultItem = true;
+
+			menu.MenuItems.Add("-");
 
 			MenuItem menuVoice = new MenuItem("&Voice");
 			foreach (Voice voice in speaker.GetVoices())
@@ -77,6 +98,11 @@ namespace Alyx
 			menu.MenuItems.Add(new MenuItem("-"));
 			menu.MenuItems.Add(new MenuItem("E&xit", mnuTrayExit_Click));
 			return menu;
+		}
+
+		private static void menuTrayOptions_Click(object sender, EventArgs e)
+		{
+			ShowMainWindow();
 		}
 
 		private static void menuVoice_Click(object sender, EventArgs e)
