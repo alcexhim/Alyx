@@ -45,5 +45,15 @@ namespace Alyx.Speech.Synthesis
 				if (State == EngineState.Ready) break;
 			}
 		}
+
+		public Voice GetVoice(string name)
+		{
+			Voice[] voices = GetVoices();
+			foreach (Voice voice in voices)
+			{
+				if (voice.Name == name) return voice;
+			}
+			return null;
+		}
 	}
 }
