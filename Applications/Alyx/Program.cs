@@ -34,7 +34,7 @@ namespace Alyx
 			nid.Icon = Properties.Resources.Alyx_Tray_Default;
 			nid.Visible = true;
 
-			// synthesizer.SelectVoice("Microsoft Zira Desktop");
+			speaker.Voice = speaker.GetVoice("Cepstral Callie");
 
 			speaker.StateChanged += speaker_StateChanged;
 
@@ -46,13 +46,11 @@ namespace Alyx
 			{
 				"Good to see you again {0}",
 				"Hello {0}",
-				"Hi {0}",
 				"Welcome back {0}"
 			};
 			string[] GoodbyeLiterals = new string[]
 			{
 				"See you later {0}",
-				"Bye {0}",
 				"Goodbye {0}",
 				"Have a nice day {0}"
 			};
