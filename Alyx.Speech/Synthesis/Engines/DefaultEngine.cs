@@ -54,13 +54,12 @@ namespace Alyx.Speech.Synthesis.Engines
 		protected override Voice[] GetVoicesInternal()
 		{
 			List<Voice> voices = new List<Voice>();
-
 			System.Collections.ObjectModel.ReadOnlyCollection<InstalledVoice> realvoices = synthesizer.GetInstalledVoices();
 			foreach (InstalledVoice voice in realvoices)
 			{
 				if (voice.VoiceInfo.SupportedAudioFormats.Count == 0)
 				{
-					voices.Add(new Voice(voice.VoiceInfo.Name, false));
+					voices.Add(new Voice(voice.VoiceInfo.Name));
 				}
 				else
 				{
