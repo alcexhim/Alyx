@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx", "Alyx\Alyx.csproj", "{F8069AAD-BE73-4F64-A653-046F76115C7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Speech", "Alyx.Speech\Alyx.Speech.csproj", "{D455C456-4EDA-4B4F-8DAD-1378F61248D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{F8069AAD-BE73-4F64-A653-046F76115C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8069AAD-BE73-4F64-A653-046F76115C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8069AAD-BE73-4F64-A653-046F76115C7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D455C456-4EDA-4B4F-8DAD-1378F61248D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D455C456-4EDA-4B4F-8DAD-1378F61248D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D455C456-4EDA-4B4F-8DAD-1378F61248D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D455C456-4EDA-4B4F-8DAD-1378F61248D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

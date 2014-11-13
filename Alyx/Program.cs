@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Speech.Synthesis;
-using System.Speech.Recognition;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Alyx.Speech.Synthesis;
 
 namespace Alyx
 {
 	static class Program
 	{
-		public static SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-		public static SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
+		public static Alyx.Speech.Synthesis.Engine speaker = new Alyx.Speech.Synthesis.Engines.DefaultEngine();
+		public static Alyx.Speech.Recognition.Engine listener = new Alyx.Speech.Recognition.Engines.DefaultEngine();
 
 		private static NotifyIcon nid = new NotifyIcon();
-		private static bool exiting = false;
-
+		
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -32,47 +31,44 @@ namespace Alyx
 			nid.Icon = Properties.Resources.Alyx_Tray_Default;
 			nid.Visible = true;
 
-			recognizer.LoadGrammar(new DictationGrammar());
-
-			recognizer.SetInputToDefaultAudioDevice();
-			recognizer.SpeechHypothesized += recognizer_SpeechHypothesized;
-			recognizer.SpeechRecognitionRejected += recognizer_SpeechRecognitionRejected;
-			recognizer.SpeechRecognized += recognizer_SpeechRecognized;
-
 			// synthesizer.SelectVoice("Microsoft Zira Desktop");
 
-			synthesizer.StateChanged += synthesizer_StateChanged;
-			synthesizer.Rate = 2;
-			synthesizer.Speak("Hello Michael. This is Alix. I am ready for your command.");
-
-			recognitionThread.Name = "RecognitionThread";
-			recognitionThread.Start();
+			speaker.StateChanged += speaker_StateChanged;
+			speaker.Speak("Hello Michael. This is Alix. I am ready for your command.");
 
 			Application.Run();
 
-			synthesizer.Speak("See you later Michael");
+			speaker.Speak("See you later Michael");
 
 			nid.Visible = false;
 		}
 
-		private static System.Threading.Thread recognitionThread = new System.Threading.Thread(recognitionThread_ThreadStart);
-
-		private static void recognitionThread_ThreadStart()
+		static void speaker_StateChanged(object sender, EngineStateChangedEventArgs e)
 		{
-			while (true)
+			switch (e.State)
 			{
-				recognizer.Recognize();
+				case Speech.Synthesis.EngineState.Ready:
+				{
+					nid.Icon = Properties.Resources.Alyx_Tray_Default;
+					break;
+				}
+				case Speech.Synthesis.EngineState.Speaking:
+				{
+					nid.Icon = Properties.Resources.Alyx_Tray_Speaking;
+					break;
+				}
 			}
 		}
+
 
 		private static ContextMenu BuildContextMenu()
 		{
 			ContextMenu menu = new ContextMenu();
 
 			MenuItem menuVoice = new MenuItem("&Voice");
-			foreach (InstalledVoice voice in synthesizer.GetInstalledVoices())
+			foreach (Voice voice in speaker.GetVoices())
 			{
-				MenuItem mi = new MenuItem(voice.VoiceInfo.Name, menuVoice_Click);
+				MenuItem mi = new MenuItem(voice.Name, menuVoice_Click);
 				mi.Tag = voice;
 				menuVoice.MenuItems.Add(mi);
 			}
@@ -86,44 +82,17 @@ namespace Alyx
 		private static void menuVoice_Click(object sender, EventArgs e)
 		{
 			MenuItem mi = (sender as MenuItem);
-			InstalledVoice voice = (mi.Tag as InstalledVoice);
-			synthesizer.SelectVoice(voice.VoiceInfo.Name);
+			Voice voice = (mi.Tag as Voice);
+			speaker.Voice = voice;
 
-			synthesizer.Speak("Hello, Michael. I am " + voice.VoiceInfo.Name + ".");
+			speaker.Speak("Hello, Michael. I am " + voice.Name + ".");
 		}
 
 		private static void mnuTrayExit_Click(object sender, EventArgs e)
 		{
-			recognitionThread.Abort();
+			listener.Stop();
+
 			Application.Exit();
-		}
-
-		private static void synthesizer_StateChanged(object sender, System.Speech.Synthesis.StateChangedEventArgs e)
-		{
-			switch (e.State)
-			{
-				case SynthesizerState.Speaking:
-				{
-					nid.Icon = Properties.Resources.Alyx_Tray_Speaking;
-					break;
-				}
-				case SynthesizerState.Ready:
-				{
-					nid.Icon = Properties.Resources.Alyx_Tray_Default;
-					break;
-				}
-			}
-		}
-
-		private static void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-		{
-			Console.WriteLine(e.Result.Text);
-		}
-		private static void recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
-		{
-		}
-		private static void recognizer_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
-		{
 		}
 	}
 }
