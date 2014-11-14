@@ -42,7 +42,11 @@ namespace Alyx.Speech.Synthesis
 			while (true)
 			{
 				System.Threading.Thread.Sleep(500);
-				if (State == EngineState.Ready) break;
+				if (State == EngineState.Ready)
+				{
+					System.Threading.Thread.Sleep(500);
+					break;
+				}
 			}
 		}
 
