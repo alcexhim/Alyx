@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -81,11 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
-      <Project>{617d9eb5-ca93-45d6-aa6b-5a012b7698ac}</Project>
+      <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
       <Name>AwesomeControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Speech\Alyx.Speech.csproj">
-      <Project>{d455c456-4eda-4b4f-8dad-1378f61248d3}</Project>
+      <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
       <Name>Alyx.Speech</Name>
     </ProjectReference>
   </ItemGroup>

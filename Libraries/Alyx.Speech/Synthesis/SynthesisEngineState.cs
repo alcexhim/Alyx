@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alyx.Speech.Synthesis
 {
-	public enum EngineState
+	public enum SynthesisEngineState
 	{
 		Paused,
 		Ready,

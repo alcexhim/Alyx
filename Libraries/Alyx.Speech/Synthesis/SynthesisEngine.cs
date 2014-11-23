@@ -9,10 +9,16 @@ namespace Alyx.Speech.Synthesis
 	/// <summary>
 	/// Provides an abstraction layer for interfacing with compatible speech synthesis engines.
 	/// </summary>
-	public abstract class Engine
+	public abstract class SynthesisEngine
 	{
-		public event EngineStateChangedEventHandler StateChanged;
-		protected virtual void OnStateChanged(EngineStateChangedEventArgs e)
+		public static SynthesisEngine[] GetEngines()
+		{
+			List<SynthesisEngine> list = new List<SynthesisEngine>();
+			return list.ToArray();
+		}
+		
+		public event SynthesisEngineStateChangedEventHandler StateChanged;
+		protected virtual void OnStateChanged(SynthesisEngineStateChangedEventArgs e)
 		{
 			if (StateChanged != null) StateChanged(this, e);
 		}
@@ -34,15 +40,15 @@ namespace Alyx.Speech.Synthesis
 
 		public abstract void SetVoiceInternal(Voice voice);
 
-		private EngineState mvarState = EngineState.Ready;
-		public EngineState State { get { return mvarState; } protected set { mvarState = value; } }
+		private SynthesisEngineState mvarState = SynthesisEngineState.Ready;
+		public SynthesisEngineState State { get { return mvarState; } protected set { mvarState = value; } }
 
 		public void WaitUntilDone()
 		{
 			while (true)
 			{
 				System.Threading.Thread.Sleep(500);
-				if (State == EngineState.Ready)
+				if (State == SynthesisEngineState.Ready)
 				{
 					System.Threading.Thread.Sleep(500);
 					break;

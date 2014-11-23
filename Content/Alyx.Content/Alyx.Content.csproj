@@ -42,10 +42,10 @@
     <Content Include="Messages\Hello.xml" />
   </ItemGroup>
   <Target Name="Build">
-    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
   </Target>
   <Target Name="Clean">
-    <Delete Files="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+    <Delete Files="@(Content-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
   </Target>
   <Target Name="Rebuild" DependsOnTargets="Clean;Build">
   </Target>

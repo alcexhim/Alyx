@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Alyx.Speech.Synthesis;
+using Alyx.Speech.Recognition;
 
 namespace Alyx
 {
 	static class Program
 	{
-		public static Alyx.Speech.Synthesis.Engine speaker = new Alyx.Speech.Synthesis.Engines.DefaultEngine();
-		public static Alyx.Speech.Recognition.Engine listener = new Alyx.Speech.Recognition.Engines.DefaultEngine();
+		public static SynthesisEngine speaker = null;
+		public static RecognitionEngine listener = null;
 
 		private static NotifyIcon nid = new NotifyIcon();
 		
@@ -33,8 +34,13 @@ namespace Alyx
 
 			nid.Icon = Properties.Resources.Alyx_Tray_Default;
 			nid.Visible = true;
+			
+			SynthesisEngine[] engines = SynthesisEngine.GetEngines();
+			if (engines.Length == 0) return;
+			
+			speaker = engines[0];
 
-			speaker.Voice = speaker.GetVoice("Cepstral Callie");
+			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
 
 			speaker.StateChanged += speaker_StateChanged;
 
@@ -76,16 +82,16 @@ namespace Alyx
 			ShowMainWindow();
 		}
 
-		private static void speaker_StateChanged(object sender, EngineStateChangedEventArgs e)
+		private static void speaker_StateChanged(object sender, SynthesisEngineStateChangedEventArgs e)
 		{
 			switch (e.State)
 			{
-				case Speech.Synthesis.EngineState.Ready:
+				case SynthesisEngineState.Ready:
 				{
 					nid.Icon = Properties.Resources.Alyx_Tray_Default;
 					break;
 				}
-				case Speech.Synthesis.EngineState.Speaking:
+				case SynthesisEngineState.Speaking:
 				{
 					nid.Icon = Properties.Resources.Alyx_Tray_Speaking;
 					break;

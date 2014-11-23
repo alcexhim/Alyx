@@ -4,9 +4,9 @@ using System.Linq;
 using System.Speech.Recognition;
 using System.Text;
 
-namespace Alyx.Speech.Recognition.Engines
+namespace Alyx.Speech.Recognition.Engines.Windows
 {
-	public class DefaultEngine : Engine
+	public class WindowsEngine : Engine
 	{
 		private SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
 		public DefaultEngine()

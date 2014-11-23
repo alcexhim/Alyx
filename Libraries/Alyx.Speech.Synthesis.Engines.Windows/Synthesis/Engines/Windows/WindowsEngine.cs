@@ -5,13 +5,13 @@ using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alyx.Speech.Synthesis.Engines
+namespace Alyx.Speech.Synthesis.Engines.Windows
 {
 	/// <summary>
 	/// Provides an implementation of a speech synthesis engine using the default .NET System.Speech
 	/// implementation.
 	/// </summary>
-	public class DefaultEngine : Engine
+	public class WindowsEngine : Engine
 	{
 		private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
