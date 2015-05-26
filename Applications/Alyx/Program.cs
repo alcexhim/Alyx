@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 using Alyx.Speech.Synthesis;
 using Alyx.Speech.Recognition;
+using Alyx.Linguistics;
+using Alyx.Linguistics.LanguageParts;
 
 namespace Alyx
 {
@@ -28,7 +30,6 @@ namespace Alyx
 
 			nid.Text = "Alyx";
 			nid.ContextMenu = BuildContextMenu();
-			RefreshAvailableVoices();
 
 			nid.MouseDoubleClick += nid_MouseDoubleClick;
 
@@ -36,17 +37,27 @@ namespace Alyx
 			nid.Visible = true;
 			
 			SynthesisEngine[] engines = SynthesisEngine.GetEngines();
-			if (engines.Length == 0) return;
-			
-			speaker = engines[0];
+			if (engines.Length > 0) speaker = engines[0];
+			RefreshAvailableVoices();
 
 			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
 
-			speaker.StateChanged += speaker_StateChanged;
+			if (speaker != null)
+			{
+				speaker.StateChanged += speaker_StateChanged;
+			}
 
-			// speaker.Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
+			Language lang = Language.Create(new Guid("{F369FB77-533C-409D-BBEE-7E9EF347B445}"));
+			Noun dog = Noun.Create(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
 
-			// speaker.Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
+			Sentence warning = new Sentence(new Clause[]
+			{
+				new Clause(Noun.GetPronoun(Person.FirstPerson, Quantity.Singular), null)
+			});
+
+			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
+
+			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 
 			string[] WelcomeLiterals = new string[]
 			{
@@ -65,16 +76,23 @@ namespace Alyx
 			int r = 0;
 
 			r = random.Next(0, WelcomeLiterals.Length);
-			speaker.Speak(String.Format(WelcomeLiterals[r], "Michael"));
+			Speak(String.Format(WelcomeLiterals[r], "Michael"));
 
 			Application.Run();
 
 			r = random.Next(0, GoodbyeLiterals.Length);
-			speaker.Speak(String.Format(GoodbyeLiterals[r], "Michael"));
-
-			speaker.WaitUntilDone();
+			Speak(String.Format(GoodbyeLiterals[r], "Michael"), true);
 
 			nid.Visible = false;
+		}
+
+		private static void Speak(string text, bool waitUntilDone = false)
+		{
+			if (speaker != null)
+			{
+				speaker.Speak(text);
+				if (waitUntilDone) speaker.WaitUntilDone();
+			}
 		}
 
 		private static void nid_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -129,12 +147,15 @@ namespace Alyx
 		{
 			MenuItem menuVoice = nid.ContextMenu.MenuItems[2];
 			menuVoice.MenuItems.Clear();
-			foreach (Voice voice in speaker.GetVoices())
+			if (speaker != null)
 			{
-				MenuItem mi = new MenuItem(voice.Name, menuTrayVoice_Click);
-				mi.Enabled = voice.Enabled;
-				mi.Tag = voice;
-				menuVoice.MenuItems.Add(mi);
+				foreach (Voice voice in speaker.GetVoices())
+				{
+					MenuItem mi = new MenuItem(voice.Name, menuTrayVoice_Click);
+					mi.Enabled = voice.Enabled;
+					mi.Tag = voice;
+					menuVoice.MenuItems.Add(mi);
+				}
 			}
 			menuVoice.MenuItems.Add("-");
 			menuVoice.MenuItems.Add(new MenuItem("&Refresh Available Voices", menuTrayVoiceRefresh_Click));
@@ -168,7 +189,7 @@ namespace Alyx
 
 		private static void mnuTrayExit_Click(object sender, EventArgs e)
 		{
-			listener.Stop();
+			if (listener != null) listener.Stop();
 
 			Application.Exit();
 		}

@@ -11,11 +11,11 @@ namespace Alyx.Speech.Synthesis.Engines.Windows
 	/// Provides an implementation of a speech synthesis engine using the default .NET System.Speech
 	/// implementation.
 	/// </summary>
-	public class WindowsEngine : Engine
+	public class WindowsEngine : SynthesisEngine
 	{
 		private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
-		public DefaultEngine()
+		public WindowsEngine()
 		{
 			synthesizer.StateChanged += synthesizer_StateChanged;
 			synthesizer.Rate = 1;
@@ -27,20 +27,20 @@ namespace Alyx.Speech.Synthesis.Engines.Windows
 			{
 				case SynthesizerState.Paused:
 				{
-					State = EngineState.Paused;
-					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Paused));
+					State = SynthesisEngineState.Paused;
+					OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Paused));
 					break;
 				}
 				case SynthesizerState.Ready:
 				{
-					State = EngineState.Ready;
-					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Ready));
+					State = SynthesisEngineState.Ready;
+					OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
 					break;
 				}
 				case SynthesizerState.Speaking:
 				{
-					State = EngineState.Speaking;
-					OnStateChanged(new EngineStateChangedEventArgs(EngineState.Speaking));
+					State = SynthesisEngineState.Speaking;
+					OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking));
 					break;
 				}
 			}

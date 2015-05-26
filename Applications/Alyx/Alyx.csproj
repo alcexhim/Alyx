@@ -86,9 +86,17 @@
       <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
       <Name>AwesomeControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Linguistics\Alyx.Linguistics.csproj">
+      <Project>{25670e7f-c070-4cd9-be17-a3eb012f75fe}</Project>
+      <Name>Alyx.Linguistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
       <Name>Alyx.Speech</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Thought\Alyx.Thought.csproj">
+      <Project>{82d8951d-b8d8-4e5a-91b9-f3c4e019fa42}</Project>
+      <Name>Alyx.Thought</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

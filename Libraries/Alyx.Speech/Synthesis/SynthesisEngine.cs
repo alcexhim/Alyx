@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,41 @@ namespace Alyx.Speech.Synthesis
 		public static SynthesisEngine[] GetEngines()
 		{
 			List<SynthesisEngine> list = new List<SynthesisEngine>();
+
+			string basePath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			string[] fileNames = System.IO.Directory.GetFiles(basePath, "*.dll");
+			foreach (string fileName in fileNames)
+			{
+				Assembly asm = null;
+				try
+				{
+					asm = Assembly.LoadFile(fileName);
+				}
+				catch
+				{
+					continue;
+				}
+
+				Type[] types = null;
+				try
+				{
+					types = asm.GetTypes();
+				}
+				catch (ReflectionTypeLoadException ex)
+				{
+					types = ex.Types;
+				}
+
+				foreach (Type type in types)
+				{
+					if (type.IsAbstract) continue;
+					if (type.IsSubclassOf(typeof(SynthesisEngine)))
+					{
+						list.Add(type.Assembly.CreateInstance(type.FullName) as SynthesisEngine);
+					}
+				}
+			}
+
 			return list.ToArray();
 		}
 		

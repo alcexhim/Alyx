@@ -6,10 +6,10 @@ using System.Text;
 
 namespace Alyx.Speech.Recognition.Engines.Windows
 {
-	public class WindowsEngine : Engine
+	public class WindowsEngine : RecognitionEngine
 	{
 		private SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
-		public DefaultEngine()
+		public WindowsEngine()
 		{
 			recognizer.LoadGrammar(new DictationGrammar());
 			recognizer.SetInputToDefaultAudioDevice();
