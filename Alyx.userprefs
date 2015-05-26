@@ -1,9 +1,33 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../media/BACKUPS2/beckermj/Documents/Projects/Alyx/Libraries/Alyx.Speech.Recognition.Engines.Default/Recognition/Engines/WindowsEngine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Applications/Alyx/Program.cs">
     <Files>
-      <File FileName="../../../../../media/BACKUPS2/beckermj/Documents/Projects/Alyx/Libraries/Alyx.Speech.Recognition.Engines.Default/Recognition/Engines/WindowsEngine.cs" Line="14" Column="51" />
+      <File FileName="Applications/Alyx/Program.cs" Line="30" Column="40" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Applications" expanded="True">
+            <Node name="Alyx" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+          <Node name="Libraries" expanded="True">
+            <Node name="Alyx.Speech" expanded="True" />
+            <Node name="Alyx.Speech.Synthesis.Engines.Swift" expanded="True">
+              <Node name="Synthesis" expanded="True">
+                <Node name="Engines" expanded="True">
+                  <Node name="Swift" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

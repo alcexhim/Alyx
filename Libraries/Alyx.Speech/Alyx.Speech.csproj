@@ -46,6 +46,7 @@
     <Compile Include="Synthesis\SynthesisEngineState.cs" />
     <Compile Include="Synthesis\SynthesisEngineStateChangedEvent.cs" />
     <Compile Include="Recognition\RecognitionEngine.cs" />
+    <Compile Include="Synthesis\SynthesisEngineReference.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

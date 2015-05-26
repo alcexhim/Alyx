@@ -11,9 +11,47 @@ namespace Alyx.Speech.Synthesis
 	/// </summary>
 	public abstract class SynthesisEngine
 	{
-		public static SynthesisEngine[] GetEngines()
+		public abstract SynthesisEngineReference MakeReference();
+		
+		public static SynthesisEngineReference[] GetEngines()
 		{
-			List<SynthesisEngine> list = new List<SynthesisEngine>();
+			List<SynthesisEngineReference> list = new List<SynthesisEngineReference>();
+			
+			string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+			string[] assemblyFileNames = System.IO.Directory.GetFiles(path, "*.dll");
+			foreach (string assemblyFileName in assemblyFileNames)
+			{
+				System.Reflection.Assembly asm = null;
+				try
+				{
+					asm = System.Reflection.Assembly.LoadFile(assemblyFileName);
+				}
+				catch
+				{
+					continue;
+				}
+				
+				Type[] types = null;
+				try
+				{
+					types = asm.GetTypes();
+				}
+				catch (System.Reflection.ReflectionTypeLoadException ex)
+				{
+					types = ex.Types;
+				}
+				
+				foreach (Type type in types)
+				{
+					if (type.IsSubclassOf(typeof(SynthesisEngine)))
+					{
+						SynthesisEngine engine = (type.Assembly.CreateInstance(type.FullName) as SynthesisEngine);
+						SynthesisEngineReference er = engine.MakeReference();
+						list.Add(er);
+					}
+				}
+			}
+			
 			return list.ToArray();
 		}
 		

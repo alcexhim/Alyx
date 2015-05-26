@@ -35,10 +35,10 @@ namespace Alyx
 			nid.Icon = Properties.Resources.Alyx_Tray_Default;
 			nid.Visible = true;
 			
-			SynthesisEngine[] engines = SynthesisEngine.GetEngines();
+			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
 			if (engines.Length == 0) return;
 			
-			speaker = engines[0];
+			speaker = engines[0].Create();
 
 			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
 
