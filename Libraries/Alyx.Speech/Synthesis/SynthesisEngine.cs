@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,16 @@ namespace Alyx.Speech.Synthesis
 		
 		public static SynthesisEngineReference[] GetEngines()
 		{
-			List<SynthesisEngineReference> list = new List<SynthesisEngineReference>();
-			
-			string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			string[] assemblyFileNames = System.IO.Directory.GetFiles(path, "*.dll");
-			foreach (string assemblyFileName in assemblyFileNames)
+			List<SynthesisEngine> list = new List<SynthesisEngine>();
+
+			string basePath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			string[] fileNames = System.IO.Directory.GetFiles(basePath, "*.dll");
+			foreach (string fileName in fileNames)
 			{
-				System.Reflection.Assembly asm = null;
+				Assembly asm = null;
 				try
 				{
-					asm = System.Reflection.Assembly.LoadFile(assemblyFileName);
+					asm = Assembly.LoadFile(fileName);
 				}
 				catch
 				{
@@ -51,7 +52,6 @@ namespace Alyx.Speech.Synthesis
 					}
 				}
 			}
-			
 			return list.ToArray();
 		}
 		
