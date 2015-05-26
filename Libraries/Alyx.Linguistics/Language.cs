@@ -13,6 +13,12 @@ namespace Alyx.Linguistics
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
 
+		private WordMapping.WordMappingCollection mvarWordMappings = new WordMapping.WordMappingCollection();
+		/// <summary>
+		/// Word mappings from ID to language value.
+		/// </summary>
+		public WordMapping.WordMappingCollection WordMappings { get { return mvarWordMappings; } }
+
 		private Language(Guid id)
 		{
 			mvarID = id;
@@ -22,6 +28,23 @@ namespace Alyx.Linguistics
 		{
 			Language item = new Language(id);
 			return item;
+		}
+
+		private static Language mvarCurrentLanguage = null;
+		public static Language CurrentLanguage { get { return mvarCurrentLanguage; } set { mvarCurrentLanguage = value; } }
+
+		public string GetArticle(Definiteness definiteness, Quantity quantity)
+		{
+			switch (definiteness)
+			{
+				case Definiteness.Definite: return "the";
+				case Definiteness.Indefinite:
+				{
+					if (quantity == Quantity.Plural) return null;
+					return "a";
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -7,7 +7,8 @@ namespace Alyx.Linguistics
 {
 	public enum Quantity
 	{
-		Singular,
-		Plural
+		Unspecified = 0,
+		Singular = 1,
+		Plural = 2
 	}
 }

@@ -9,6 +9,7 @@ using Alyx.Speech.Synthesis;
 using Alyx.Speech.Recognition;
 using Alyx.Linguistics;
 using Alyx.Linguistics.LanguageParts;
+using Alyx.Linguistics.Predicates;
 
 namespace Alyx
 {
@@ -48,13 +49,83 @@ namespace Alyx
 			}
 
 			Language lang = Language.Create(new Guid("{F369FB77-533C-409D-BBEE-7E9EF347B445}"));
-			Noun dog = Noun.Create(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
-
-			Sentence warning = new Sentence(new Clause[]
+			lang.WordMappings.Add(new WordMapping(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new WordMappingValue[]
 			{
-				new Clause(Noun.GetPronoun(Person.FirstPerson, Quantity.Singular), null)
+				new WordMappingValue("dog", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Quantity = Quantity.Unspecified },
+					new WordMappingValueCriteria() { Quantity = Quantity.Singular }
+				}),
+				new WordMappingValue("dogs", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Quantity = Quantity.Unspecified },
+					new WordMappingValueCriteria() { Quantity = Quantity.Plural }
+				})
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"), new WordMappingValue[]
+			{
+				new WordMappingValue("fox", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Quantity = Quantity.Unspecified },
+					new WordMappingValueCriteria() { Quantity = Quantity.Singular }
+				}),
+				new WordMappingValue("foxes", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Quantity = Quantity.Plural }
+				})
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"), new WordMappingValue[]
+			{
+				new WordMappingValue("quick")
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"), new WordMappingValue[]
+			{
+				new WordMappingValue("brown")
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"), new WordMappingValue[]
+			{
+				new WordMappingValue("lazy")
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"), new WordMappingValue[]
+			{
+				new WordMappingValue("over")
+			}));
+			lang.WordMappings.Add(new WordMapping(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), new WordMappingValue[]
+			{
+				new WordMappingValue("jump")
+			}));
+
+			Language.CurrentLanguage = lang;
+
+			Adjective lazy = new Adjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
+			Noun dog = new Noun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new Adjective[]
+			{
+				lazy
+			});
+			dog.Quantity = Quantity.Singular;
+
+			Adjective quick = new Adjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
+			Adjective brown = new Adjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
+			Noun fox = new Noun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"), new Adjective[]
+			{
+				quick,
+				brown
+			});
+			fox.Definiteness = Definiteness.Definite;
+
+			Verb jump = new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"));
+
+			Preposition over = new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"));
+
+			Sentence quickbrownfox = new Sentence(new Clause[]
+			{
+				new Clause(fox, new PrepositionalObjectPredicate(jump, over, dog))
 			});
 
+			dog.Definiteness = Definiteness.Definite;
+			dog.Quantity = Quantity.Singular;
+
+			string text = quickbrownfox.ToString();
 			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
 
 			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");

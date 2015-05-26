@@ -40,16 +40,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clause.cs" />
-    <Compile Include="IPredicate.cs" />
+    <Compile Include="Definiteness.cs" />
+    <Compile Include="LanguageParts\Adverb.cs" />
+    <Compile Include="LanguageParts\Preposition.cs" />
+    <Compile Include="LanguageParts\Verb.cs" />
+    <Compile Include="Predicate.cs" />
     <Compile Include="ISubject.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="LanguageParts\Adjective.cs" />
     <Compile Include="LanguageParts\Noun.cs" />
+    <Compile Include="Predicates\PrepositionalObjectPredicate.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sentence.cs" />
     <Compile Include="Word.cs" />
+    <Compile Include="WordMapping.cs" />
+    <Compile Include="WordMappingValue.cs" />
+    <Compile Include="WordMappingValueCriteria.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

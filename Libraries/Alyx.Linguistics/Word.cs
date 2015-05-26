@@ -14,5 +14,23 @@ namespace Alyx.Linguistics
 		{
 			mvarID = id;
 		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			Language lang = Language.CurrentLanguage;
+			if (lang != null)
+			{
+				WordMapping mapping = lang.WordMappings[mvarID];
+				if (mapping != null)
+				{
+					if (mapping.Values.Count > 0)
+					{
+						return mapping.GetValue(this);
+					}
+				}
+			}
+			return sb.ToString();
+		}
 	}
 }

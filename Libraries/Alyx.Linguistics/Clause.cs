@@ -17,7 +17,7 @@ namespace Alyx.Linguistics
 		{
 
 		}
-		public Clause(ISubject subject, IPredicate predicate)
+		public Clause(ISubject subject, Predicate predicate)
 		{
 			mvarSubject = subject;
 			mvarPredicate = predicate;
@@ -26,7 +26,22 @@ namespace Alyx.Linguistics
 		private ISubject mvarSubject = null;
 		public ISubject Subject { get { return mvarSubject; } set { mvarSubject = value; } }
 
-		private IPredicate mvarPredicate = null;
-		public IPredicate Predicate { get { return mvarPredicate; } set { mvarPredicate = value; } }
+		private Predicate mvarPredicate = null;
+		public Predicate Predicate { get { return mvarPredicate; } set { mvarPredicate = value; } }
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			if (mvarSubject != null)
+			{
+				sb.Append(mvarSubject.ToString());
+			}
+			if (mvarPredicate != null)
+			{
+				sb.Append(" ");
+				sb.Append(mvarPredicate.ToString());
+			}
+			return sb.ToString();
+		}
 	}
 }

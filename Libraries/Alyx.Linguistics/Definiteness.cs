@@ -5,11 +5,10 @@ using System.Text;
 
 namespace Alyx.Linguistics
 {
-	public enum Person
+	public enum Definiteness
 	{
 		Unspecified = 0,
-		FirstPerson = 1,
-		SecondPerson = 2,
-		ThirdPerson = 3
+		Indefinite = 1,
+		Definite = 2
 	}
 }

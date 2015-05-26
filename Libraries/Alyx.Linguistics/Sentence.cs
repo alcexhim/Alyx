@@ -20,5 +20,16 @@ namespace Alyx.Linguistics
 				mvarClauses.Add(item);
 			}
 		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (Clause clause in mvarClauses)
+			{
+				sb.Append(clause.ToString());
+			}
+			string text = sb.ToString();
+			return sb.ToString();
+		}
 	}
 }

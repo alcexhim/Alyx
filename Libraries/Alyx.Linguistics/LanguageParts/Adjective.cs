@@ -14,5 +14,8 @@ namespace Alyx.Linguistics.LanguageParts
 		}
 
 		public Adjective(Guid id) : base(id) { }
+
+		private Adverb.AdverbCollection mvarAdverbs = new Adverb.AdverbCollection();
+		public Adverb.AdverbCollection Adverbs { get { return mvarAdverbs; } }
 	}
 }
