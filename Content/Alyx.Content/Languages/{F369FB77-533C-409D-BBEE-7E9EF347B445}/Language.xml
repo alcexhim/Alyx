@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Languages>
+		<Language ID="{F369FB77-533C-409D-BBEE-7E9EF347B445}">
+			<Information>
+				<Title>Spanish</Title>
+			</Information>
+			<SentenceTypes>
+				<SentenceType ID="{29F7837F-3865-4716-8D87-1E11FD57A7E8}" Prefix="" Suffix="." />
+				<SentenceType ID="{1B13AE97-CF7B-4379-9529-F101A232A79C}" Prefix="" Suffix="." />
+				<SentenceType ID="{F9D08DF1-F64C-49F1-A115-180A6C6117B1}" Prefix="¿" Suffix="?" />
+				<SentenceType ID="{4CB83D3F-CD90-46E4-96F5-60A3CDF077B1}" Prefix="¡" Suffix="!" />
+			</SentenceTypes>
+		</Language>
+	</Languages>
+</Alyx>
