@@ -54,6 +54,9 @@
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sentence.cs" />
+    <Compile Include="SentenceType.cs" />
+    <Compile Include="SentenceTypeMapping.cs" />
+    <Compile Include="SentenceTypes.cs" />
     <Compile Include="Word.cs" />
     <Compile Include="WordMapping.cs" />
     <Compile Include="WordMappingValue.cs" />

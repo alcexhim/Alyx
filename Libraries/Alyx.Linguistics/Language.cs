@@ -13,6 +13,12 @@ namespace Alyx.Linguistics
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
 
+		private SentenceTypeMapping.SentenceTypeMappingCollection mvarSentenceTypeMappings = new SentenceTypeMapping.SentenceTypeMappingCollection();
+		/// <summary>
+		/// Sentence type mappings from ID to sentence type value.
+		/// </summary>
+		public SentenceTypeMapping.SentenceTypeMappingCollection SentenceTypeMappings { get { return mvarSentenceTypeMappings; } }
+
 		private WordMapping.WordMappingCollection mvarWordMappings = new WordMapping.WordMappingCollection();
 		/// <summary>
 		/// Word mappings from ID to language value.
