@@ -32,7 +32,7 @@ namespace Alyx.Linguistics
 		private string mvarSuffix = String.Empty;
 		public string Suffix { get { return mvarSuffix; } set { mvarSuffix = value; } }
 
-		public SentenceTypeMapping(Guid id, string prefix, string suffix)
+		public SentenceTypeMapping(Guid id, string prefix = "", string suffix = "")
 		{
 			mvarID = id;
 			mvarPrefix = prefix;

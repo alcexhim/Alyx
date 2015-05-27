@@ -11,20 +11,17 @@
 				<SentenceType ID="{F9D08DF1-F64C-49F1-A115-180A6C6117B1}" Prefix="" Suffix="?" />
 				<SentenceType ID="{4CB83D3F-CD90-46E4-96F5-60A3CDF077B1}" Prefix="" Suffix="!" />
 			</SentenceTypes>
-			<DefaultWordMappings>
-				<!-- These mappings are applied to all words unless specifically overridden -->
-				<Mapping Value="$(Word)">
-					<Criteria>
-						<Criterion Quantity="Unspecified" />
-						<Criterion Quantity="Singular" />
-					</Criteria>
-				</Mapping>
-				<Mapping Value="$(Word)s">
-					<Criteria>
-						<Criterion Quantity="Plural" />
-					</Criteria>
-				</Mapping>
-			</DefaultWordMappings>
+			<WordClasses>
+				<WordClass ID="{225DF6CF-D334-4227-A308-B31F709B82DA}" Title="Noun" />
+				<WordClass ID="{916C924A-0FD2-4939-9CD8-1441FF7B5E64}" Title="Pronoun" />
+				<WordClass ID="{97A4620E-686D-4F4F-9E99-FD104D16DBCE}" Title="Adjective" />
+				<WordClass ID="{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}" Title="Verb" />
+				<WordClass ID="{C6C06034-6FED-4815-9121-516871A9DE93}" Title="Adverb" />
+				<WordClass ID="{C08DF48F-EDC8-4DF5-BC93-491A3D93B5CD}" Title="Preposition" />
+				<WordClass ID="{E63F6105-A6FA-4A4D-BB82-12695D4FF760}" Title="Conjunction" />
+				<WordClass ID="{87394734-657E-462F-93ED-08FAC2365ABC}" Title="Interjection" />
+				<WordClass ID="{96157C04-35B6-456D-B9C0-949A806BE70D}" Title="Article" />
+			</WordClasses>
 		</Language>
 	</Languages>
 </Alyx>

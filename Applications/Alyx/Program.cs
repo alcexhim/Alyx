@@ -11,6 +11,8 @@ using Alyx.Linguistics;
 using Alyx.Linguistics.LanguageParts;
 using Alyx.Linguistics.Predicates;
 
+using Alyx.Core;
+
 namespace Alyx
 {
 	static class Program
@@ -86,19 +88,16 @@ namespace Alyx
 
 			Language.CurrentLanguage = langEnglish;
 
-			Adjective lazy = new Adjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
-			Noun dog = new Noun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new Adjective[]
-			{
-				lazy
-			});
+			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
+			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
+			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
+			
+			NounInstance dog = langEnglish.GetNoun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
+			dog.Adjectives.Add(lazy);
 
-			Adjective quick = new Adjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
-			Adjective brown = new Adjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
-			Noun fox = new Noun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"), new Adjective[]
-			{
-				quick,
-				brown
-			});
+			NounInstance fox = langEnglish.GetNoun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"));
+			fox.Adjectives.AddRange<AdjectiveInstance>(quick, brown);
+
 			fox.Definiteness = Definiteness.Definite;
 			fox.Quantity = Quantity.Plural;
 
@@ -106,8 +105,8 @@ namespace Alyx
 			{
 				new Clause(fox, new PrepositionalObjectPredicate
 				(
-					new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
-					new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
+					langEnglish.GetVerb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
+					langEnglish.GetPreposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
 					dog
 				))
 			});
@@ -149,15 +148,8 @@ namespace Alyx
 
 		private static Language InitializeLanguage_English()
 		{
-			// Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
-			Language lang = Language.Create(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
-			lang.Title = "English (United States)";
-
-			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{29F7837F-3865-4716-8D87-1E11FD57A7E8}"), String.Empty, "."));
-			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{1B13AE97-CF7B-4379-9529-F101A232A79C}"), String.Empty, "."));
-			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{F9D08DF1-F64C-49F1-A115-180A6C6117B1}"), String.Empty, "?"));
-			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{4CB83D3F-CD90-46E4-96F5-60A3CDF077B1}"), String.Empty, "!"));
-
+			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			/*
 			lang.WordMappings.Add(new WordMapping(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new WordMappingValue[]
 			{
 				new WordMappingValue("dog", new WordMappingValueCriteria[]
@@ -225,6 +217,7 @@ namespace Alyx
 					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.ThirdPerson, Quantity = Quantity.Plural }		// they jumped
 				})
 			}));
+			*/
 			return lang;
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alyx.Linguistics.LanguageParts;
 
 namespace Alyx.Linguistics
 {
@@ -17,14 +18,14 @@ namespace Alyx.Linguistics
 		{
 
 		}
-		public Clause(ISubject subject, Predicate predicate)
+		public Clause(NounInstance subject, Predicate predicate)
 		{
 			mvarSubject = subject;
 			mvarPredicate = predicate;
 		}
 
-		private ISubject mvarSubject = null;
-		public ISubject Subject { get { return mvarSubject; } set { mvarSubject = value; } }
+		private NounInstance mvarSubject = null;
+		public NounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
 
 		private Predicate mvarPredicate = null;
 		public Predicate Predicate { get { return mvarPredicate; } set { mvarPredicate = value; } }

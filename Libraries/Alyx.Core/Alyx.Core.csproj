@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</ProjectGuid>
+    <ProjectGuid>{35D24257-56A1-40E0-B7C7-530B37C92D25}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Alyx.Linguistics</RootNamespace>
-    <AssemblyName>Alyx.Linguistics</AssemblyName>
+    <RootNamespace>Alyx.Core</RootNamespace>
+    <AssemblyName>Alyx.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,32 +34,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aspect.cs" />
-    <Compile Include="Clause.cs" />
-    <Compile Include="Definiteness.cs" />
-    <Compile Include="LanguageParts\AdverbInstance.cs" />
-    <Compile Include="LanguageParts\PrepositionInstance.cs" />
-    <Compile Include="LanguageParts\VerbInstance.cs" />
-    <Compile Include="Predicate.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="LanguageParts\AdjectiveInstance.cs" />
-    <Compile Include="LanguageParts\NounInstance.cs" />
-    <Compile Include="Predicates\PrepositionalObjectPredicate.cs" />
-    <Compile Include="Quantity.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="ConditionalExpressions\Condition.cs" />
+    <Compile Include="ConditionalExpressions\ConditionalCombination.cs" />
+    <Compile Include="ConditionalExpressions\ConditionalStatementParser.cs" />
+    <Compile Include="ConditionalExpressions\ConditionComparison.cs" />
+    <Compile Include="ConditionalExpressions\ConditionGroup.cs" />
+    <Compile Include="ConditionalExpressions\IConditionalStatement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sentence.cs" />
-    <Compile Include="SentenceType.cs" />
-    <Compile Include="SentenceTypeMapping.cs" />
-    <Compile Include="SentenceTypes.cs" />
-    <Compile Include="Tense.cs" />
-    <Compile Include="Word.cs" />
-    <Compile Include="WordClass.cs" />
-    <Compile Include="WordClasses.cs" />
-    <Compile Include="WordInstance.cs" />
-    <Compile Include="WordMapper.cs" />
-    <Compile Include="WordMapperMapping.cs" />
-    <Compile Include="WordMapperMappingCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
@@ -71,10 +51,6 @@
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
       <Project>{30467e5c-05bc-4856-aadc-13906ef4cadd}</Project>
       <Name>UniversalEditor.Essential</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Alyx.Core\Alyx.Core.csproj">
-      <Project>{35d24257-56a1-40e0-b7c7-530b37c92d25}</Project>
-      <Name>Alyx.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

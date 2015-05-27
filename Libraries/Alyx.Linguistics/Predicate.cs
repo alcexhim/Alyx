@@ -12,10 +12,10 @@ namespace Alyx.Linguistics
 	/// </summary>
 	public abstract class Predicate
 	{
-		private Verb mvarVerb = null;
-		public Verb Verb { get { return mvarVerb; } set { mvarVerb = value; } }
+		private VerbInstance mvarVerb = null;
+		public VerbInstance Verb { get { return mvarVerb; } set { mvarVerb = value; } }
 
-		public Predicate(Verb verb)
+		public Predicate(VerbInstance verb)
 		{
 			mvarVerb = verb;
 		}

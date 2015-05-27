@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alyx.Core.ConditionalExpressions;
+using Alyx.Linguistics.LanguageParts;
+
+using UniversalEditor;
+using UniversalEditor.Accessors;
+using UniversalEditor.DataFormats.Markup.XML;
+using UniversalEditor.ObjectModels.Markup;
 
 namespace Alyx.Linguistics
 {
@@ -19,11 +26,11 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public SentenceTypeMapping.SentenceTypeMappingCollection SentenceTypeMappings { get { return mvarSentenceTypeMappings; } }
 
-		private WordMapping.WordMappingCollection mvarWordMappings = new WordMapping.WordMappingCollection();
-		/// <summary>
-		/// Word mappings from ID to language value.
-		/// </summary>
-		public WordMapping.WordMappingCollection WordMappings { get { return mvarWordMappings; } }
+		private WordMapper.WordMapperCollection mvarWordMappers = new WordMapper.WordMapperCollection();
+		public WordMapper.WordMapperCollection WordMappers { get { return mvarWordMappers; } }
+
+		private WordClass.WordClassCollection mvarWordClasses = new WordClass.WordClassCollection();
+		public WordClass.WordClassCollection WordClasses { get { return mvarWordClasses; } }
 
 		private Language(Guid id)
 		{
@@ -56,6 +63,352 @@ namespace Alyx.Linguistics
 				}
 			}
 			return null;
+		}
+
+		private Word.WordCollection mvarWords = new Word.WordCollection();
+		/// <summary>
+		/// All <see cref="Word" />s available in this <see cref="Language" />.
+		/// </summary>
+		public Word.WordCollection Words { get { return mvarWords; } }
+
+		private static MarkupObjectModel conf = new MarkupObjectModel();
+		private static XMLDataFormat xdf = new XMLDataFormat();
+
+		private static Language[] _languages = null;
+		/// <summary>
+		/// Gets all the <see cref="Language" />s defined for the system.
+		/// </summary>
+		/// <returns></returns>
+		public static Language[] Get()
+		{
+			if (_languages == null)
+			{
+				List<Language> list = new List<Language>();
+
+				string basePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+				basePath = basePath + System.IO.Path.DirectorySeparatorChar.ToString() + "Languages";
+				string[] dirnames = System.IO.Directory.GetDirectories(basePath);
+				foreach (string dirname in dirnames)
+				{
+					string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.xml", System.IO.SearchOption.AllDirectories);
+					foreach (string xmlfile in xmlfiles)
+					{
+						MarkupObjectModel xmlconf = new MarkupObjectModel();
+						
+						Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
+						xmlconf.CopyTo(conf);
+					}
+				}
+
+				MarkupTagElement tagAlyx = (conf.Elements["Alyx"] as MarkupTagElement);
+				if (tagAlyx != null)
+				{
+					MarkupTagElement tagLanguages = (tagAlyx.Elements["Languages"] as MarkupTagElement);
+					if (tagLanguages != null)
+					{
+						foreach (MarkupElement elLanguage in tagLanguages.Elements)
+						{
+							MarkupTagElement tagLanguage = (elLanguage as MarkupTagElement);
+							if (tagLanguage == null) continue;
+							if (tagLanguage.FullName != "Language") continue;
+
+							MarkupAttribute attLanguageID = tagLanguage.Attributes["ID"];
+							if (attLanguageID == null) continue;
+
+							Language lang = new Language(new Guid(attLanguageID.Value));
+
+							MarkupTagElement tagInformation = (tagLanguage.Elements["Information"] as MarkupTagElement);
+							if (tagInformation != null)
+							{
+								MarkupTagElement tagTitle = (tagInformation.Elements["Title"] as MarkupTagElement);
+								if (tagTitle != null) lang.Title = tagTitle.Value;
+							}
+
+							MarkupTagElement tagSentenceTypes = (tagLanguage.Elements["SentenceTypes"] as MarkupTagElement);
+							if (tagSentenceTypes != null)
+							{
+								foreach (MarkupElement elSentenceType in tagSentenceTypes.Elements)
+								{
+									MarkupTagElement tagSentenceType = (elSentenceType as MarkupTagElement);
+									if (tagSentenceType == null) continue;
+									if (tagSentenceType.FullName != "SentenceType") continue;
+
+									MarkupAttribute attID = tagSentenceType.Attributes["ID"];
+									if (attID == null) continue;
+
+									SentenceTypeMapping mapping = new SentenceTypeMapping(new Guid(attID.Value));
+
+									MarkupAttribute attPrefix = tagSentenceType.Attributes["Prefix"];
+									if (attPrefix != null) mapping.Prefix = attPrefix.Value;
+
+									MarkupAttribute attSuffix = tagSentenceType.Attributes["Suffix"];
+									if (attSuffix != null) mapping.Suffix = attSuffix.Value;
+
+									lang.SentenceTypeMappings.Add(mapping);
+								}
+							}
+
+							MarkupTagElement tagWordMappers = (tagLanguage.Elements["WordMappers"] as MarkupTagElement);
+							if (tagWordMappers != null)
+							{
+								foreach (MarkupElement elWordMapper in tagWordMappers.Elements)
+								{
+									MarkupTagElement tagWordMapper = (elWordMapper as MarkupTagElement);
+									if (tagWordMapper == null) continue;
+									if (tagWordMapper.FullName != "WordMapper") continue;
+
+									MarkupAttribute attID = tagWordMapper.Attributes["ID"];
+									if (attID == null) continue;
+
+									WordMapper mapper = new WordMapper(new Guid(attID.Value));
+
+									MarkupTagElement tagConditionalStatement = (tagWordMapper.Elements["ConditionalStatement"] as MarkupTagElement);
+									if (tagConditionalStatement != null && tagConditionalStatement.Elements.Count > 0)
+									{
+										mapper.Condition = ConditionalStatementParser.Parse(tagConditionalStatement.Elements[0] as MarkupTagElement);
+									}
+
+									MarkupTagElement tagMappings = (tagWordMapper.Elements["Mappings"] as MarkupTagElement);
+									if (tagMappings != null)
+									{
+										foreach (MarkupElement elMapping in tagMappings.Elements)
+										{
+											MarkupTagElement tagMapping = (elMapping as MarkupTagElement);
+											if (tagMapping == null) continue;
+											if (tagMapping.FullName != "Mapping") continue;
+
+											MarkupAttribute attValue = tagMapping.Attributes["Value"];
+											if (attValue == null) continue;
+
+											WordMapperMapping mapping = new WordMapperMapping(attValue.Value);
+
+											MarkupTagElement tagCriteria = (tagMapping.Elements["Criteria"] as MarkupTagElement);
+											if (tagCriteria != null)
+											{
+												foreach (MarkupElement elCriterion in tagCriteria.Elements)
+												{
+													MarkupTagElement tagCriterion = (elCriterion as MarkupTagElement);
+													if (tagCriterion == null) continue;
+													if (tagCriterion.FullName != "Criterion") continue;
+
+													WordMapperMappingCriteria criterion = new WordMapperMappingCriteria();
+
+													MarkupAttribute attAspect = tagCriterion.Attributes["Aspect"];
+													if (attAspect != null)
+													{
+														switch (attAspect.Value.ToLower())
+														{
+															case "continuous":
+																{
+																	criterion.Aspect = Aspect.Continuous;
+																	break;
+																}
+															case "perfect":
+																{
+																	criterion.Aspect = Aspect.Continuous;
+																	break;
+																}
+															case "perfectcontinuous":
+																{
+																	criterion.Aspect = Aspect.PerfectContinuous;
+																	break;
+																}
+															case "simple":
+																{
+																	criterion.Aspect = Aspect.Simple;
+																	break;
+																}
+														}
+													}
+													MarkupAttribute attPerson = tagCriterion.Attributes["Person"];
+													if (attPerson != null)
+													{
+														switch (attPerson.Value.ToLower())
+														{
+															case "firstperson":
+																{
+																	criterion.Person = Person.FirstPerson;
+																	break;
+																}
+															case "secondperson":
+																{
+																	criterion.Person = Person.SecondPerson;
+																	break;
+																}
+															case "thirdperson":
+																{
+																	criterion.Person = Person.ThirdPerson;
+																	break;
+																}
+														}
+													}
+													MarkupAttribute attQuantity = tagCriterion.Attributes["Quantity"];
+													if (attQuantity != null)
+													{
+														switch (attQuantity.Value.ToLower())
+														{
+															case "singular":
+																{
+																	criterion.Quantity = Quantity.Singular;
+																	break;
+																}
+															case "plural":
+																{
+																	criterion.Quantity = Quantity.Plural;
+																	break;
+																}
+														}
+													}
+													MarkupAttribute attTense = tagCriterion.Attributes["Tense"];
+													if (attTense != null)
+													{
+														switch (attTense.Value.ToLower())
+														{
+															case "future":
+																{
+																	criterion.Tense = Tense.Future;
+																	break;
+																}
+															case "past":
+																{
+																	criterion.Tense = Tense.Past;
+																	break;
+																}
+															case "pastfuture":
+																{
+																	criterion.Tense = Tense.PastFuture;
+																	break;
+																}
+															case "present":
+																{
+																	criterion.Tense = Tense.Present;
+																	break;
+																}
+														}
+													}
+
+													mapping.Criteria.Add(criterion);
+												}
+											}
+
+											mapper.Mappings.Add(mapping);
+										}
+									}
+
+									lang.WordMappers.Add(mapper);
+								}
+							}
+
+							#region Load word classes
+							{
+								MarkupTagElement tagWordClasses = (tagLanguage.Elements["WordClasses"] as MarkupTagElement);
+								if (tagWordClasses != null)
+								{
+									foreach (MarkupElement elWordClass in tagWordClasses.Elements)
+									{
+										MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
+										if (tagWordClass == null) continue;
+
+										MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
+										if (attWordClassID == null) continue;
+
+										WordClass wordClass = new WordClass(new Guid(attWordClassID.Value));
+
+										lang.WordClasses.Add(wordClass);
+									}
+								}
+							}
+							#endregion
+
+							MarkupTagElement tagWords = (tagLanguage.Elements["Words"] as MarkupTagElement);
+							if (tagWords != null)
+							{
+								foreach (MarkupElement elWord in tagWords.Elements)
+								{
+									MarkupTagElement tagWord = (elWord as MarkupTagElement);
+									if (tagWord == null) continue;
+									if (tagWord.FullName != "Word") continue;
+
+									MarkupAttribute attWordID = tagWord.Attributes["ID"];
+									if (attWordID == null) continue;
+
+									Word word = new Word(new Guid(attWordID.Value));
+
+									MarkupAttribute attValue = tagWord.Attributes["Value"];
+									if (attValue != null) word.Value = attValue.Value;
+
+									MarkupTagElement tagWordClasses = (tagWord.Elements["WordClasses"] as MarkupTagElement);
+									if (tagWordClasses != null)
+									{
+										foreach (MarkupElement elWordClass in tagWordClasses.Elements)
+										{
+											MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
+											if (tagWordClass == null) continue;
+											if (tagWordClass.FullName != "WordClass") continue;
+
+											MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
+											if (attWordClassID == null) continue;
+
+											WordClass wordClass = lang.WordClasses[new Guid(attWordClassID.Value)];
+											if (wordClass == null) continue;
+
+											MarkupAttribute attWordClassTitle = tagWordClass.Attributes["Title"];
+											if (attWordClassTitle != null)
+											{
+												wordClass.Title = attWordClassTitle.Value;
+											}
+
+											word.Classes.Add(wordClass);
+										}
+									}
+
+									lang.Words.Add(word);
+								}
+							}
+
+							list.Add(lang);
+						}
+					}
+				}
+
+				_languages = list.ToArray();
+			}
+			return _languages;
+		}
+
+		public static Language GetByID(Guid id)
+		{
+			Language[] languages = Get();
+			foreach (Language lang in languages)
+			{
+				if (lang.ID == id) return lang;
+			}
+			return null;
+		}
+
+		public NounInstance GetNoun(Guid id)
+		{
+			Word word = mvarWords[id];
+			if (word == null) return null;
+			return new NounInstance(word);
+		}
+		public AdjectiveInstance GetAdjective(Guid id)
+		{
+			Word word = mvarWords[id];
+			if (word == null) return null;
+			return new AdjectiveInstance(word);
+		}
+		public VerbInstance GetVerb(Guid id, Person person = Person.Unspecified, Tense tense = Tense.Unspecified, Aspect aspect = Aspect.Unspecified)
+		{
+			Word word = mvarWords[id];
+			if (word == null) return null;
+			return new VerbInstance(word, person, tense, aspect);
+		}
+		public PrepositionInstance GetPreposition(Guid id)
+		{
+			Word word = mvarWords[id];
+			if (word == null) return null;
+			return new PrepositionInstance(word);
 		}
 	}
 }

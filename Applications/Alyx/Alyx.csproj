@@ -70,6 +70,10 @@
       <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
       <Name>AwesomeControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Core\Alyx.Core.csproj">
+      <Project>{35d24257-56a1-40e0-b7c7-530b37c92d25}</Project>
+      <Name>Alyx.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Linguistics\Alyx.Linguistics.csproj">
       <Project>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</Project>
       <Name>Alyx.Linguistics</Name>

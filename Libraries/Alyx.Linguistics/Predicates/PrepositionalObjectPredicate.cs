@@ -8,13 +8,13 @@ namespace Alyx.Linguistics.Predicates
 {
 	public class PrepositionalObjectPredicate : Predicate
 	{
-		private Preposition mvarPreposition = null;
-		public Preposition Preposition { get { return mvarPreposition; } set { mvarPreposition = value; } }
+		private PrepositionInstance mvarPreposition = null;
+		public PrepositionInstance Preposition { get { return mvarPreposition; } set { mvarPreposition = value; } }
 
-		private Noun mvarSubject = null;
-		public Noun Subject { get { return mvarSubject; } set { mvarSubject = value; } }
+		private NounInstance mvarSubject = null;
+		public NounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
 
-		public PrepositionalObjectPredicate(Verb verb, Preposition preposition, Noun subject) : base(verb)
+		public PrepositionalObjectPredicate(VerbInstance verb, PrepositionInstance preposition, NounInstance subject) : base(verb)
 		{
 			mvarPreposition = preposition;
 			mvarSubject = subject;
