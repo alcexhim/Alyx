@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspect.cs" />
     <Compile Include="Clause.cs" />
     <Compile Include="Definiteness.cs" />
     <Compile Include="LanguageParts\Adverb.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="SentenceType.cs" />
     <Compile Include="SentenceTypeMapping.cs" />
     <Compile Include="SentenceTypes.cs" />
+    <Compile Include="Tense.cs" />
     <Compile Include="Word.cs" />
     <Compile Include="WordMapping.cs" />
     <Compile Include="WordMappingValue.cs" />

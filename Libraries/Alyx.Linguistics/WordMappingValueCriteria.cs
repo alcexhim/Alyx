@@ -14,6 +14,12 @@ namespace Alyx.Linguistics
 
 		}
 
+		private Tense mvarTense = Tense.Unspecified;
+		public Tense Tense { get { return mvarTense; } set { mvarTense = value; } }
+
+		private Aspect mvarAspect = Aspect.Unspecified;
+		public Aspect Aspect { get { return mvarAspect; } set { mvarAspect = value; } }
+
 		private Person mvarPerson = Person.Unspecified;
 		public Person Person { get { return mvarPerson; } set { mvarPerson = value; } }
 
@@ -36,7 +42,9 @@ namespace Alyx.Linguistics
 				Verb verb = (word as Verb);
 				return
 				(
-					(mvarPerson == Linguistics.Person.Unspecified || verb.Person == mvarPerson )
+					(((mvarPerson == Linguistics.Person.Unspecified && verb.Person == Linguistics.Person.Unspecified) || verb.Person == mvarPerson)
+					&& ((mvarAspect == Linguistics.Aspect.Unspecified && verb.Aspect == Linguistics.Aspect.Unspecified) || verb.Aspect == mvarAspect)
+					&& ((mvarTense == Linguistics.Tense.Unspecified && verb.Tense == Linguistics.Tense.Unspecified) || verb.Tense == mvarTense))
 				);
 			}
 			return true;

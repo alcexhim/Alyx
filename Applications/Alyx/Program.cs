@@ -39,6 +39,10 @@ namespace Alyx
 		private static System.Drawing.Icon ToIcon(this System.Drawing.Image image)
 		{
 			System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(image.Width, image.Height);
+			System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+			g.DrawImage(image, 0, 0, image.Width, image.Height);
+			g.Flush();
+
 			IntPtr hIcon = bitmap.GetHicon();
 			return System.Drawing.Icon.FromHandle(hIcon);
 		}
@@ -62,7 +66,7 @@ namespace Alyx
 
 			iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
 			iconActive = GetImage("TrayIcon/Active.png").ToIcon();
-			
+
 			nid.Icon = iconDefault;
 			nid.Visible = true;
 			
@@ -99,6 +103,8 @@ namespace Alyx
 			fox.Definiteness = Definiteness.Definite;
 
 			Verb jump = new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"));
+			jump.Tense = Tense.Past;
+			jump.Person = Person.ThirdPerson;
 
 			Preposition over = new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"));
 
@@ -145,6 +151,7 @@ namespace Alyx
 		private static Language InitializeLanguage_English()
 		{
 			Language lang = Language.Create(new Guid("{F369FB77-533C-409D-BBEE-7E9EF347B445}"));
+			lang.Title = "English (United States)";
 
 			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{29F7837F-3865-4716-8D87-1E11FD57A7E8}"), String.Empty, "."));
 			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{1B13AE97-CF7B-4379-9529-F101A232A79C}"), String.Empty, "."));
@@ -194,7 +201,29 @@ namespace Alyx
 			}));
 			lang.WordMappings.Add(new WordMapping(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), new WordMappingValue[]
 			{
-				new WordMappingValue("jump")
+				new WordMappingValue("jump", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Unspecified, Person = Linguistics.Person.Unspecified, Quantity = Quantity.Unspecified },	// [infinitive] jump
+
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.FirstPerson, Quantity = Quantity.Singular },	// I jump
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.FirstPerson, Quantity = Quantity.Plural },		// we jump
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.SecondPerson, Quantity = Quantity.Singular },	// you jump
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.SecondPerson, Quantity = Quantity.Plural },	// you all jump
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.ThirdPerson, Quantity = Quantity.Plural }		// they jump
+				}),
+				new WordMappingValue("jumps", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Present, Person = Linguistics.Person.ThirdPerson, Quantity = Quantity.Singular }	// he/she/it jumps
+				}),
+				new WordMappingValue("jumped", new WordMappingValueCriteria[]
+				{
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.FirstPerson, Quantity = Quantity.Singular },	// I jumped
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.FirstPerson, Quantity = Quantity.Plural },		// we jumped
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.SecondPerson, Quantity = Quantity.Singular },	// you jumped
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.SecondPerson, Quantity = Quantity.Plural },	// you all jumped
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.ThirdPerson, Quantity = Quantity.Singular },		// he/she/it jumped
+					new WordMappingValueCriteria() { Tense = Linguistics.Tense.Past, Person = Linguistics.Person.ThirdPerson, Quantity = Quantity.Plural }		// they jumped
+				})
 			}));
 			return lang;
 		}
