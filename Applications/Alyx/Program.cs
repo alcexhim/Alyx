@@ -48,7 +48,79 @@ namespace Alyx
 				speaker.StateChanged += speaker_StateChanged;
 			}
 
+			Language langEnglish = InitializeLanguage_English();
+
+			Language.CurrentLanguage = langEnglish;
+
+			Adjective lazy = new Adjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
+			Noun dog = new Noun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new Adjective[]
+			{
+				lazy
+			});
+			dog.Quantity = Quantity.Singular;
+
+			Adjective quick = new Adjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
+			Adjective brown = new Adjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
+			Noun fox = new Noun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"), new Adjective[]
+			{
+				quick,
+				brown
+			});
+			fox.Definiteness = Definiteness.Definite;
+
+			Verb jump = new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"));
+
+			Preposition over = new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"));
+
+			Sentence quickbrownfox = new Sentence(SentenceTypes.Declarative, new Clause[]
+			{
+				new Clause(fox, new PrepositionalObjectPredicate(jump, over, dog))
+			});
+
+			dog.Definiteness = Definiteness.Definite;
+			dog.Quantity = Quantity.Singular;
+
+			string text = quickbrownfox.ToString();
+			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
+
+			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
+
+			string[] WelcomeLiterals = new string[]
+			{
+				"Good to see you again {0}",
+				"Hello {0}",
+				"Welcome back {0}"
+			};
+			string[] GoodbyeLiterals = new string[]
+			{
+				"See you later {0}",
+				"Goodbye {0}",
+				"Have a nice day {0}"
+			};
+
+			Random random = new Random();
+			int r = 0;
+
+			r = random.Next(0, WelcomeLiterals.Length);
+			Speak(String.Format(WelcomeLiterals[r], "Michael"));
+
+			Application.Run();
+
+			r = random.Next(0, GoodbyeLiterals.Length);
+			Speak(String.Format(GoodbyeLiterals[r], "Michael"), true);
+
+			nid.Visible = false;
+		}
+
+		private static Language InitializeLanguage_English()
+		{
 			Language lang = Language.Create(new Guid("{F369FB77-533C-409D-BBEE-7E9EF347B445}"));
+
+			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{29F7837F-3865-4716-8D87-1E11FD57A7E8}"), String.Empty, "."));
+			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{1B13AE97-CF7B-4379-9529-F101A232A79C}"), String.Empty, "."));
+			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{F9D08DF1-F64C-49F1-A115-180A6C6117B1}"), String.Empty, "?"));
+			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{4CB83D3F-CD90-46E4-96F5-60A3CDF077B1}"), String.Empty, "!"));
+
 			lang.WordMappings.Add(new WordMapping(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new WordMappingValue[]
 			{
 				new WordMappingValue("dog", new WordMappingValueCriteria[]
@@ -94,67 +166,7 @@ namespace Alyx
 			{
 				new WordMappingValue("jump")
 			}));
-
-			Language.CurrentLanguage = lang;
-
-			Adjective lazy = new Adjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
-			Noun dog = new Noun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new Adjective[]
-			{
-				lazy
-			});
-			dog.Quantity = Quantity.Singular;
-
-			Adjective quick = new Adjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
-			Adjective brown = new Adjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
-			Noun fox = new Noun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"), new Adjective[]
-			{
-				quick,
-				brown
-			});
-			fox.Definiteness = Definiteness.Definite;
-
-			Verb jump = new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"));
-
-			Preposition over = new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"));
-
-			Sentence quickbrownfox = new Sentence(new Clause[]
-			{
-				new Clause(fox, new PrepositionalObjectPredicate(jump, over, dog))
-			});
-
-			dog.Definiteness = Definiteness.Definite;
-			dog.Quantity = Quantity.Singular;
-
-			string text = quickbrownfox.ToString();
-			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
-
-			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
-
-			string[] WelcomeLiterals = new string[]
-			{
-				"Good to see you again {0}",
-				"Hello {0}",
-				"Welcome back {0}"
-			};
-			string[] GoodbyeLiterals = new string[]
-			{
-				"See you later {0}",
-				"Goodbye {0}",
-				"Have a nice day {0}"
-			};
-
-			Random random = new Random();
-			int r = 0;
-
-			r = random.Next(0, WelcomeLiterals.Length);
-			Speak(String.Format(WelcomeLiterals[r], "Michael"));
-
-			Application.Run();
-
-			r = random.Next(0, GoodbyeLiterals.Length);
-			Speak(String.Format(GoodbyeLiterals[r], "Michael"), true);
-
-			nid.Visible = false;
+			return lang;
 		}
 
 		private static void Speak(string text, bool waitUntilDone = false)
