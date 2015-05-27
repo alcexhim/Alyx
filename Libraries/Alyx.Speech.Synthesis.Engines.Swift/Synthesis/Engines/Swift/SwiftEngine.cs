@@ -19,14 +19,57 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Alyx.Speech.Synthesis.Engines.Swift
 {
-		public class SwiftEngine
+	public class SwiftEngine : SynthesisEngine
+	{
+		public SwiftEngine()
 		{
-				public SwiftEngine()
-				{
-				}
 		}
+
+		#region implemented abstract members of SynthesisEngine
+
+		private static SynthesisEngineReference _ser = null;
+		public override SynthesisEngineReference MakeReference()
+		{
+			if (_ser == null)
+			{
+				_ser = new SynthesisEngineReference(GetType());
+			}
+			return _ser;
+		}
+
+		protected override void SpeakInternal(string text)
+		{
+			System.Diagnostics.Process p = new System.Diagnostics.Process();
+			
+			Dictionary<string, string> paramz = new Dictionary<string, string>();
+			paramz.Add("speech/rate", "220"); // default is 170
+			
+			StringBuilder sb = new StringBuilder();
+			foreach (KeyValuePair<string, string> kvp in paramz)
+			{
+				sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
+			}
+			sb.Append(text);
+			p.StartInfo = new System.Diagnostics.ProcessStartInfo("swift", sb.ToString());
+			p.Start();
+		}
+
+		protected override Voice[] GetVoicesInternal()
+		{
+			return new Voice[0];
+		}
+
+		public override void SetVoiceInternal(Voice voice)
+		{
+			
+		}
+
+		#endregion
+	}
 }
 

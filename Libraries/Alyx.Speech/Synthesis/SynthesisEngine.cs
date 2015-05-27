@@ -16,7 +16,7 @@ namespace Alyx.Speech.Synthesis
 		
 		public static SynthesisEngineReference[] GetEngines()
 		{
-			List<SynthesisEngine> list = new List<SynthesisEngine>();
+			List<SynthesisEngineReference> list = new List<SynthesisEngineReference>();
 
 			string basePath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			string[] fileNames = System.IO.Directory.GetFiles(basePath, "*.dll");

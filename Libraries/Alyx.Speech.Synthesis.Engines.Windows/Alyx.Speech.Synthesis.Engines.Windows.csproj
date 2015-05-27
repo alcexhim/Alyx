@@ -40,11 +40,11 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Applications\Alyx\Alyx.csproj">
-      <Project>{f8069aad-be73-4f64-a653-046f76115c7d}</Project>
+      <Project>{F8069AAD-BE73-4F64-A653-046F76115C7D}</Project>
       <Name>Alyx</Name>
     </ProjectReference>
     <ProjectReference Include="..\Alyx.Speech\Alyx.Speech.csproj">
-      <Project>{d455c456-4eda-4b4f-8dad-1378f61248d3}</Project>
+      <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
       <Name>Alyx.Speech</Name>
     </ProjectReference>
   </ItemGroup>
