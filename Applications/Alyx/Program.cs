@@ -20,6 +20,32 @@ namespace Alyx
 
 		private static NotifyIcon nid = new NotifyIcon();
 		
+		private static System.Drawing.Image GetImage(string path)
+		{
+			path = path.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
+			path = path.Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
+			string basepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+			
+			basepath += System.IO.Path.DirectorySeparatorChar.ToString() + "Images";
+			string imagepath = basepath + System.IO.Path.DirectorySeparatorChar.ToString() + path;
+			
+			if (!System.IO.File.Exists(imagepath))
+			{
+				Console.WriteLine("File not exist: '" + imagepath + "'");
+				return null;
+			}
+			return System.Drawing.Image.FromFile(imagepath);
+		}
+		private static System.Drawing.Icon ToIcon(this System.Drawing.Image image)
+		{
+			System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(image.Width, image.Height);
+			IntPtr hIcon = bitmap.GetHicon();
+			return System.Drawing.Icon.FromHandle(hIcon);
+		}
+		
+		private static System.Drawing.Icon iconDefault = null;
+		private static System.Drawing.Icon iconActive = null;
+		
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -34,11 +60,15 @@ namespace Alyx
 
 			nid.MouseDoubleClick += nid_MouseDoubleClick;
 
-			nid.Icon = Properties.Resources.Alyx_Tray_Default;
+			iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
+			iconActive = GetImage("TrayIcon/Active.png").ToIcon();
+			
+			nid.Icon = iconDefault;
 			nid.Visible = true;
 			
-			SynthesisEngine[] engines = SynthesisEngine.GetEngines();
-			if (engines.Length > 0) speaker = engines[0];
+			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
+			
+			if (engines.Length > 0) speaker = engines[0].Create();
 			RefreshAvailableVoices();
 
 			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
@@ -189,12 +219,12 @@ namespace Alyx
 			{
 				case SynthesisEngineState.Ready:
 				{
-					nid.Icon = Properties.Resources.Alyx_Tray_Default;
+					nid.Icon = iconDefault;
 					break;
 				}
 				case SynthesisEngineState.Speaking:
 				{
-					nid.Icon = Properties.Resources.Alyx_Tray_Speaking;
+					nid.Icon = iconActive;
 					break;
 				}
 			}
