@@ -91,7 +91,6 @@ namespace Alyx
 			{
 				lazy
 			});
-			dog.Quantity = Quantity.Singular;
 
 			Adjective quick = new Adjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
 			Adjective brown = new Adjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
@@ -101,16 +100,16 @@ namespace Alyx
 				brown
 			});
 			fox.Definiteness = Definiteness.Definite;
-
-			Verb jump = new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"));
-			jump.Tense = Tense.Past;
-			jump.Person = Person.ThirdPerson;
-
-			Preposition over = new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}"));
+			fox.Quantity = Quantity.Plural;
 
 			Sentence quickbrownfox = new Sentence(SentenceTypes.Declarative, new Clause[]
 			{
-				new Clause(fox, new PrepositionalObjectPredicate(jump, over, dog))
+				new Clause(fox, new PrepositionalObjectPredicate
+				(
+					new Verb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
+					new Preposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
+					dog
+				))
 			});
 
 			dog.Definiteness = Definiteness.Definite;
@@ -150,7 +149,8 @@ namespace Alyx
 
 		private static Language InitializeLanguage_English()
 		{
-			Language lang = Language.Create(new Guid("{F369FB77-533C-409D-BBEE-7E9EF347B445}"));
+			// Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			Language lang = Language.Create(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			lang.Title = "English (United States)";
 
 			lang.SentenceTypeMappings.Add(new SentenceTypeMapping(new Guid("{29F7837F-3865-4716-8D87-1E11FD57A7E8}"), String.Empty, "."));
