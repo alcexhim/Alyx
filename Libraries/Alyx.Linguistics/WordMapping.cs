@@ -30,6 +30,19 @@ namespace Alyx.Linguistics
 		private WordMappingValue.WordMappingValueCollection mvarValues = new WordMappingValue.WordMappingValueCollection();
 		public WordMappingValue.WordMappingValueCollection Values { get { return mvarValues; } }
 
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append(mvarID.ToString("B").ToUpper());
+			sb.Append(", ");
+			for (int i = 0; i < mvarValues.Count; i++)
+			{
+				sb.Append(mvarValues[i].Value);
+				if (i < mvarValues.Count - 1) sb.Append(" / ");
+			}
+			return sb.ToString();
+		}
+
 		public WordMapping(Guid id, WordMappingValue[] values)
 		{
 			mvarID = id;
