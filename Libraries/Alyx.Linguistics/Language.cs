@@ -39,6 +39,11 @@ namespace Alyx.Linguistics
 		private static Language mvarCurrentLanguage = null;
 		public static Language CurrentLanguage { get { return mvarCurrentLanguage; } set { mvarCurrentLanguage = value; } }
 
+		public override string ToString()
+		{
+			return mvarTitle;
+		}
+
 		public string GetArticle(Definiteness definiteness, Quantity quantity)
 		{
 			switch (definiteness)
