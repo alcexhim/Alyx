@@ -72,5 +72,15 @@ namespace Alyx.Speech.Synthesis.Engines.Windows
 		{
 			synthesizer.SelectVoice(voice.Name);
 		}
+
+		private static SynthesisEngineReference _ser = null;
+		public override SynthesisEngineReference MakeReference()
+		{
+			if (_ser == null)
+			{
+				_ser = new SynthesisEngineReference(GetType());
+			}
+			return _ser;
+		}
 	}
 }
