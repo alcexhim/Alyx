@@ -44,6 +44,7 @@ namespace Alyx.Speech.Synthesis
 				
 				foreach (Type type in types)
 				{
+					if (type == null) continue;
 					if (type.IsSubclassOf(typeof(SynthesisEngine)))
 					{
 						SynthesisEngine engine = (type.Assembly.CreateInstance(type.FullName) as SynthesisEngine);
