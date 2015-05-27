@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,13 +36,9 @@
     <Compile Include="Synthesis\Engines\Swift\SwiftEngine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Synthesis\" />
-    <Folder Include="Synthesis\Engines\" />
-    <Folder Include="Synthesis\Engines\Swift\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\..\home\beckermj\Documents\Projects\Alyx\Libraries\Alyx.Speech\Alyx.Speech.csproj">
+    <ProjectReference Include="..\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
       <Name>Alyx.Speech</Name>
     </ProjectReference>
