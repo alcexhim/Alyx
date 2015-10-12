@@ -33,9 +33,7 @@
 			this.cbPanel1 = new AwesomeControls.CommandBars.CBPanel();
 			this.tbs = new System.Windows.Forms.TabControl();
 			this.tabChat = new System.Windows.Forms.TabPage();
-			this.scChat = new System.Windows.Forms.SplitContainer();
-			this.txtOutput = new System.Windows.Forms.RichTextBox();
-			this.txtInput = new System.Windows.Forms.RichTextBox();
+			this.chat = new AwesomeControls.ChatBox.ChatBoxControl();
 			this.tabMaintenance = new System.Windows.Forms.TabPage();
 			this.cmdSpeak = new System.Windows.Forms.Button();
 			this.txtSpeak = new System.Windows.Forms.TextBox();
@@ -69,10 +67,6 @@
 			this.cbPanel1.SuspendLayout();
 			this.tbs.SuspendLayout();
 			this.tabChat.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.scChat)).BeginInit();
-			this.scChat.Panel1.SuspendLayout();
-			this.scChat.Panel2.SuspendLayout();
-			this.scChat.SuspendLayout();
 			this.tabMaintenance.SuspendLayout();
 			this.cbMenuBar1.SuspendLayout();
 			this.SuspendLayout();
@@ -118,7 +112,7 @@
 			// 
 			// tabChat
 			// 
-			this.tabChat.Controls.Add(this.scChat);
+			this.tabChat.Controls.Add(this.chat);
 			this.tabChat.Location = new System.Drawing.Point(4, 22);
 			this.tabChat.Name = "tabChat";
 			this.tabChat.Padding = new System.Windows.Forms.Padding(3);
@@ -127,45 +121,16 @@
 			this.tabChat.Text = "Chat";
 			this.tabChat.UseVisualStyleBackColor = true;
 			// 
-			// scChat
+			// chat
 			// 
-			this.scChat.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.scChat.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-			this.scChat.Location = new System.Drawing.Point(3, 3);
-			this.scChat.Name = "scChat";
-			this.scChat.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// scChat.Panel1
-			// 
-			this.scChat.Panel1.Controls.Add(this.txtOutput);
-			// 
-			// scChat.Panel2
-			// 
-			this.scChat.Panel2.Controls.Add(this.txtInput);
-			this.scChat.Size = new System.Drawing.Size(542, 293);
-			this.scChat.SplitterDistance = 185;
-			this.scChat.TabIndex = 0;
-			// 
-			// txtOutput
-			// 
-			this.txtOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtOutput.HideSelection = false;
-			this.txtOutput.Location = new System.Drawing.Point(0, 0);
-			this.txtOutput.Name = "txtOutput";
-			this.txtOutput.ReadOnly = true;
-			this.txtOutput.Size = new System.Drawing.Size(542, 185);
-			this.txtOutput.TabIndex = 0;
-			this.txtOutput.Text = "";
-			// 
-			// txtInput
-			// 
-			this.txtInput.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtInput.HideSelection = false;
-			this.txtInput.Location = new System.Drawing.Point(0, 0);
-			this.txtInput.Name = "txtInput";
-			this.txtInput.Size = new System.Drawing.Size(542, 104);
-			this.txtInput.TabIndex = 0;
-			this.txtInput.Text = "";
+			this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chat.Font = new System.Drawing.Font("Arial", 10F);
+			this.chat.Location = new System.Drawing.Point(3, 3);
+			this.chat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chat.Name = "chat";
+			this.chat.Size = new System.Drawing.Size(542, 293);
+			this.chat.TabIndex = 0;
+			this.chat.MessageSent += new AwesomeControls.ChatBox.ChatBoxControl.ChatBoxMessageEventHandler(this.chat_MessageSent);
 			// 
 			// tabMaintenance
 			// 
@@ -230,27 +195,27 @@
             this.toolStripSeparator2,
             this.mnuFileExit});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 21);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 21);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
 			// mnuFileClose
 			// 
 			this.mnuFileClose.Name = "mnuFileClose";
 			this.mnuFileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-			this.mnuFileClose.Size = new System.Drawing.Size(140, 22);
+			this.mnuFileClose.Size = new System.Drawing.Size(145, 22);
 			this.mnuFileClose.Text = "&Close";
 			this.mnuFileClose.Click += new System.EventHandler(this.mnuFileClose_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(137, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(142, 6);
 			// 
 			// mnuFileExit
 			// 
 			this.mnuFileExit.Name = "mnuFileExit";
 			this.mnuFileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-			this.mnuFileExit.Size = new System.Drawing.Size(140, 22);
+			this.mnuFileExit.Size = new System.Drawing.Size(145, 22);
 			this.mnuFileExit.Text = "E&xit";
 			this.mnuFileExit.Click += new System.EventHandler(this.mnuFileExit_Click);
 			// 
@@ -266,27 +231,27 @@
             this.toolStripSeparator4,
             this.selectAllToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-			this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 21);
+			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
 			this.editToolStripMenuItem.Text = "&Edit";
 			// 
 			// undoToolStripMenuItem
 			// 
 			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
 			this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-			this.undoToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.undoToolStripMenuItem.Text = "&Undo";
 			// 
 			// redoToolStripMenuItem
 			// 
 			this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
 			this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-			this.redoToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.redoToolStripMenuItem.Text = "&Redo";
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(136, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
 			// 
 			// cutToolStripMenuItem
 			// 
@@ -294,7 +259,7 @@
 			this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
 			this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-			this.cutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.cutToolStripMenuItem.Text = "Cu&t";
 			// 
 			// copyToolStripMenuItem
@@ -303,7 +268,7 @@
 			this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
 			this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.copyToolStripMenuItem.Text = "&Copy";
 			// 
 			// pasteToolStripMenuItem
@@ -312,18 +277,18 @@
 			this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
 			this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.pasteToolStripMenuItem.Text = "&Paste";
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(136, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(141, 6);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.selectAllToolStripMenuItem.Text = "Select &All";
 			// 
 			// toolsToolStripMenuItem
@@ -332,19 +297,19 @@
             this.customizeToolStripMenuItem,
             this.optionsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
 			this.toolsToolStripMenuItem.Text = "&Tools";
 			// 
 			// customizeToolStripMenuItem
 			// 
 			this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-			this.customizeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+			this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.customizeToolStripMenuItem.Text = "&Customize";
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			// 
 			// helpToolStripMenuItem
@@ -356,36 +321,36 @@
             this.toolStripSeparator5,
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
 			this.helpToolStripMenuItem.Text = "&Help";
 			// 
 			// contentsToolStripMenuItem
 			// 
 			this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.contentsToolStripMenuItem.Text = "&Contents";
 			// 
 			// indexToolStripMenuItem
 			// 
 			this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-			this.indexToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+			this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.indexToolStripMenuItem.Text = "&Index";
 			// 
 			// searchToolStripMenuItem
 			// 
 			this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-			this.searchToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+			this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.searchToolStripMenuItem.Text = "&Search";
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(115, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.aboutToolStripMenuItem.Text = "&About...";
 			// 
 			// MainWindow
@@ -406,10 +371,6 @@
 			this.cbPanel1.ResumeLayout(false);
 			this.tbs.ResumeLayout(false);
 			this.tabChat.ResumeLayout(false);
-			this.scChat.Panel1.ResumeLayout(false);
-			this.scChat.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.scChat)).EndInit();
-			this.scChat.ResumeLayout(false);
 			this.tabMaintenance.ResumeLayout(false);
 			this.tabMaintenance.PerformLayout();
 			this.cbMenuBar1.ResumeLayout(false);
@@ -447,12 +408,10 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.TabControl tbs;
 		private System.Windows.Forms.TabPage tabChat;
-		private System.Windows.Forms.SplitContainer scChat;
-		private System.Windows.Forms.RichTextBox txtOutput;
-		private System.Windows.Forms.RichTextBox txtInput;
 		private System.Windows.Forms.TabPage tabMaintenance;
 		private System.Windows.Forms.Button cmdSpeak;
 		private System.Windows.Forms.TextBox txtSpeak;
 		private System.Windows.Forms.Label lblMaintenanceSpeak;
+		private AwesomeControls.ChatBox.ChatBoxControl chat;
 	}
 }

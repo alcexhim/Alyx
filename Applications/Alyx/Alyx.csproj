@@ -70,6 +70,10 @@
       <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
       <Name>AwesomeControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Indigo\Libraries\Indigo\Indigo.csproj">
+      <Project>{8ded80f3-1483-43a7-a37a-86d01c46b992}</Project>
+      <Name>Indigo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Core\Alyx.Core.csproj">
       <Project>{35d24257-56a1-40e0-b7c7-530b37c92d25}</Project>
       <Name>Alyx.Core</Name>
@@ -77,6 +81,10 @@
     <ProjectReference Include="..\..\Libraries\Alyx.Linguistics\Alyx.Linguistics.csproj">
       <Project>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</Project>
       <Name>Alyx.Linguistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Networking\Alyx.Networking.csproj">
+      <Project>{80656d38-a2ca-4994-9717-1f0f01bd51d5}</Project>
+      <Name>Alyx.Networking</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
@@ -90,6 +98,7 @@
   <ItemGroup>
     <Content Include="Resources\MainIcon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

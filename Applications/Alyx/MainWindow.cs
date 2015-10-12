@@ -32,5 +32,10 @@ namespace Alyx
 		{
 			Application.Exit();
 		}
+
+		private void chat_MessageSent(object sender, AwesomeControls.ChatBox.ChatBoxControl.ChatBoxMessageEventArgs e)
+		{
+			Program.Client.SendChatMessage(e.Message);
+		}
 	}
 }

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Alyx.Speech.Synthesis.Engines.Swift
@@ -42,6 +43,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			return _ser;
 		}
 
+		[DebuggerNonUserCode()]
 		protected override void SpeakInternal(string text)
 		{
 			System.Diagnostics.Process p = new System.Diagnostics.Process();
@@ -56,7 +58,20 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			}
 			sb.Append(text);
 			p.StartInfo = new System.Diagnostics.ProcessStartInfo("swift", sb.ToString());
-			p.Start();
+
+			try
+			{
+				p.Start();
+			}
+			catch (System.ComponentModel.Win32Exception ex)
+			{
+				if (ex.NativeErrorCode == 2)
+				{
+					// file not found
+					throw new SpeechEngineNotFoundException(GetType().FullName, ex);
+				}
+				throw ex;
+			}
 		}
 
 		protected override Voice[] GetVoicesInternal()

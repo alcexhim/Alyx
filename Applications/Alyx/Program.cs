@@ -12,6 +12,7 @@ using Alyx.Linguistics.LanguageParts;
 using Alyx.Linguistics.Predicates;
 
 using Alyx.Core;
+using Alyx.Speech;
 
 namespace Alyx
 {
@@ -21,6 +22,12 @@ namespace Alyx
 		public static RecognitionEngine listener = null;
 
 		private static NotifyIcon nid = new NotifyIcon();
+
+		private static Alyx.Networking.Server server = new Alyx.Networking.Server();
+		public static Alyx.Networking.Server Server { get { return server; } }
+
+		private static Alyx.Networking.Client client = new Alyx.Networking.Client();
+		public static Alyx.Networking.Client Client { get { return client; } }
 		
 		private static System.Drawing.Image GetImage(string path)
 		{
@@ -60,6 +67,12 @@ namespace Alyx
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			// start the Alyx server
+			Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
+			Server.Start();
+
+			Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
 
 			nid.Text = "Alyx";
 			nid.ContextMenu = BuildContextMenu();
@@ -225,8 +238,15 @@ namespace Alyx
 		{
 			if (speaker != null)
 			{
-				speaker.Speak(text);
-				if (waitUntilDone) speaker.WaitUntilDone();
+				try
+				{
+					speaker.Speak(text);
+					if (waitUntilDone) speaker.WaitUntilDone();
+				}
+				catch (SpeechEngineNotFoundException ex)
+				{
+					Console.WriteLine("alyx.speech: engine '" + ex.EngineName + "' not found");
+				}
 			}
 		}
 

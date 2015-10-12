@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -62,6 +63,7 @@ namespace Alyx.Speech.Synthesis
 			if (StateChanged != null) StateChanged(this, e);
 		}
 
+		[DebuggerNonUserCode()]
 		public void Speak(string text)
 		{
 			SpeakInternal(text);
