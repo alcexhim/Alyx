@@ -1,0 +1,73 @@
+IdeaMap
+{
+	FixedString[8]	signature				"AlyxIDEA"
+	Int64			dwVersion				0x0000000000000001
+	Int64			dwIdeaCount
+	Int64			dwRelationshipCount
+	for each idea
+		Guid			ideaGuid
+	for each relationship
+		Guid			ideaGuid
+		Guid			relatedIdeaGuid
+}
+
+Example:
+
+	fur				cute	litter
+		\		/ 	\		/
+			-	 cat	-	
+		/		\ 	/		\
+	paws
+
+Idea count = 0x000000000000005
+	Idea guids...
+	
+	'fur' related to 'cat'
+	'cat' related to 'fur'		any relationship without a corresponding reverse relationship is considered "orphan relationship"
+	
+Generic data document
+{
+	FixedString[8]	signature				"AlyxDATA"
+	Int64			dwVersion				0x0000000000000001
+	Int64			dwSectionOffset			
+	Int64			dwSectionCount			0x0000000000000002
+	Int64			dwStringTableOffset
+	Int64			dwStringTableEntryCount
+	for each section
+	{
+		Int64			sectionNameEntryIndex
+		Int64			sectionOffset
+		Int64			sectionLength	
+	}
+	for each section
+	{
+		Byte[]			sectionData*
+	}
+}
+Section data
+{
+	if sectionName == "Idea    "
+	{
+		Int64			ideaCount
+		for each idea
+		{
+			Guid			ideaGuid
+		}
+	}
+	else if sectionName == "Relation"
+	{
+		Int64			relationshipCount
+		for each relationship
+		{
+			Int64			ideaIndex
+			Int64			relatedIdeaIndex
+		}
+	}
+}
+String table data
+{
+	for each string table entry
+	{
+		NullTerminatedString	stringTableEntry
+	}
+}

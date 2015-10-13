@@ -1,8 +1,12 @@
-﻿using Indigo.Protocols.PlainText;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using UniversalEditor.Accessors;
+using UniversalEditor.IO;
+
+using Indigo.Protocols.PlainText;
 
 namespace Alyx.Networking
 {
@@ -29,6 +33,31 @@ namespace Alyx.Networking
 			string content = ptp.CreatePacket(req);
 
 			// base.Transport.Send(content);
+		}
+
+		protected override void OnDataReceived(Indigo.DataReceivedEventArgs e)
+		{
+			base.OnDataReceived(e);
+
+			Packet packet = ptp.ReadPacket(e.Stream, "Alyx/1.0");
+			if (packet is Request)
+			{
+				Request req = (packet as Request);
+				if (req.Method == "OPTIONS")
+				{
+					Response resp = new Response(200, "OK", "Alyx/1.0");
+					
+					string data = ptp.CreatePacket(resp);
+					
+					MemoryAccessor ma = new MemoryAccessor();
+					Writer writer = new Writer(ma);
+					writer.Write(data);
+					writer.Close();
+
+					byte[] buffer = ma.ToArray();
+					e.Stream.Write(buffer, 0, buffer.Length);
+				}
+			}
 		}
 	}
 }
