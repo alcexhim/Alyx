@@ -39,13 +39,18 @@
     <Compile Include="Aspect.cs" />
     <Compile Include="Clause.cs" />
     <Compile Include="Definiteness.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="Genders.cs" />
+    <Compile Include="INounInstance.cs" />
     <Compile Include="LanguageParts\AdverbInstance.cs" />
     <Compile Include="LanguageParts\PrepositionInstance.cs" />
+    <Compile Include="LanguageParts\PronounInstance.cs" />
     <Compile Include="LanguageParts\VerbInstance.cs" />
     <Compile Include="Predicate.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="LanguageParts\AdjectiveInstance.cs" />
     <Compile Include="LanguageParts\NounInstance.cs" />
+    <Compile Include="Predicates\DirectObjectPredicate.cs" />
     <Compile Include="Predicates\PrepositionalObjectPredicate.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="Person.cs" />
@@ -54,6 +59,7 @@
     <Compile Include="SentenceType.cs" />
     <Compile Include="SentenceTypeMapping.cs" />
     <Compile Include="SentenceTypes.cs" />
+    <Compile Include="Series.cs" />
     <Compile Include="Tense.cs" />
     <Compile Include="Word.cs" />
     <Compile Include="WordClass.cs" />

@@ -26,6 +26,9 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public SentenceTypeMapping.SentenceTypeMappingCollection SentenceTypeMappings { get { return mvarSentenceTypeMappings; } }
 
+		private Gender.GenderCollection mvarGenders = new Gender.GenderCollection();
+		public Gender.GenderCollection Genders { get { return mvarGenders; } }
+
 		private WordMapper.WordMapperCollection mvarWordMappers = new WordMapper.WordMapperCollection();
 		public WordMapper.WordMapperCollection WordMappers { get { return mvarWordMappers; } }
 
@@ -199,25 +202,25 @@ namespace Alyx.Linguistics
 														switch (attAspect.Value.ToLower())
 														{
 															case "continuous":
-																{
-																	criterion.Aspect = Aspect.Continuous;
-																	break;
-																}
+															{
+																criterion.Aspect = Aspect.Continuous;
+																break;
+															}
 															case "perfect":
-																{
-																	criterion.Aspect = Aspect.Continuous;
-																	break;
-																}
+															{
+																criterion.Aspect = Aspect.Continuous;
+																break;
+															}
 															case "perfectcontinuous":
-																{
-																	criterion.Aspect = Aspect.PerfectContinuous;
-																	break;
-																}
+															{
+																criterion.Aspect = Aspect.PerfectContinuous;
+																break;
+															}
 															case "simple":
-																{
-																	criterion.Aspect = Aspect.Simple;
-																	break;
-																}
+															{
+																criterion.Aspect = Aspect.Simple;
+																break;
+															}
 														}
 													}
 													MarkupAttribute attPerson = tagCriterion.Attributes["Person"];
@@ -226,20 +229,20 @@ namespace Alyx.Linguistics
 														switch (attPerson.Value.ToLower())
 														{
 															case "firstperson":
-																{
-																	criterion.Person = Person.FirstPerson;
-																	break;
-																}
+															{
+																criterion.Person = Person.FirstPerson;
+																break;
+															}
 															case "secondperson":
-																{
-																	criterion.Person = Person.SecondPerson;
-																	break;
-																}
+															{
+																criterion.Person = Person.SecondPerson;
+																break;
+															}
 															case "thirdperson":
-																{
-																	criterion.Person = Person.ThirdPerson;
-																	break;
-																}
+															{
+																criterion.Person = Person.ThirdPerson;
+																break;
+															}
 														}
 													}
 													MarkupAttribute attQuantity = tagCriterion.Attributes["Quantity"];
@@ -248,15 +251,15 @@ namespace Alyx.Linguistics
 														switch (attQuantity.Value.ToLower())
 														{
 															case "singular":
-																{
-																	criterion.Quantity = Quantity.Singular;
-																	break;
-																}
+															{
+																criterion.Quantity = Quantity.Singular;
+																break;
+															}
 															case "plural":
-																{
-																	criterion.Quantity = Quantity.Plural;
-																	break;
-																}
+															{
+																criterion.Quantity = Quantity.Plural;
+																break;
+															}
 														}
 													}
 													MarkupAttribute attTense = tagCriterion.Attributes["Tense"];
@@ -265,25 +268,31 @@ namespace Alyx.Linguistics
 														switch (attTense.Value.ToLower())
 														{
 															case "future":
-																{
-																	criterion.Tense = Tense.Future;
-																	break;
-																}
+															{
+																criterion.Tense = Tense.Future;
+																break;
+															}
 															case "past":
-																{
-																	criterion.Tense = Tense.Past;
-																	break;
-																}
+															{
+																criterion.Tense = Tense.Past;
+																break;
+															}
 															case "pastfuture":
-																{
-																	criterion.Tense = Tense.PastFuture;
-																	break;
-																}
+															{
+																criterion.Tense = Tense.PastFuture;
+																break;
+															}
 															case "present":
-																{
-																	criterion.Tense = Tense.Present;
-																	break;
-																}
+															{
+																criterion.Tense = Tense.Present;
+																break;
+															}
+														}
+
+														MarkupAttribute attGenderID = tagCriterion.Attributes["GenderID"];
+														if (attGenderID != null)
+														{
+															criterion.Gender = lang.Genders[new Guid(attGenderID.Value)];
 														}
 													}
 
@@ -410,5 +419,38 @@ namespace Alyx.Linguistics
 			if (word == null) return null;
 			return new PrepositionInstance(word);
 		}
+
+		public PronounInstance GetPronoun(Person person, Quantity quantity)
+		{
+			Word[] pronouns = GetPronouns();
+			PronounInstance pi = new PronounInstance(pronouns[0]);
+			pi.Person = person;
+			pi.Quantity = quantity;
+			return pi;
+		}
+
+		private Word[] mvarPronouns = null;
+		public Word[] GetPronouns()
+		{
+			if (mvarPronouns == null)
+			{
+				List<Word> list = new List<Word>();
+				foreach (Word word in mvarWords)
+				{
+					if (word.Classes.Contains(Alyx.Linguistics.WordClasses.Pronoun))
+					{
+						list.Add(word);
+					}
+				}
+				mvarPronouns = list.ToArray();
+			}
+			return mvarPronouns;
+		}
+
+		private bool mvarEnableOxfordComma = true;
+		/// <summary>
+		/// Determines whether the Oxford comma (a comma before the final "and" in a multiple-item <see cref="Series" />) is rendered.
+		/// </summary>
+		public bool EnableOxfordComma { get { return mvarEnableOxfordComma; } set { mvarEnableOxfordComma = value; } }
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alyx.Linguistics.LanguageParts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,21 @@ namespace Alyx.Linguistics
 		{
 			StringBuilder sb = new StringBuilder();
 			SentenceTypeMapping mapping = null;
+
+			// TODO: implement subject-verb agreement!
+			foreach (Clause clause in mvarClauses)
+			{
+				if (clause.Subject is PronounInstance)
+				{
+					PronounInstance niSubject = (clause.Subject as PronounInstance);
+					clause.Predicate.Verb.Person = niSubject.Person;
+					clause.Predicate.Verb.Quantity = niSubject.Quantity;
+				}
+				else if (clause.Subject is NounInstance)
+				{
+					clause.Predicate.Verb.Person = Person.ThirdPerson;
+				}
+			}
 			
 			if (mvarSentenceType != null)
 			{

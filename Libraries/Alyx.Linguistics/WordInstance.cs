@@ -7,6 +7,11 @@ namespace Alyx.Linguistics
 {
 	public abstract class WordInstance
 	{
+		public class WordInstanceCollection : System.Collections.ObjectModel.Collection<WordInstance>
+		{
+
+		}
+
 		private Word mvarWord = null;
 		public Word Word { get { return mvarWord; } }
 
@@ -32,7 +37,12 @@ namespace Alyx.Linguistics
 					foreach (WordMapper mapper1 in lang.WordMappers)
 					{
 						bool test = true;
-						if (mapper1.Condition != null) test = mapper1.Condition.Test(new KeyValuePair<string, object>("Word", this));
+						if (mapper1.Condition != null) test = mapper1.Condition.Test
+						(
+							new KeyValuePair<string, object>("Word", this),
+							new KeyValuePair<string, object>("WordClasses", this.Word.Classes),
+							new KeyValuePair<string, object>("ID", this.Word.ID.ToString("B").ToUpper())
+						);
 						if (!test) continue;
 						mappers.Add(mapper1);
 					}

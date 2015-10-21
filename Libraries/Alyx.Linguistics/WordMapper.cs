@@ -33,6 +33,7 @@ namespace Alyx.Linguistics
 			NounInstance noun = (word as NounInstance);
 			VerbInstance verb = (word as VerbInstance);
 			AdjectiveInstance adjective = (word as AdjectiveInstance);
+			PronounInstance pronoun = (word as PronounInstance);
 
 			foreach (WordMapperMapping mapping in mvarMappings)
 			{
@@ -53,6 +54,7 @@ namespace Alyx.Linguistics
 						if (((criterion.Aspect == Aspect.Unspecified && verb.Aspect == Aspect.Unspecified) || (criterion.Aspect == verb.Aspect))
 							&& ((criterion.Person == Person.Unspecified && verb.Person == Person.Unspecified) || (criterion.Person == verb.Person))
 							&& ((criterion.Tense == Tense.Unspecified && verb.Tense == Tense.Unspecified) || (criterion.Tense == verb.Tense))
+							&& ((criterion.Quantity == Quantity.Unspecified && verb.Quantity == Quantity.Unspecified) || (criterion.Quantity == verb.Quantity))
 						)
 						{
 							found = true;
@@ -63,6 +65,18 @@ namespace Alyx.Linguistics
 					{
 						found = true;
 						break;
+					}
+					else if (pronoun != null)
+					{
+						if
+						(
+							((criterion.Person == Person.Unspecified && pronoun.Person == Person.Unspecified) || (criterion.Person == pronoun.Person))
+							&& ((criterion.Gender == Genders.Unspecified && pronoun.Gender == Genders.Unspecified) || (criterion.Gender == pronoun.Gender))
+						)
+						{
+							found = true;
+							break;
+						}
 					}
 				}
 

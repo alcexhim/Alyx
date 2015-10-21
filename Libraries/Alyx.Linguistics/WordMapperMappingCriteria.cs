@@ -14,6 +14,9 @@ namespace Alyx.Linguistics
 
 		}
 
+		private Gender mvarGender = Genders.Unspecified;
+		public Gender Gender { get { return mvarGender; } set { mvarGender = value; } }
+
 		private Tense mvarTense = Tense.Unspecified;
 		public Tense Tense { get { return mvarTense; } set { mvarTense = value; } }
 

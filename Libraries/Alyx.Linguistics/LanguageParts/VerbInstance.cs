@@ -33,5 +33,8 @@ namespace Alyx.Linguistics.LanguageParts
 
 		private Aspect mvarAspect = Aspect.Unspecified;
 		public Aspect Aspect { get { return mvarAspect; } set { mvarAspect = value; } }
+
+		private Quantity mvarQuantity = Quantity.Unspecified;
+		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
 	}
 }
