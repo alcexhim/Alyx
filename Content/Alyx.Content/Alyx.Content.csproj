@@ -54,7 +54,9 @@
     <Content Include="Messages\Hello.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{FFA4B146-A461-47E2-858E-3DADC918D442}.xml" />
+    <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{FFA4B146-A461-47E2-858E-3DADC918D442}.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\Alyx_MainIcon.xcf" />
