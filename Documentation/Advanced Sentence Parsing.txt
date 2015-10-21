@@ -1,0 +1,59 @@
+"Hurray!" shouted Henry, as he quickly climbed up a tall tree.
+
+	CompoundSentence:
+		Conjunction: As
+		Sentence:
+			SubjectPart: Henry
+			VerbPart: shouted "Hurray!"
+		Sentence:
+			SubjectPart: he
+			VerbPart: climbed
+				AdjectivePart: quickly
+				Predicate:
+					PrepositionalPhrase:
+						Preposition: up
+						Subject: tree
+							Article: SingularIndefinite (a)
+							Adjective: tall
+
+	> What did Henry shout?
+	
+		> Henry shouted "Hurray!"
+		
+Jill reads.
+
+	> What does Jill read?
+	
+		> I don't know.
+		If there is no answer, the responder (I) doesn't "know".
+		
+The brown dog with the red collar always barks loudly.
+
+	> What color is the dog?
+	
+		> brown
+		get word 'dog'
+			get adjectives associated with 'dog': { 'brown' }
+				get adjectives that are 'color': { 'brown' }
+					return 'brown'
+		
+The blue, giant, black sphynx is in the room.
+
+	> What color is the sphynx?
+	
+		> blue and black
+		get word 'sphynx'
+			get adjectives associated with 'sphynx': { 'blue', 'giant', 'black' }
+				get adjectives that are 'color': { 'blue', 'black' }
+					count = 2, use 'and'
+						return 'blue and black'
+					count = 1, no conjunction
+					count > 2, use ',' with 'and' before final word
+
+The sun was setting in the west and the moon was just rising.
+
+	COMPOUND SENTENCE:
+	
+	{The sun was setting in the west} and {the moon was just rising}.
+	=>
+	The sun was setting in the west. The moon was just rising.
