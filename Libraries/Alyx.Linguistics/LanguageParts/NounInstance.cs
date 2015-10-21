@@ -5,18 +5,13 @@ using System.Text;
 
 namespace Alyx.Linguistics.LanguageParts
 {
-	public class NounInstance : WordInstance
+	public class NounInstance : WordInstance, INounInstance
 	{
 		private Definiteness mvarDefiniteness = Definiteness.Unspecified;
 		public Definiteness Definiteness { get { return mvarDefiniteness; } set { mvarDefiniteness = value; } }
 
 		private AdjectiveInstance.AdjectiveCollection mvarAdjectives = new AdjectiveInstance.AdjectiveCollection();
 		public AdjectiveInstance.AdjectiveCollection Adjectives { get { return mvarAdjectives; } }
-
-		public static NounInstance GetPronoun(Person person, Quantity quantity)
-		{
-			return null;
-		}
 
 		/// <summary>
 		/// Creates a noun with the specified name.

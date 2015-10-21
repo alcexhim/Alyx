@@ -18,14 +18,14 @@ namespace Alyx.Linguistics
 		{
 
 		}
-		public Clause(NounInstance subject, Predicate predicate)
+		public Clause(INounInstance subject, Predicate predicate)
 		{
 			mvarSubject = subject;
 			mvarPredicate = predicate;
 		}
 
-		private NounInstance mvarSubject = null;
-		public NounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
+		private INounInstance mvarSubject = null;
+		public INounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
 
 		private Predicate mvarPredicate = null;
 		public Predicate Predicate { get { return mvarPredicate; } set { mvarPredicate = value; } }
