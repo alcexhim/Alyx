@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Languages>
+		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
+			<WordMappers>
+				<WordMapper ID="{4CFC7208-A8C3-45FE-AC1D-2A3FB1A4C000}">
+					<ConditionalStatement>
+						<Condition Variable="Word" Comparison="EndsWith" Value="y" />
+					</ConditionalStatement>
+					<Mappings>
+						<!-- cherry/cherries, flurry/flurries, etc. -->
+						<Mapping Value="$(Word)">
+							<Criteria>
+								<Criterion Quantity="Unspecified" />
+								<Criterion Quantity="Singular" />
+							</Criteria>
+						</Mapping>
+						<Mapping Value="$(Word:Substring(0,Length-1))ies">
+							<Criteria>
+								<Criterion Quantity="Plural" />
+							</Criteria>
+						</Mapping>
+					</Mappings>
+				</WordMapper>
+			</WordMappers>
+		</Language>
+	</Languages>
+</Alyx>
