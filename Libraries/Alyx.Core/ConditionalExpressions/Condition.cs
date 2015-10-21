@@ -156,6 +156,28 @@ namespace Alyx.Core.ConditionalExpressions
 					returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
 				}
 			}
+			if ((mvarComparison & ConditionComparison.Contains) == ConditionComparison.Contains)
+			{
+				if (propertyValue is System.Collections.IEnumerable)
+				{
+					System.Collections.IEnumerable ie = (propertyValue as System.Collections.IEnumerable);
+					foreach (object val in ie)
+					{
+						if (mvarValue.Equals(val.ToString()))
+						{
+							returnValue |= true;
+							break;
+						}
+					}
+				}
+				else
+				{
+					// we need to directly invoke IComparable.CompareTo here since we can't (usually)
+					// do > or < on objects... not sure what to do if the object doesn't implement
+					// IComparable though
+					returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
+				}
+			}
 			if (mvarNegate)
 			{
 				// we have a Not in there, so negate our return value
