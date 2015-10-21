@@ -14,12 +14,15 @@ namespace Alyx.Linguistics
 		private SentenceType mvarSentenceType = SentenceTypes.Declarative;
 		public SentenceType SentenceType { get { return mvarSentenceType; } set { mvarSentenceType = value; } }
 
-		public Sentence(SentenceType type, Clause[] clauses)
+		public Sentence(SentenceType type, Clause[] clauses = null)
 		{
 			mvarSentenceType = type;
-			foreach (Clause item in clauses)
+			if (clauses != null)
 			{
-				mvarClauses.Add(item);
+				foreach (Clause item in clauses)
+				{
+					mvarClauses.Add(item);
+				}
 			}
 		}
 
@@ -69,6 +72,56 @@ namespace Alyx.Linguistics
 
 			string text = sb.ToString();
 			return (text.Substring(0, 1).ToUpper() + text.Substring(1));
+		}
+
+		public static Sentence Parse(string value)
+		{
+			Language lang = Language.CurrentLanguage;
+			SentenceType type = null;
+
+			foreach (SentenceTypeMapping mapping in lang.SentenceTypeMappings)
+			{
+				if ((mapping.Prefix == null || value.StartsWith(mapping.Prefix)) && (mapping.Suffix == null || value.EndsWith(mapping.Suffix)))
+				{
+					if (mapping.ID == SentenceTypes.Declarative.ID)
+					{
+						type = SentenceTypes.Declarative;
+					}
+					else if (mapping.ID == SentenceTypes.Exclamatory.ID)
+					{
+						type = SentenceTypes.Exclamatory;
+					}
+					else if (mapping.ID == SentenceTypes.Imperative.ID)
+					{
+						type = SentenceTypes.Imperative;
+					}
+					else if (mapping.ID == SentenceTypes.Interrogative.ID)
+					{
+						type = SentenceTypes.Interrogative;
+					}
+				}
+			}
+
+			string next = null;
+			StringBuilder sbNext = new StringBuilder();
+
+
+			Sentence sent = new Sentence(type);
+
+			for (int i = 0; i < value.Length; i++)
+			{
+				if (value[i] == ' ')
+				{
+					next = sbNext.ToString();
+					sbNext = new StringBuilder();
+				}
+				else
+				{
+					sbNext.Append(value[i]);
+				}
+			}
+
+			return sent;
 		}
 	}
 }

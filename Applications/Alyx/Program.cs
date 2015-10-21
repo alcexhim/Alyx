@@ -61,8 +61,7 @@ namespace Alyx
 
 		private static void TestSentenceRenderer()
 		{
-			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
-			Language.CurrentLanguage = lang;
+			Language lang = Language.CurrentLanguage;
 
 			NounInstance apple = lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"));
 			apple.Quantity = Quantity.Plural;
@@ -90,6 +89,12 @@ namespace Alyx
 
 			string str = sent.ToString();
 		}
+		private static void TestSentenceParser()
+		{
+			Language lang = Language.CurrentLanguage;
+
+			Sentence sent = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
+		}
 		
 		/// <summary>
 		/// The main entry point for the application.
@@ -99,6 +104,11 @@ namespace Alyx
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			Language.CurrentLanguage = lang;
+
+			TestSentenceParser();
 
 			// start the Alyx server
 			Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
