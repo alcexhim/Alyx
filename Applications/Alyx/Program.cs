@@ -58,6 +58,38 @@ namespace Alyx
 		
 		private static System.Drawing.Icon iconDefault = null;
 		private static System.Drawing.Icon iconActive = null;
+
+		private static void TestSentenceRenderer()
+		{
+			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			Language.CurrentLanguage = lang;
+
+			NounInstance apple = lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"));
+			apple.Quantity = Quantity.Plural;
+
+			NounInstance orange = lang.GetNoun(new Guid("{DD172F11-DFF6-43A0-938E-52B08B1E36FC}"));
+			orange.Quantity = Quantity.Plural;
+
+			NounInstance pear = lang.GetNoun(new Guid("{4CA5238C-7403-480F-99BD-B3B382434105}"));
+			pear.Definiteness = Definiteness.Indefinite;
+
+			NounInstance cherry = lang.GetNoun(new Guid("{B7177096-0816-4C29-8394-B420F05615EF}"));
+			cherry.Quantity = Quantity.Plural;
+			cherry.Definiteness = Definiteness.Indefinite;
+
+			Series series = new Series(new WordInstance[] { apple, orange, pear, cherry });
+
+			Sentence sent = new Sentence(SentenceTypes.Declarative, new Clause[]
+			{
+				new Clause
+				(
+					lang.GetPronoun(Person.ThirdPerson, Quantity.Singular),	// I bought [series].
+					new DirectObjectPredicate(lang.GetVerb(new Guid("{48CA88BA-CEAF-423C-8A70-3C68C42E004A}")), series)
+				)
+			});
+
+			string str = sent.ToString();
+		}
 		
 		/// <summary>
 		/// The main entry point for the application.
