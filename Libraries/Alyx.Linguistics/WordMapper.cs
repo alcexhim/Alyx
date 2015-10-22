@@ -34,6 +34,7 @@ namespace Alyx.Linguistics
 			VerbInstance verb = (word as VerbInstance);
 			AdjectiveInstance adjective = (word as AdjectiveInstance);
 			PronounInstance pronoun = (word as PronounInstance);
+			PrepositionInstance prep = (word as PrepositionInstance);
 
 			foreach (WordMapperMapping mapping in mvarMappings)
 			{
@@ -77,6 +78,11 @@ namespace Alyx.Linguistics
 							found = true;
 							break;
 						}
+					}
+					else if (prep != null)
+					{
+						found = true;
+						break;
 					}
 				}
 
