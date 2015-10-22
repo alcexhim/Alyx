@@ -399,24 +399,32 @@ namespace Alyx.Linguistics
 		{
 			Word word = mvarWords[id];
 			if (word == null) return null;
+			if (!word.Classes.Contains(Alyx.Linguistics.WordClasses.Noun)) return null;
+
 			return new NounInstance(word);
 		}
 		public AdjectiveInstance GetAdjective(Guid id)
 		{
 			Word word = mvarWords[id];
 			if (word == null) return null;
+			if (!word.Classes.Contains(Alyx.Linguistics.WordClasses.Adjective)) return null;
+
 			return new AdjectiveInstance(word);
 		}
 		public VerbInstance GetVerb(Guid id, Person person = Person.Unspecified, Tense tense = Tense.Unspecified, Aspect aspect = Aspect.Unspecified)
 		{
 			Word word = mvarWords[id];
 			if (word == null) return null;
+			if (!word.Classes.Contains(Alyx.Linguistics.WordClasses.Verb)) return null;
+
 			return new VerbInstance(word, person, tense, aspect);
 		}
 		public PrepositionInstance GetPreposition(Guid id)
 		{
 			Word word = mvarWords[id];
 			if (word == null) return null;
+			if (!word.Classes.Contains(Alyx.Linguistics.WordClasses.Preposition)) return null;
+
 			return new PrepositionInstance(word);
 		}
 
