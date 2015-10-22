@@ -1,0 +1,11 @@
+The quick brown fox jumped over the lazy dog.
+ A    J    J     N    V     P    A   J   N
+ 
+The happy chef cooked a delicious meal.
+ A    ?    ?     ?    A   ?         ?					some of these have to be defined, AI would not know how to parse this sentence
+ 
+		The happy chef cooked a delicious meal.
+		A    ?    N     V    A   ?         N					knowing the nouns, we can safely assume the unknown words are adjectives modifying them
+ 
+The quick fox outran the lazy dog.					
+ A    J    N    ?     A    J   N						missing part is verb, so create a new VerbInstance and keep it in memory... this is learning!
