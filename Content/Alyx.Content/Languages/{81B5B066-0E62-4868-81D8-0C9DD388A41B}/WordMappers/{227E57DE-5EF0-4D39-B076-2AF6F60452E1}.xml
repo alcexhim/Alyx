@@ -8,16 +8,26 @@
 						<Condition Variable="WordClasses" Comparison="Contains" Value="{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}" />
 					</ConditionalStatement>
 					<Mappings>
+						<!-- I jump, You jump, They jump -->
 						<Mapping Value="$(Word)">
 							<Criteria>
+								<Criterion Tense="Present" />
 								<Criterion Person="FirstPerson" />
 								<Criterion Person="SecondPerson" />
 								<Criterion Person="ThirdPerson" Quantity="Plural" />
 							</Criteria>
 						</Mapping>
+						<!-- He/she/it jumps -->
 						<Mapping Value="$(Word)s">
 							<Criteria>
+								<Criterion Tense="Present" />
 								<Criterion Person="ThirdPerson" Quantity="Singular" />
+							</Criteria>
+						</Mapping>
+						<!-- I jumped, You jumped, They jumped, He/she/it jumped -->
+						<Mapping Value="$(Word)ed">
+							<Criteria>
+								<Criterion Tense="Past" />
 							</Criteria>
 						</Mapping>
 					</Mappings>
