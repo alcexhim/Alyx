@@ -86,18 +86,22 @@ namespace Alyx.Linguistics
 					if (mapping.ID == SentenceTypes.Declarative.ID)
 					{
 						type = SentenceTypes.Declarative;
+						break;
 					}
 					else if (mapping.ID == SentenceTypes.Exclamatory.ID)
 					{
 						type = SentenceTypes.Exclamatory;
+						break;
 					}
 					else if (mapping.ID == SentenceTypes.Imperative.ID)
 					{
 						type = SentenceTypes.Imperative;
+						break;
 					}
 					else if (mapping.ID == SentenceTypes.Interrogative.ID)
 					{
 						type = SentenceTypes.Interrogative;
+						break;
 					}
 				}
 			}
@@ -108,20 +112,81 @@ namespace Alyx.Linguistics
 
 			Sentence sent = new Sentence(type);
 
+			List<AdjectiveInstance> listAdjectives = new List<AdjectiveInstance>();
+			Clause nextClause = new Clause();
+			VerbInstance nextVerb = null;
+			PrepositionInstance nextPrep = null;
+
 			for (int i = 0; i < value.Length; i++)
 			{
 				if (value[i] == ' ')
 				{
 					next = sbNext.ToString();
 					sbNext = new StringBuilder();
+					ProcessWord(next, ref nextClause, ref listAdjectives, ref nextVerb, ref nextPrep);
 				}
-				else
+				else if (value[i] != '.' && value[i] != '?' && value[i] != '!')
 				{
 					sbNext.Append(value[i]);
 				}
 			}
 
+			if (sbNext.Length > 0)
+			{
+				// final word
+				next = sbNext.ToString();
+				ProcessWord(next, ref nextClause, ref listAdjectives, ref nextVerb, ref nextPrep);
+
+				sent.Clauses.Add(nextClause);
+			}
+
 			return sent;
+		}
+
+		private static bool ProcessWord(string next, ref Clause nextClause, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep)
+		{
+			Language lang = Language.CurrentLanguage;
+			Word word = lang.Words[next];
+			if (word == null)
+			{
+				Console.WriteLine("Unknown word '" + next.ToLower() + "'");
+				return false;
+			}
+
+			// if word is an article...
+			// if (article != null) ...
+
+			AdjectiveInstance adj = lang.GetAdjective(word.ID);
+			if (adj != null)
+			{
+				listAdjectives.Add(adj);
+			}
+
+			NounInstance noun = lang.GetNoun(word.ID);
+			if (noun != null)
+			{
+				foreach (AdjectiveInstance adj1 in listAdjectives)
+				{
+					noun.Adjectives.Add(adj1);
+				}
+				listAdjectives.Clear();
+
+				if (nextPrep != null)
+				{
+					nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, noun);
+				}
+				else
+				{
+					nextClause.Subject = noun;
+				}
+			}
+
+			VerbInstance verb = lang.GetVerb(word.ID);
+			if (verb != null) nextVerb = verb;
+
+			PrepositionInstance prep = lang.GetPreposition(word.ID);
+			if (prep != null) nextPrep = prep;
+			return true;
 		}
 	}
 }
