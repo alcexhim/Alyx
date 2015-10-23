@@ -48,5 +48,14 @@ namespace Alyx.Linguistics
 			}
 			return base.Equals(obj);
 		}
+
+		public static bool operator ==(WordClass left, WordClass right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(WordClass left, WordClass right)
+		{
+			return !left.Equals(right);
+		}
 	}
 }
