@@ -9,3 +9,15 @@ The happy chef cooked a delicious meal.
  
 The quick fox outran the lazy dog.					
  A    J    N    ?     A    J   N						missing part is verb, so create a new VerbInstance and keep it in memory... this is learning!
+ 
+ 
+ 
+Pattern:	The ? ? ? the ? ?.
+
+	The ? ? (V) the ? ?.
+	
+	The (A) (N) (V) the (A) (N).
+	
+
+I am going to give you some books to read.
+	I ? ? ? ? ? ? ? ? ?. This is unparseable.
