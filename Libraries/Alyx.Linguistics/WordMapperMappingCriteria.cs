@@ -29,6 +29,9 @@ namespace Alyx.Linguistics
 		private Quantity mvarQuantity = Quantity.Unspecified;
 		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
 
+		private Definiteness mvarDefiniteness = Definiteness.Unspecified;
+		public Definiteness Definiteness { get { return mvarDefiniteness; } set { mvarDefiniteness = value; } }
+
 		public bool Match(WordInstance word)
 		{
 			if (word is NounInstance)
