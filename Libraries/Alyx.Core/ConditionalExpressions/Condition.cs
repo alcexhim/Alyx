@@ -182,33 +182,20 @@ namespace Alyx.Core.ConditionalExpressions
 							}
 						}
 					}
-					else if (propertyValue is String)
-					{
-						returnValue |= (propertyValue as String).Contains(mvarValue.ToString());
-					}
 					else
 					{
-						// we need to directly invoke IComparable.CompareTo here since we can't (usually)
-						// do > or < on objects... not sure what to do if the object doesn't implement
-						// IComparable though
-						returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
+						returnValue |= propertyValue.ToString().Contains(mvarValue.ToString());
 					}
 					break;
 				}
 				case ConditionComparison.StartsWith:
 				{
-					if (propertyValue is String)
-					{
-						returnValue |= (propertyValue as String).StartsWith(mvarValue.ToString());
-					}
+					returnValue |= propertyValue.ToString().StartsWith(mvarValue.ToString());
 					break;
 				}
 				case ConditionComparison.EndsWith:
 				{
-					if (propertyValue is String)
-					{
-						returnValue |= (propertyValue as String).EndsWith(mvarValue.ToString());
-					}
+					returnValue |= propertyValue.ToString().EndsWith(mvarValue.ToString());
 					break;
 				}
 			}

@@ -39,7 +39,7 @@ namespace Alyx.Linguistics
 						bool test = true;
 						if (mapper1.Condition != null) test = mapper1.Condition.Test
 						(
-							new KeyValuePair<string, object>("Word", this),
+							new KeyValuePair<string, object>("Word", this.Word),
 							new KeyValuePair<string, object>("WordClasses", this.Word.Classes),
 							new KeyValuePair<string, object>("ID", this.Word.ID.ToString("B").ToUpper())
 						);
