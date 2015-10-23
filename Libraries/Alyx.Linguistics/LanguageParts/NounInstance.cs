@@ -41,8 +41,12 @@ namespace Alyx.Linguistics.LanguageParts
 				ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
 				if (article != null)
 				{
-					sb.Append(article.ToString());
-					sb.Append(" ");
+					string value = article.ToString();
+					if (!String.IsNullOrEmpty(value))
+					{
+						sb.Append(article.ToString());
+						sb.Append(' ');
+					}
 				}
 			}
 			if (mvarAdjectives.Count > 0)
@@ -50,9 +54,13 @@ namespace Alyx.Linguistics.LanguageParts
 				for (int i = 0; i < mvarAdjectives.Count; i++)
 				{
 					sb.Append(mvarAdjectives[i].ToString());
-					if (i < mvarAdjectives.Count - 1) sb.Append(", ");
+					if (i < mvarAdjectives.Count - 1)
+					{
+						sb.Append(',');
+						sb.Append(' ');
+					}
 				}
-				sb.Append(" ");
+				sb.Append(' ');
 			}
 			sb.Append(base.ToString());
 			return sb.ToString();
