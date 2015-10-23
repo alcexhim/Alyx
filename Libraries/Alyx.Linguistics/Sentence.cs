@@ -42,7 +42,10 @@ namespace Alyx.Linguistics
 				}
 				else if (clause.Subject is NounInstance)
 				{
-					clause.Predicate.Verb.Person = Person.ThirdPerson;
+					if (clause.Predicate.Verb != null)
+					{
+						clause.Predicate.Verb.Person = Person.ThirdPerson;
+					}
 				}
 			}
 			
@@ -122,11 +125,17 @@ namespace Alyx.Linguistics
 			{
 				if (value[i] == ' ')
 				{
+					while (value[i] == ' ')
+					{
+						i++;
+					}
+					i--;
+
 					next = sbNext.ToString();
 					sbNext = new StringBuilder();
 					ProcessWord(next, ref nextClause, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep);
 				}
-				else if (value[i] != '.' && value[i] != '?' && value[i] != '!')
+				else if (value[i] != '.' && value[i] != '?' && value[i] != '!' && value[i] != ',')
 				{
 					sbNext.Append(value[i]);
 				}
@@ -140,8 +149,6 @@ namespace Alyx.Linguistics
 
 				sent.Clauses.Add(nextClause);
 			}
-
-			string sentstr = sent.ToString();
 			return sent;
 		}
 

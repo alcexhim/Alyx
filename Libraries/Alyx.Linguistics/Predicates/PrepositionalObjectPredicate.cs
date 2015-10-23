@@ -23,7 +23,14 @@ namespace Alyx.Linguistics.Predicates
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append(Verb.ToString());
+			if (Verb != null)
+			{
+				sb.Append(Verb.ToString());
+			}
+			else
+			{
+				Console.WriteLine("Invalid clause: missing Verb component");
+			}
 			sb.Append(' ');
 			sb.Append(Preposition.ToString());
 			sb.Append(' ');
