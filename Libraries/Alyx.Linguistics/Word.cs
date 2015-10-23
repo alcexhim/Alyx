@@ -69,7 +69,17 @@ namespace Alyx.Linguistics
 					}
 					else if (clas == WordClasses.Pronoun)
 					{
-						list.Add(new PronounInstance(word));
+						PronounInstance inst = new PronounInstance(word);
+						if (mapping != null)
+						{
+							foreach (WordMapperMappingCriteria criteria in mapping.Criteria)
+							{
+								if (criteria.Gender != Genders.Unspecified) inst.Gender = criteria.Gender;
+								if (criteria.Person != Person.Unspecified) inst.Person = criteria.Person;
+								if (criteria.Quantity != Quantity.Unspecified) inst.Quantity = criteria.Quantity;
+							}
+						}
+						list.Add(inst);
 					}
 					else if (clas == WordClasses.Verb)
 					{
@@ -141,7 +151,7 @@ namespace Alyx.Linguistics
 									}
 									else if (mappingValueParts.Length == 1)
 									{
-										if (mapping.Value == value) return GetWordInstances(word, mapping);
+										if (mapping.Value.ToLower() == value) return GetWordInstances(word, mapping);
 									}
 								}
 							}
@@ -155,7 +165,7 @@ namespace Alyx.Linguistics
 					if (exitAll) break;
 				}
 
-				return null;
+				return list.ToArray();
 			}
 		}
 
