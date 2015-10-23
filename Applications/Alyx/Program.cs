@@ -71,6 +71,7 @@ namespace Alyx
 
 			NounInstance pear = lang.GetNoun(new Guid("{4CA5238C-7403-480F-99BD-B3B382434105}"));
 			pear.Definiteness = Definiteness.Indefinite;
+			pear.Quantity = Quantity.Singular;
 
 			NounInstance cherry = lang.GetNoun(new Guid("{B7177096-0816-4C29-8394-B420F05615EF}"));
 			cherry.Quantity = Quantity.Plural;
@@ -108,6 +109,7 @@ namespace Alyx
 			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			Language.CurrentLanguage = lang;
 
+			TestSentenceRenderer();
 			TestSentenceParser();
 
 			// start the Alyx server
