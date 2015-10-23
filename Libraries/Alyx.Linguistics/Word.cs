@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alyx.Linguistics.LanguageParts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,83 +23,150 @@ namespace Alyx.Linguistics
 				}
 			}
 
-			private Dictionary<string, Word> wordsByValue = new Dictionary<string, Word>();
+			private Dictionary<string, WordInstance[]> wordsByValue = new Dictionary<string, WordInstance[]>();
 
-			public Word this[string value]
+			public WordInstance[] GetWordInstances(Word word, WordMapperMapping mapping = null)
 			{
-				get
+				List<WordInstance> list = new List<WordInstance>();
+				foreach (WordClass clas in word.Classes)
 				{
-					value = value.ToLower();
-
-					if (!wordsByValue.ContainsKey(value))
+					if (clas == WordClasses.Adjective)
 					{
-						bool exitAll = false;
-
-						foreach (Word word in this)
+						list.Add(new AdjectiveInstance(word));
+					}
+					else if (clas == WordClasses.Adverb)
+					{
+						list.Add(new AdverbInstance(word));
+					}
+					else if (clas.ID == WordClasses.Article.ID)
+					{
+						ArticleInstance inst = new ArticleInstance(word);
+						if (mapping != null)
 						{
-							if (word.Value == value)
+							foreach (WordMapperMappingCriteria criteria in mapping.Criteria)
 							{
-								wordsByValue.Add(value, word);
-								break;
+								if (criteria.Definiteness != Definiteness.Unspecified) inst.Definiteness = criteria.Definiteness;
+								if (criteria.Quantity != Quantity.Unspecified) inst.Quantity = criteria.Quantity;
 							}
-							else
+						}
+						list.Add(inst);
+					}
+					/*
+					else if (clas == WordClasses.Conjunction)
+					{
+						list.Add(new ConjunctionInstance(word));
+					}
+					else if (clas == WordClasses.Interjection)
+					{
+						list.Add(new AdjectiveInstance(word));
+					}
+					*/
+					else if (clas == WordClasses.Noun)
+					{
+						list.Add(new NounInstance(word));
+					}
+					else if (clas == WordClasses.Preposition)
+					{
+						list.Add(new PrepositionInstance(word));
+					}
+					else if (clas == WordClasses.Pronoun)
+					{
+						list.Add(new PronounInstance(word));
+					}
+					else if (clas == WordClasses.Verb)
+					{
+						VerbInstance verb = new VerbInstance(word);
+						if (mapping != null)
+						{
+							foreach (WordMapperMappingCriteria criteria in mapping.Criteria)
 							{
-								foreach (WordMapper mapper in Language.CurrentLanguage.WordMappers)
+								if (criteria.Aspect != Aspect.Unspecified) verb.Aspect = criteria.Aspect;
+								if (criteria.Person != Person.Unspecified) verb.Person = criteria.Person;
+								if (criteria.Quantity != Quantity.Unspecified) verb.Quantity = criteria.Quantity;
+								if (criteria.Tense != Tense.Unspecified) verb.Tense = criteria.Tense;
+							}
+						}
+
+						list.Add(verb);
+					}
+				}
+				return list.ToArray();
+			}
+			public WordInstance[] GetWordInstances(string value)
+			{
+				value = value.ToLower();
+
+				List<WordInstance> list = new List<WordInstance>();
+
+				if (!wordsByValue.ContainsKey(value))
+				{
+					bool exitAll = false;
+
+					foreach (Word word in this)
+					{
+						if (word.Value == value)
+						{
+							WordInstance[] wordInstances = GetWordInstances(word);
+							wordsByValue[value] = wordInstances;
+							break;
+						}
+						else
+						{
+							foreach (WordMapper mapper in Language.CurrentLanguage.WordMappers)
+							{
+								bool exit = false;
+								if (mapper.Condition == null || mapper.Condition.Test
+								(
+									new KeyValuePair<string, object>("Word", word),
+									new KeyValuePair<string, object>("WordClasses", word.Classes),
+									new KeyValuePair<string, object>("ID", word.ID.ToString("B").ToUpper())
+								))
 								{
-									bool exit = false;
-									if (mapper.Condition == null || mapper.Condition.Test
-									(
-										new KeyValuePair<string, object>("Word", word),
-										new KeyValuePair<string, object>("WordClasses", word.Classes),
-										new KeyValuePair<string, object>("ID", word.ID.ToString("B").ToUpper())
-									))
+									foreach (WordMapperMapping mapping in mapper.Mappings)
 									{
-										foreach (WordMapperMapping mapping in mapper.Mappings)
+										string[] mappingValueParts = mapping.Value.Split(new string[] { "$(Word)" }, StringSplitOptions.None);
+										if (mappingValueParts.Length >= 2)
 										{
-											string[] mappingValueParts = mapping.Value.Split(new string[] { "$(Word)" }, StringSplitOptions.None);
-											if (mappingValueParts.Length >= 2)
+											if (String.IsNullOrEmpty(mappingValueParts[0]) && String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]))
 											{
-												if (String.IsNullOrEmpty(mappingValueParts[0]) && String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]))
+												if (mapping.Value.Replace("$(Word)", word.Value) == value)
 												{
-													if (mapping.Value.Replace("$(Word)", word.Value) == value)
-													{
-														wordsByValue.Add(value, word);
-														exit = true;
-														break;
-													}
-												}
-												else if ((!String.IsNullOrEmpty(mappingValueParts[0]) && value.StartsWith(mappingValueParts[0]))
-													|| (!String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]) && value.EndsWith(mappingValueParts[mappingValueParts.Length - 1])))
-												{
-													string wordValue = value.Substring(mappingValueParts[0].Length, value.Length - mappingValueParts[mappingValueParts.Length - 1].Length);
-													if (word.Value == wordValue)
-													{
-														wordsByValue.Add(value, word);
-														exit = true;
-														break;
-													}
+													wordsByValue[value] = GetWordInstances(word, mapping);
+													exit = true;
+													break;
 												}
 											}
-											else if (mappingValueParts.Length == 1)
+											else if ((!String.IsNullOrEmpty(mappingValueParts[0]) && value.StartsWith(mappingValueParts[0]))
+												|| (!String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]) && value.EndsWith(mappingValueParts[mappingValueParts.Length - 1])))
 											{
-												if (mapping.Value == value) return word;
+												string wordValue = value.Substring(mappingValueParts[0].Length, value.Length - mappingValueParts[mappingValueParts.Length - 1].Length);
+												if (word.Value == wordValue)
+												{
+													wordsByValue[value] = GetWordInstances(word, mapping);
+													exit = true;
+													break;
+												}
 											}
 										}
-									}
-									if (exit)
-									{
-										exitAll = true;
-										break;
+										else if (mappingValueParts.Length == 1)
+										{
+											if (mapping.Value == value) return GetWordInstances(word, mapping);
+										}
 									}
 								}
+								if (exit)
+								{
+									exitAll = true;
+									break;
+								}
 							}
-							if (exitAll) break;
 						}
+						if (exitAll) break;
 					}
-
-					if (wordsByValue.ContainsKey(value)) return wordsByValue[value];
-					return null;
 				}
+
+				if (wordsByValue.ContainsKey(value)) return wordsByValue[value];
+				return null;
 			}
 		}
 

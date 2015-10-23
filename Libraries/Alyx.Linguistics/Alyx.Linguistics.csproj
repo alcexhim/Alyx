@@ -42,6 +42,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Genders.cs" />
     <Compile Include="INounInstance.cs" />
+    <Compile Include="LanguageParts\ArticleInstance.cs" />
     <Compile Include="LanguageParts\AdverbInstance.cs" />
     <Compile Include="LanguageParts\PrepositionInstance.cs" />
     <Compile Include="LanguageParts\PronounInstance.cs" />

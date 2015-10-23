@@ -30,6 +30,7 @@ namespace Alyx.Linguistics
 
 		public string GetValue(WordInstance word)
 		{
+			ArticleInstance article = (word as ArticleInstance);
 			NounInstance noun = (word as NounInstance);
 			VerbInstance verb = (word as VerbInstance);
 			AdjectiveInstance adjective = (word as AdjectiveInstance);
@@ -83,6 +84,18 @@ namespace Alyx.Linguistics
 					{
 						found = true;
 						break;
+					}
+					else if (article != null)
+					{
+						if 
+						(
+							((criterion.Definiteness == Definiteness.Unspecified && article.Definiteness == Definiteness.Unspecified) || (criterion.Definiteness == article.Definiteness))
+							&& ((criterion.Quantity == Quantity.Unspecified && article.Quantity == Quantity.Unspecified) || (criterion.Quantity == article.Quantity))
+						)
+						{
+							found = true;
+							break;
+						}
 					}
 				}
 

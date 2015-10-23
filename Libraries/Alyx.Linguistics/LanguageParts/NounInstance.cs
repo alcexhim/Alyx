@@ -38,10 +38,10 @@ namespace Alyx.Linguistics.LanguageParts
 			Language lang = Language.CurrentLanguage;
 			if (lang != null)
 			{
-				string article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
+				ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
 				if (article != null)
 				{
-					sb.Append(article);
+					sb.Append(article.ToString());
 					sb.Append(" ");
 				}
 			}
