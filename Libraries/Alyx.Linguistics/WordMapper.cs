@@ -14,7 +14,7 @@ namespace Alyx.Linguistics
 	public class WordMapper
 	{
 		public class WordMapperCollection
-			: System.Collections.ObjectModel.Collection<WordMapper>
+			: System.Collections.Generic.List<WordMapper>
 		{
 
 		}
@@ -24,6 +24,9 @@ namespace Alyx.Linguistics
 
 		private IConditionalStatement mvarCondition = null;
 		public IConditionalStatement Condition { get { return mvarCondition; } set { mvarCondition = value; } }
+
+		private int mvarPriority = 0;
+		public int Priority { get { return mvarPriority; } set { mvarPriority = value; } }
 
 		private WordMapperMapping.WordMapperMappingCollection mvarMappings = new WordMapperMapping.WordMapperMappingCollection();
 		public WordMapperMapping.WordMapperMappingCollection Mappings { get { return mvarMappings; } }
