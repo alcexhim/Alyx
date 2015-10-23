@@ -151,10 +151,35 @@ namespace Alyx.Linguistics
 
 									WordMapper mapper = new WordMapper(new Guid(attID.Value));
 
+									MarkupAttribute attPriority = tagWordMapper.Attributes["Priority"];
+									if (attPriority != null)
+									{
+										int priority = 0;
+										if (attPriority.Value.ToLower() == "highest")
+										{
+											priority = Int32.MaxValue;
+										}
+										else if (attPriority.Value.ToLower() == "lowest")
+										{
+											priority = Int32.MinValue;
+										}
+										else
+										{
+											Int32.TryParse(attPriority.Value, out priority);
+										}
+										mapper.Priority = priority;
+									}
+
 									MarkupTagElement tagConditionalStatement = (tagWordMapper.Elements["ConditionalStatement"] as MarkupTagElement);
 									if (tagConditionalStatement != null && tagConditionalStatement.Elements.Count > 0)
 									{
-										mapper.Condition = ConditionalStatementParser.Parse(tagConditionalStatement.Elements[0] as MarkupTagElement);
+										MarkupTagElement tagCondition = null;
+										foreach (MarkupElement el in tagConditionalStatement.Elements)
+										{
+											tagCondition = (el as MarkupTagElement);
+											if (tagCondition != null) break;
+										}
+										mapper.Condition = ConditionalStatementParser.Parse(tagCondition);
 									}
 
 									MarkupTagElement tagMappings = (tagWordMapper.Elements["Mappings"] as MarkupTagElement);
@@ -184,6 +209,11 @@ namespace Alyx.Linguistics
 									lang.WordMappers.Add(mapper);
 								}
 							}
+
+							lang.WordMappers.Sort(new Comparison<WordMapper>(delegate(WordMapper left, WordMapper right)
+							{
+								return right.Priority.CompareTo(left.Priority);
+							}));
 
 							#region Load word classes
 							{
