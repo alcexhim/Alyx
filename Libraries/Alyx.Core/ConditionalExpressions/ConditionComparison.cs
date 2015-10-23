@@ -8,7 +8,6 @@ namespace Alyx.Core.ConditionalExpressions
 	/// <summary>
 	/// The type of comparison to use with the conditional statement.
 	/// </summary>
-	[Flags()]
 	public enum ConditionComparison
 	{
 		/// <summary>

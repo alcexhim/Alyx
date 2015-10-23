@@ -100,84 +100,119 @@ namespace Alyx.Core.ConditionalExpressions
 			// would you like meatballs with your spaghetti code?
 			bool returnValue = false;
 
-			if ((mvarComparison & ConditionComparison.Equal) == ConditionComparison.Equal)
+			switch (mvarComparison)
 			{
-				if (propertyValue == null)
+				case ConditionComparison.Equal:
 				{
-					// our comparison object is null, so we can't .Equals it
-					// just do regular == with the constant null in that case
-					returnValue |= (mvarValue == null);
-				}
-				else
-				{
-					returnValue |= (propertyValue.Equals(mvarValue));
-				}
-			}
-			if ((mvarComparison & ConditionComparison.ReferenceEqual) == ConditionComparison.ReferenceEqual)
-			{
-				if (propertyValue == null)
-				{
-					// our comparison object is null, so we can't .Equals it
-					// just do regular == with the constant null in that case
-					returnValue |= (mvarValue == null);
-				}
-				else
-				{
-					returnValue |= (propertyValue == mvarValue);
-				}
-			}
-			if (((mvarComparison & ConditionComparison.GreaterThan) == ConditionComparison.GreaterThan) && (propertyValue is IComparable))
-			{
-				if (propertyValue == null)
-				{
-					// can ANYTHING ever be greater than or less than null?
-					returnValue |= false;
-				}
-				else
-				{
-					// we need to directly invoke IComparable.CompareTo here since we can't (usually)
-					// do > or < on objects... not sure what to do if the object doesn't implement
-					// IComparable though
-					returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) > 0);
-				}
-			}
-			if (((mvarComparison & ConditionComparison.LessThan) == ConditionComparison.LessThan) && (propertyValue is IComparable))
-			{
-				if (propertyValue == null)
-				{
-					// can ANYTHING ever be greater than or less than null?
-					returnValue |= false;
-				}
-				else
-				{
-					// we need to directly invoke IComparable.CompareTo here since we can't (usually)
-					// do > or < on objects... not sure what to do if the object doesn't implement
-					// IComparable though
-					returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
-				}
-			}
-			if ((mvarComparison & ConditionComparison.Contains) == ConditionComparison.Contains)
-			{
-				if (propertyValue is System.Collections.IEnumerable)
-				{
-					System.Collections.IEnumerable ie = (propertyValue as System.Collections.IEnumerable);
-					foreach (object val in ie)
+					if (propertyValue == null)
 					{
-						if (mvarValue.Equals(val.ToString()))
+						// our comparison object is null, so we can't .Equals it
+						// just do regular == with the constant null in that case
+						returnValue |= (mvarValue == null);
+					}
+					else
+					{
+						returnValue |= (propertyValue.Equals(mvarValue));
+					}
+					break;
+				}
+				case ConditionComparison.ReferenceEqual:
+				{
+					if (propertyValue == null)
+					{
+						// our comparison object is null, so we can't .Equals it
+						// just do regular == with the constant null in that case
+						returnValue |= (mvarValue == null);
+					}
+					else
+					{
+						returnValue |= (propertyValue == mvarValue);
+					}
+					break;
+				}
+				case ConditionComparison.GreaterThan:
+				{
+					if (propertyValue is IComparable)
+					{
+						if (propertyValue == null)
 						{
-							returnValue |= true;
-							break;
+							// can ANYTHING ever be greater than or less than null?
+							returnValue |= false;
+						}
+						else
+						{
+							// we need to directly invoke IComparable.CompareTo here since we can't (usually)
+							// do > or < on objects... not sure what to do if the object doesn't implement
+							// IComparable though
+							returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) > 0);
 						}
 					}
+					break;
 				}
-				else
+				case ConditionComparison.LessThan:
 				{
-					// we need to directly invoke IComparable.CompareTo here since we can't (usually)
-					// do > or < on objects... not sure what to do if the object doesn't implement
-					// IComparable though
-					returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
+					if (propertyValue is IComparable)
+					{
+						if (propertyValue == null)
+						{
+							// can ANYTHING ever be greater than or less than null?
+							returnValue |= false;
+						}
+						else
+						{
+							// we need to directly invoke IComparable.CompareTo here since we can't (usually)
+							// do > or < on objects... not sure what to do if the object doesn't implement
+							// IComparable though
+							returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
+						}
+					}
+					break;
+				}
+				case ConditionComparison.Contains:
+				{
+					if (propertyValue is System.Collections.IEnumerable)
+					{
+						System.Collections.IEnumerable ie = (propertyValue as System.Collections.IEnumerable);
+						foreach (object val in ie)
+						{
+							if (mvarValue.Equals(val.ToString()))
+							{
+								returnValue |= true;
+								break;
+							}
+						}
+					}
+					else if (propertyValue is String)
+					{
+						returnValue |= (propertyValue as String).Contains(mvarValue.ToString());
+					}
+					else
+					{
+						// we need to directly invoke IComparable.CompareTo here since we can't (usually)
+						// do > or < on objects... not sure what to do if the object doesn't implement
+						// IComparable though
+						returnValue |= ((propertyValue as IComparable).CompareTo(mvarValue) < 0);
+					}
+					break;
+				}
+				case ConditionComparison.StartsWith:
+				{
+					if (propertyValue is String)
+					{
+						returnValue |= (propertyValue as String).StartsWith(mvarValue.ToString());
+					}
+					break;
+				}
+				case ConditionComparison.EndsWith:
+				{
+					if (propertyValue is String)
+					{
+						returnValue |= (propertyValue as String).EndsWith(mvarValue.ToString());
+					}
+					break;
 				}
 			}
+
 			if (mvarNegate)
 			{
 				// we have a Not in there, so negate our return value
