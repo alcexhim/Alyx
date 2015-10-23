@@ -51,6 +51,7 @@
     <Compile Include="Language.cs" />
     <Compile Include="LanguageParts\AdjectiveInstance.cs" />
     <Compile Include="LanguageParts\NounInstance.cs" />
+    <Compile Include="Predicates\IndirectObjectPredicate.cs" />
     <Compile Include="Predicates\DirectObjectPredicate.cs" />
     <Compile Include="Predicates\PrepositionalObjectPredicate.cs" />
     <Compile Include="Quantity.cs" />
