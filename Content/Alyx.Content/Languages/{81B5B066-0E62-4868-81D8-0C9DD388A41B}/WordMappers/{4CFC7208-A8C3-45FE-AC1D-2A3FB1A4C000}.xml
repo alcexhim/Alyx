@@ -3,9 +3,13 @@
 	<Languages>
 		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
 			<WordMappers>
-				<WordMapper ID="{4CFC7208-A8C3-45FE-AC1D-2A3FB1A4C000}">
+				<WordMapper ID="{4CFC7208-A8C3-45FE-AC1D-2A3FB1A4C000}" Priority="2">
 					<ConditionalStatement>
-						<Condition Variable="Word" Comparison="EndsWith" Value="y" />
+						<ConditionGroup Combination="And">
+							<!-- Nouns that end in -y -->
+							<Condition Variable="WordClasses" Comparison="Contains" Value="{225DF6CF-D334-4227-A308-B31F709B82DA}" />
+							<Condition Variable="Word" Comparison="EndsWith" Value="y" />
+						</ConditionGroup>
 					</ConditionalStatement>
 					<Mappings>
 						<!-- cherry/cherries, flurry/flurries, etc. -->
