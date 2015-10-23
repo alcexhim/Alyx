@@ -104,10 +104,105 @@ namespace Alyx.Linguistics
 
 				if (found)
 				{
-					return mapping.Value.Replace("$(Word)", word.Word.Value);
+					return ExecMapping(mapping.Value, word.Word.Value);
 				}
 			}
 			return null;
+		}
+
+		private string ExecMapping(string mapping, string value)
+		{
+			StringBuilder sb = new StringBuilder();
+			if (mapping.Contains("$(Word)"))
+			{
+				sb.Append(mapping.Replace("$(Word)", value));
+			}
+			else
+			{
+				for (int i = 0; i < mapping.Length; i++)
+				{
+					if (mapping[i] == '$')
+					{
+						if (mapping[i + 1] == '(')
+						{
+							string variableName = mapping.Substring(i + 2, mapping.IndexOf(')', i + 1) - 1);
+							i += variableName.Length + 2;
+
+							string[] variableParts = variableName.Split(new char[] { ':' });
+							if (variableParts.Length > 1)
+							{
+								variableName = variableParts[0];
+
+								string funcName = variableParts[1];
+								string[] funcParams = new string[0];
+								if (variableParts[1].Contains('('))
+								{
+									funcName = funcName.Substring(0, funcName.IndexOf('('));
+									funcParams = variableParts[1].Substring(variableParts[1].IndexOf('(') + 1, variableParts[1].IndexOf(')') - (variableParts[1].IndexOf('(') + 1)).Split(new char[] { ',' });
+								}
+
+								for (int j = 0; j < funcParams.Length; j++)
+								{
+									funcParams[j] = funcParams[j].Replace("Length", value.Length.ToString());
+
+									StringBuilder sbNext = new StringBuilder();
+									string op1 = null;
+									int op = 0;
+
+									for (int k = 0; k < funcParams[j].Length; k++)
+									{
+										if (funcParams[j][k] == '-')
+										{
+											op1 = sbNext.ToString();
+											op = -1;
+											sbNext = new StringBuilder();
+										}
+										else
+										{
+											sbNext.Append(funcParams[j][k]);
+										}
+									}
+									if (op != 0)
+									{
+										int p1 = Int32.Parse(op1);
+										int p2 = Int32.Parse(sbNext.ToString());
+										sbNext = new StringBuilder();
+										sbNext.Append((p1 - p2).ToString());
+									}
+									funcParams[j] = sbNext.ToString();
+								}
+
+								switch (funcName.ToLower())
+								{
+									case "substring":
+									{
+										if (funcParams.Length == 2)
+										{
+											int start = Int32.Parse(funcParams[0]);
+											int length = Int32.Parse(funcParams[1]);
+											
+											switch (variableName)
+											{
+												case "Word":
+												{
+													sb.Append(value.Substring(start, length));
+													break;
+												}
+											}
+										}
+										break;
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+						sb.Append(mapping[i]);
+					}
+				}
+			}
+			return sb.ToString();
 		}
 
 		public WordMapper(Guid id, IConditionalStatement condition = null)
