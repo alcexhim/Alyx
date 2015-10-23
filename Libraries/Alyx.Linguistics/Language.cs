@@ -54,20 +54,6 @@ namespace Alyx.Linguistics
 			return mvarTitle;
 		}
 
-		public string GetArticle(Definiteness definiteness, Quantity quantity)
-		{
-			switch (definiteness)
-			{
-				case Definiteness.Definite: return "the";
-				case Definiteness.Indefinite:
-				{
-					if (quantity == Quantity.Plural) return null;
-					return "a";
-				}
-			}
-			return null;
-		}
-
 		private Word.WordCollection mvarWords = new Word.WordCollection();
 		/// <summary>
 		/// All <see cref="Word" />s available in this <see cref="Language" />.
@@ -188,116 +174,7 @@ namespace Alyx.Linguistics
 											MarkupTagElement tagCriteria = (tagMapping.Elements["Criteria"] as MarkupTagElement);
 											if (tagCriteria != null)
 											{
-												foreach (MarkupElement elCriterion in tagCriteria.Elements)
-												{
-													MarkupTagElement tagCriterion = (elCriterion as MarkupTagElement);
-													if (tagCriterion == null) continue;
-													if (tagCriterion.FullName != "Criterion") continue;
-
-													WordMapperMappingCriteria criterion = new WordMapperMappingCriteria();
-
-													MarkupAttribute attAspect = tagCriterion.Attributes["Aspect"];
-													if (attAspect != null)
-													{
-														switch (attAspect.Value.ToLower())
-														{
-															case "continuous":
-															{
-																criterion.Aspect = Aspect.Continuous;
-																break;
-															}
-															case "perfect":
-															{
-																criterion.Aspect = Aspect.Continuous;
-																break;
-															}
-															case "perfectcontinuous":
-															{
-																criterion.Aspect = Aspect.PerfectContinuous;
-																break;
-															}
-															case "simple":
-															{
-																criterion.Aspect = Aspect.Simple;
-																break;
-															}
-														}
-													}
-													MarkupAttribute attPerson = tagCriterion.Attributes["Person"];
-													if (attPerson != null)
-													{
-														switch (attPerson.Value.ToLower())
-														{
-															case "firstperson":
-															{
-																criterion.Person = Person.FirstPerson;
-																break;
-															}
-															case "secondperson":
-															{
-																criterion.Person = Person.SecondPerson;
-																break;
-															}
-															case "thirdperson":
-															{
-																criterion.Person = Person.ThirdPerson;
-																break;
-															}
-														}
-													}
-													MarkupAttribute attQuantity = tagCriterion.Attributes["Quantity"];
-													if (attQuantity != null)
-													{
-														switch (attQuantity.Value.ToLower())
-														{
-															case "singular":
-															{
-																criterion.Quantity = Quantity.Singular;
-																break;
-															}
-															case "plural":
-															{
-																criterion.Quantity = Quantity.Plural;
-																break;
-															}
-														}
-													}
-													MarkupAttribute attTense = tagCriterion.Attributes["Tense"];
-													if (attTense != null)
-													{
-														switch (attTense.Value.ToLower())
-														{
-															case "future":
-															{
-																criterion.Tense = Tense.Future;
-																break;
-															}
-															case "past":
-															{
-																criterion.Tense = Tense.Past;
-																break;
-															}
-															case "pastfuture":
-															{
-																criterion.Tense = Tense.PastFuture;
-																break;
-															}
-															case "present":
-															{
-																criterion.Tense = Tense.Present;
-																break;
-															}
-														}
-
-														MarkupAttribute attGenderID = tagCriterion.Attributes["GenderID"];
-														if (attGenderID != null)
-														{
-															criterion.Gender = lang.Genders[new Guid(attGenderID.Value)];
-														}
-													}
-
-													mapping.Criteria.Add(criterion);
-												}
+												LoadCriteria(lang, tagCriteria, mapping.Criteria);
 											}
 
 											mapper.Mappings.Add(mapping);
@@ -385,6 +262,138 @@ namespace Alyx.Linguistics
 			return _languages;
 		}
 
+		private static void LoadCriteria(Language lang, MarkupTagElement tag, WordMapperMappingCriteria.WordMapperMappingCriteriaCollection criteria)
+		{
+			foreach (MarkupElement elCriterion in tag.Elements)
+			{
+				MarkupTagElement tagCriterion = (elCriterion as MarkupTagElement);
+				if (tagCriterion == null) continue;
+				if (tagCriterion.FullName != "Criterion") continue;
+
+				WordMapperMappingCriteria criterion = new WordMapperMappingCriteria();
+													
+				MarkupAttribute attAspect = tagCriterion.Attributes["Aspect"];
+				if (attAspect != null)
+				{
+					switch (attAspect.Value.ToLower())
+					{
+						case "continuous":
+						{
+							criterion.Aspect = Aspect.Continuous;
+							break;
+						}
+						case "perfect":
+						{
+							criterion.Aspect = Aspect.Continuous;
+							break;
+						}
+						case "perfectcontinuous":
+						{
+							criterion.Aspect = Aspect.PerfectContinuous;
+							break;
+						}
+						case "simple":
+						{
+							criterion.Aspect = Aspect.Simple;
+							break;
+						}
+					}
+				}
+				MarkupAttribute attPerson = tagCriterion.Attributes["Person"];
+				if (attPerson != null)
+				{
+					switch (attPerson.Value.ToLower())
+					{
+						case "firstperson":
+						{
+							criterion.Person = Person.FirstPerson;
+							break;
+						}
+						case "secondperson":
+						{
+							criterion.Person = Person.SecondPerson;
+							break;
+						}
+						case "thirdperson":
+						{
+							criterion.Person = Person.ThirdPerson;
+							break;
+						}
+					}
+				}
+				MarkupAttribute attQuantity = tagCriterion.Attributes["Quantity"];
+				if (attQuantity != null)
+				{
+					switch (attQuantity.Value.ToLower())
+					{
+						case "singular":
+						{
+							criterion.Quantity = Quantity.Singular;
+							break;
+						}
+						case "plural":
+						{
+							criterion.Quantity = Quantity.Plural;
+							break;
+						}
+					}
+				}
+				MarkupAttribute attTense = tagCriterion.Attributes["Tense"];
+				if (attTense != null)
+				{
+					switch (attTense.Value.ToLower())
+					{
+						case "future":
+						{
+							criterion.Tense = Tense.Future;
+							break;
+						}
+						case "past":
+						{
+							criterion.Tense = Tense.Past;
+							break;
+						}
+						case "pastfuture":
+						{
+							criterion.Tense = Tense.PastFuture;
+							break;
+						}
+						case "present":
+						{
+							criterion.Tense = Tense.Present;
+							break;
+						}
+					}
+				}
+
+				MarkupAttribute attGenderID = tagCriterion.Attributes["GenderID"];
+				if (attGenderID != null)
+				{
+					criterion.Gender = lang.Genders[new Guid(attGenderID.Value)];
+				}
+
+				MarkupAttribute attDefiniteness = tagCriterion.Attributes["Definiteness"];
+				if (attDefiniteness != null)
+				{
+					switch (attDefiniteness.Value.ToLower())
+					{
+						case "definite":
+						{
+							criterion.Definiteness = Definiteness.Definite;
+							break;
+						}
+						case "indefinite":
+						{
+							criterion.Definiteness = Definiteness.Indefinite;
+							break;
+						}
+					}
+				}
+
+				criteria.Add(criterion);
+			}
+		}
+
 		public static Language GetByID(Guid id)
 		{
 			Language[] languages = Get();
@@ -394,7 +403,26 @@ namespace Alyx.Linguistics
 			}
 			return null;
 		}
+		
+		public ArticleInstance GetArticle(Definiteness definiteness = Definiteness.Unspecified, Quantity quantity = Quantity.Unspecified)
+		{
+			foreach (Word word in mvarWords)
+			{
+				if (word.Classes.Contains(Linguistics.WordClasses.Article))
+				{
+					return GetArticle(word.ID, definiteness, quantity);
+				}
+			}
+			return null;
+		}
+		public ArticleInstance GetArticle(Guid id, Definiteness definiteness = Definiteness.Unspecified, Quantity quantity = Quantity.Unspecified)
+		{
+			Word word = mvarWords[id];
+			if (word == null) return null;
+			if (!word.Classes.Contains(Alyx.Linguistics.WordClasses.Article)) return null;
 
+			return new ArticleInstance(word, definiteness, quantity);
+		}
 		public NounInstance GetNoun(Guid id)
 		{
 			Word word = mvarWords[id];
