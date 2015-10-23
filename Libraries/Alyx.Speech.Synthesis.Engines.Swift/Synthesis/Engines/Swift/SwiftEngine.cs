@@ -58,6 +58,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			}
 			sb.Append(text);
 			p.StartInfo = new System.Diagnostics.ProcessStartInfo("swift", sb.ToString());
+			p.StartInfo.CreateNoWindow = true;
 
 			try
 			{
