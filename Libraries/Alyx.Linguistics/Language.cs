@@ -113,6 +113,27 @@ namespace Alyx.Linguistics
 								if (tagTitle != null) lang.Title = tagTitle.Value;
 							}
 
+							MarkupTagElement tagGenders = (tagLanguage.Elements["Genders"] as MarkupTagElement);
+							if (tagGenders != null)
+							{
+								foreach (MarkupElement elGender in tagGenders.Elements)
+								{
+									MarkupTagElement tagGender = (elGender as MarkupTagElement);
+									if (tagGender == null) continue;
+									if (tagGender.FullName != "Gender") continue;
+
+									MarkupAttribute attGenderID = tagGender.Attributes["ID"];
+									if (attGenderID == null) continue;
+
+									Gender gender = new Gender(new Guid(attGenderID.Value));
+									
+									MarkupAttribute attGenderTitle = tagGender.Attributes["Title"];
+									if (attGenderTitle != null) gender.Title = attGenderTitle.Value;
+
+									lang.Genders.Add(gender);
+								}
+							}
+
 							MarkupTagElement tagSentenceTypes = (tagLanguage.Elements["SentenceTypes"] as MarkupTagElement);
 							if (tagSentenceTypes != null)
 							{

@@ -50,7 +50,8 @@ namespace Alyx.Linguistics
 				if (mappers.Count > 0) mapper = mappers[0];
 			}
 
-			string value = mapper.GetValue(this);
+			string value = this.Word.Value;
+			if (mapper != null) value = mapper.GetValue(this);
 			sb.Append(value);
 			return sb.ToString();
 		}

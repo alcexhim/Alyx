@@ -75,8 +75,9 @@ namespace Alyx.Linguistics
 					{
 						if
 						(
-							((criterion.Person == Person.Unspecified && pronoun.Person == Person.Unspecified) || (criterion.Person == pronoun.Person))
-							&& ((criterion.Gender == Genders.Unspecified && pronoun.Gender == Genders.Unspecified) || (criterion.Gender == pronoun.Gender))
+							((criterion.Person == Person.Unspecified /* && pronoun.Person == Person.Unspecified */) || (criterion.Person == pronoun.Person))
+							&& ((criterion.Gender == Genders.Unspecified /* && pronoun.Gender == Genders.Unspecified */) || (criterion.Gender == pronoun.Gender))
+							&& ((criterion.Quantity == Quantity.Unspecified /* && pronoun.Quantity == Quantity.Unspecified */) || (criterion.Quantity == pronoun.Quantity))
 						)
 						{
 							found = true;

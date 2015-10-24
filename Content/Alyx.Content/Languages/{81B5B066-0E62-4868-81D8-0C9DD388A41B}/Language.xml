@@ -5,6 +5,11 @@
 			<Information>
 				<Title>English (United States)</Title>
 			</Information>
+      <Genders>
+        <Gender ID="{00000000-0000-0000-0000-000000000000}" Title="Unspecified" />
+        <Gender ID="{272413AD-BF77-473E-B118-8C766C1025E4}" Title="Feminine" />
+        <Gender ID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" Title="Masculine" />
+      </Genders>
 			<SentenceTypes>
 				<SentenceType ID="{29F7837F-3865-4716-8D87-1E11FD57A7E8}" Prefix="" Suffix="." />
 				<SentenceType ID="{1B13AE97-CF7B-4379-9529-F101A232A79C}" Prefix="" Suffix="." />

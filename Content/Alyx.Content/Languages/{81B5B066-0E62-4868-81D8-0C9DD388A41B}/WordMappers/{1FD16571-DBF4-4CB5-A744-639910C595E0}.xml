@@ -10,8 +10,7 @@
 					<Mappings>
 						<Mapping Value="I">
 							<Criteria>
-								<Criterion Person="FirstPerson" />
-								<Criterion Quantity="Singular" />
+								<Criterion Person="FirstPerson" Quantity="Singular" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="you">
@@ -21,27 +20,27 @@
 						</Mapping>
 						<Mapping Value="he">
 							<Criteria>
-								<Criterion Person="ThirdPerson" />
-								<Criterion Quantity="Singular" />
-								<Criterion GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="she">
 							<Criteria>
-								<Criterion Person="ThirdPerson" />
-								<Criterion Quantity="Singular" />
-								<Criterion GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" />
 							</Criteria>
 						</Mapping>
+            <Mapping Value="it">
+              <Criteria>
+                <Criterion Person="ThirdPerson" Quantity="Singular" />
+              </Criteria>
+            </Mapping>
 						<Mapping Value="they">
 							<Criteria>
-								<Criterion Person="ThirdPerson" />
+								<Criterion Person="ThirdPerson" Quantity="Plural" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="we">
 							<Criteria>
-								<Criterion Person="FirstPerson" />
-								<Criterion Quantity="Plural" />
+								<Criterion Person="FirstPerson" Quantity="Plural" />
 							</Criteria>
 						</Mapping>
 					</Mappings>

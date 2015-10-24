@@ -30,5 +30,35 @@ namespace Alyx.Linguistics
 		{
 			mvarID = id;
 		}
+
+		private string mvarTitle = String.Empty;
+		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
+
+		public override bool Equals(object obj)
+		{
+			if (obj is Gender)
+			{
+				return mvarID.Equals((obj as Gender).ID);
+			}
+			return base.Equals(obj);
+		}
+		
+		public static bool operator ==(Gender left, Gender right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(Gender left, Gender right)
+		{
+			return !left.Equals(right);
+		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append(mvarID.ToString("B").ToUpper());
+			sb.Append(' ');
+			sb.Append(mvarTitle);
+			return sb.ToString();
+		}
 	}
 }

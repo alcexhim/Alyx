@@ -88,6 +88,10 @@ namespace Alyx
 				)
 			});
 
+			(sent.Clauses[0].Subject as PronounInstance).Person = Person.ThirdPerson;
+			(sent.Clauses[0].Subject as PronounInstance).Gender = Genders.Feminine;
+			(sent.Clauses[0].Subject as PronounInstance).Quantity = Quantity.Plural;
+
 			string str = sent.ToString();
 		}
 		private static void TestSentenceParser()
