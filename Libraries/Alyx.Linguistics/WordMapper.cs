@@ -56,10 +56,10 @@ namespace Alyx.Linguistics
 					}
 					else if (verb != null)
 					{
-						if (((criterion.Aspect == Aspect.Unspecified && verb.Aspect == Aspect.Unspecified) || (criterion.Aspect == verb.Aspect))
-							&& ((criterion.Person == Person.Unspecified && verb.Person == Person.Unspecified) || (criterion.Person == verb.Person))
-							&& ((criterion.Tense == Tense.Unspecified && verb.Tense == Tense.Unspecified) || (criterion.Tense == verb.Tense))
-							&& ((criterion.Quantity == Quantity.Unspecified && verb.Quantity == Quantity.Unspecified) || (criterion.Quantity == verb.Quantity))
+						if (((criterion.Aspect == Aspect.Unspecified /* && verb.Aspect == Aspect.Unspecified */) || (criterion.Aspect == verb.Aspect))
+							&& ((criterion.Person == Person.Unspecified /* && verb.Person == Person.Unspecified */) || (criterion.Person == verb.Person))
+							&& ((criterion.Tense == Tense.Unspecified /* && verb.Tense == Tense.Unspecified */) || (criterion.Tense == verb.Tense))
+							&& ((criterion.Quantity == Quantity.Unspecified /* && verb.Quantity == Quantity.Unspecified */) || (criterion.Quantity == verb.Quantity))
 						)
 						{
 							found = true;
