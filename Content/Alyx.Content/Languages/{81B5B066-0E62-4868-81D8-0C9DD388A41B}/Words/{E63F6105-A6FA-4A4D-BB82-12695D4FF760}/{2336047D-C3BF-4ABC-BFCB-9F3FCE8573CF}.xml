@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Languages>
+		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
+			<Words>
+				<Word ID="{2336047D-C3BF-4ABC-BFCB-9F3FCE8573CF}" Value="but">
+					<WordClasses>
+						<WordClass ID="{E63F6105-A6FA-4A4D-BB82-12695D4FF760}" />
+					</WordClasses>
+				</Word>
+			</Words>
+		</Language>
+	</Languages>
+</Alyx>

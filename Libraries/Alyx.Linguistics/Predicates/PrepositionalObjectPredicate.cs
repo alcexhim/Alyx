@@ -11,13 +11,16 @@ namespace Alyx.Linguistics.Predicates
 		private PrepositionInstance mvarPreposition = null;
 		public PrepositionInstance Preposition { get { return mvarPreposition; } set { mvarPreposition = value; } }
 
-		private NounInstance mvarSubject = null;
-		public NounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
+		private ISubjectCollection mvarSubjects = new ISubjectCollection();
+		public ISubjectCollection Subjects { get { return mvarSubjects; } }
 
-		public PrepositionalObjectPredicate(VerbInstance verb, PrepositionInstance preposition, NounInstance subject) : base(verb)
+		public PrepositionalObjectPredicate(VerbInstance verb, PrepositionInstance preposition, ISubject[] subjects) : base(verb)
 		{
 			mvarPreposition = preposition;
-			mvarSubject = subject;
+			foreach (ISubject subject in subjects)
+			{
+				mvarSubjects.Add(subject);
+			}
 		}
 
 		public override string ToString()
@@ -34,7 +37,14 @@ namespace Alyx.Linguistics.Predicates
 			sb.Append(' ');
 			sb.Append(Preposition.ToString());
 			sb.Append(' ');
-			sb.Append(Subject.ToString());
+			
+			Series series = new Series();
+			foreach (ISubject subj in mvarSubjects)
+			{
+				series.Words.Add(subj as WordInstance);
+			}
+
+			sb.Append(series.ToString());
 			return sb.ToString();
 		}
 	}

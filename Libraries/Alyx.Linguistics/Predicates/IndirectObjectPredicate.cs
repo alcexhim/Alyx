@@ -8,13 +8,16 @@ namespace Alyx.Linguistics.Predicates
 {
 	public class IndirectObjectPredicate : DirectObjectPredicate
 	{
-		private ISubject mvarIndirectObject = null;
-		public ISubject IndirectObject { get { return mvarIndirectObject; } set { mvarIndirectObject = value; } }
+		private ISubjectCollection mvarIndirectObjects = new ISubjectCollection();
+		public ISubjectCollection IndirectObjects { get { return mvarIndirectObjects; } }
 
-		public IndirectObjectPredicate(VerbInstance verb, ISubject subject, ISubject indirectObject)
-			: base(verb, subject)
+		public IndirectObjectPredicate(VerbInstance verb, ISubject[] subjects, ISubject[] indirectObjects)
+			: base(verb, subjects)
 		{
-			mvarIndirectObject = indirectObject;
+			foreach (ISubject indirectObject in indirectObjects)
+			{
+				mvarIndirectObjects.Add(indirectObject);
+			}
 		}
 
 		public override string ToString()
@@ -22,9 +25,14 @@ namespace Alyx.Linguistics.Predicates
 			StringBuilder sb = new StringBuilder();
 			sb.Append(Verb.ToString());
 			sb.Append(' ');
-			sb.Append(IndirectObject.ToString());
+			
+			Series series1 = new Series(mvarIndirectObjects);
+			sb.Append(series1.ToString());
+
 			sb.Append(' ');
-			sb.Append(Subject.ToString());
+
+			Series series2 = new Series(Subjects);
+			sb.Append(series2.ToString());
 			return sb.ToString();
 		}
 	}

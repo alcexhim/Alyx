@@ -49,11 +49,11 @@ namespace Alyx.Linguistics
 						}
 						list.Add(inst);
 					}
-					/*
 					else if (clas == WordClasses.Conjunction)
 					{
 						list.Add(new ConjunctionInstance(word));
 					}
+					/*
 					else if (clas == WordClasses.Interjection)
 					{
 						list.Add(new AdjectiveInstance(word));

@@ -44,6 +44,7 @@
     <Compile Include="ISubject.cs" />
     <Compile Include="LanguageParts\ArticleInstance.cs" />
     <Compile Include="LanguageParts\AdverbInstance.cs" />
+    <Compile Include="LanguageParts\ConjunctionInstance.cs" />
     <Compile Include="LanguageParts\PrepositionInstance.cs" />
     <Compile Include="LanguageParts\PronounInstance.cs" />
     <Compile Include="LanguageParts\VerbInstance.cs" />

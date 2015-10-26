@@ -9,6 +9,13 @@ namespace Alyx.Linguistics
 		: System.Collections.ObjectModel.Collection<ISubject>
 	{
 
+		public void AddRange(ISubject[] items)
+		{
+			foreach (ISubject item in items)
+			{
+				Add(item);
+			}
+		}
 	}
 
 	/// <summary>

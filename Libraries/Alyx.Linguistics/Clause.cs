@@ -36,10 +36,10 @@ namespace Alyx.Linguistics
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach (ISubject subject in mvarSubjects)
-			{
-				sb.Append(subject.ToString());
-			}
+
+			Series series = new Series(mvarSubjects);
+			sb.Append(series.ToString());
+
 			if (mvarPredicate != null)
 			{
 				sb.Append(" ");

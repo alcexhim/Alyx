@@ -34,17 +34,20 @@ namespace Alyx.Linguistics
 			// TODO: implement subject-verb agreement!
 			foreach (Clause clause in mvarClauses)
 			{
-				if (clause.Subject is PronounInstance)
+				foreach (ISubject subject in clause.Subjects)
 				{
-					PronounInstance niSubject = (clause.Subject as PronounInstance);
-					clause.Predicate.Verb.Person = niSubject.Person;
-					clause.Predicate.Verb.Quantity = niSubject.Quantity;
-				}
-				else if (clause.Subject is NounInstance)
-				{
-					if (clause.Predicate.Verb != null)
+					if (subject is PronounInstance)
 					{
-						clause.Predicate.Verb.Person = Person.ThirdPerson;
+						PronounInstance niSubject = (subject as PronounInstance);
+						clause.Predicate.Verb.Person = niSubject.Person;
+						clause.Predicate.Verb.Quantity = niSubject.Quantity;
+					}
+					else if (subject is NounInstance)
+					{
+						if (clause.Predicate.Verb != null)
+						{
+							clause.Predicate.Verb.Person = Person.ThirdPerson;
+						}
 					}
 				}
 			}
@@ -122,6 +125,7 @@ namespace Alyx.Linguistics
 			VerbInstance nextVerb = null;
 			PrepositionInstance nextPrep = null;
 			ISubject nextObject = null;
+			ConjunctionInstance nextConj = null;
 
 			for (int i = 0; i < value.Length; i++)
 			{
@@ -135,7 +139,7 @@ namespace Alyx.Linguistics
 
 					next = sbNext.ToString();
 					sbNext = new StringBuilder();
-					ProcessWord(next, false, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject);
+					ProcessWord(next, false, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject, ref nextConj);
 				}
 				else if (value[i] != '.' && value[i] != '?' && value[i] != '!' && value[i] != ',')
 				{
@@ -147,7 +151,7 @@ namespace Alyx.Linguistics
 			{
 				// final word
 				next = sbNext.ToString();
-				ProcessWord(next, true, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject);
+				ProcessWord(next, true, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject, ref nextConj);
 
 				sent.Clauses.Add(nextClause);
 			}
@@ -159,7 +163,7 @@ namespace Alyx.Linguistics
 			return sent;
 		}
 
-		private static bool ProcessWord(string next, bool final, ref Clause nextClause, ref Stack<Word> nextUnknown, ref ArticleInstance nextArticle, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep, ref ISubject nextObject)
+		private static bool ProcessWord(string next, bool final, ref Clause nextClause, ref Stack<Word> nextUnknown, ref ArticleInstance nextArticle, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep, ref ISubject nextObject, ref ConjunctionInstance nextConj)
 		{
 			Language lang = Language.CurrentLanguage;
 
@@ -177,26 +181,26 @@ namespace Alyx.Linguistics
 				{
 					if (nextUnknown.Count > 0)
 					{
-						NounInstance noun = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle);
+						NounInstance[] nouns = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
 						if (nextPrep != null)
 						{
-							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, noun);
+							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, nouns);
 							nextPrep = null;
 						}
-						else if (nextClause.Subject != null)
+						else if (nextClause.Subjects.Count > 0)
 						{
 							if (nextObject != null)
 							{
-								nextClause.Predicate = new Predicates.IndirectObjectPredicate(nextVerb, noun, nextObject);
+								nextClause.Predicate = new Predicates.IndirectObjectPredicate(nextVerb, nouns, new ISubject[] { nextObject });
 							}
 							else
 							{
-								nextClause.Predicate = new Predicates.DirectObjectPredicate(nextVerb, noun);
+								nextClause.Predicate = new Predicates.DirectObjectPredicate(nextVerb, nouns);
 							}
 						}
 						else
 						{
-							nextClause.Subject = noun;
+							nextClause.Subjects.AddRange(nouns);
 						}
 					}
 				}
@@ -212,12 +216,14 @@ namespace Alyx.Linguistics
 						VerbInstance verb = PredictVerb(ref nextUnknown);
 						if (nextUnknown.Count > 1)
 						{
-							nextClause.Subject = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle);
+							NounInstance[] ni = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
+							nextClause.Subjects.AddRange(ni);
 							nextVerb = verb;
 						}
 					}
 
 					nextArticle = (inst as ArticleInstance);
+					break;
 				}
 				else if (inst is AdjectiveInstance)
 				{
@@ -227,6 +233,7 @@ namespace Alyx.Linguistics
 					}
 
 					listAdjectives.Add(inst as AdjectiveInstance);
+					break;
 				}
 				else if (inst is NounInstance)
 				{
@@ -249,40 +256,46 @@ namespace Alyx.Linguistics
 
 					if (nextPrep != null)
 					{
-						nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, noun);
+						nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, new ISubject[] { noun });
 					}
 					else
 					{
-						nextClause.Subject = noun;
+						nextClause.Subjects.Add(noun);
 					}
+					break;
 				}
 				else if (inst is VerbInstance)
 				{
 					if (nextUnknown.Count > 0)
 					{
-						NounInstance noun = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle);
+						NounInstance[] nouns = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
 
 						if (nextPrep != null)
 						{
-							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, noun);
+							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, nouns);
 						}
 						else
 						{
-							nextClause.Subject = noun;
+							foreach (NounInstance noun in nouns)
+							{
+								nextClause.Subjects.Add(noun);
+							}
 						}
 					}
 
 					nextVerb = (inst as VerbInstance);
+					break;
 				}
 				else if (inst is PrepositionInstance)
 				{
 					nextPrep = (inst as PrepositionInstance);
+					break;
 				}
 				else if (inst is PronounInstance)
 				{
-					if (nextClause.Subject == null)
+					if (nextClause.Subjects.Count == 0)
 					{
-						nextClause.Subject = (inst as PronounInstance);
+						nextClause.Subjects.Add(inst as PronounInstance);
 					}
 					else
 					{
@@ -290,6 +303,12 @@ namespace Alyx.Linguistics
 						nextVerb = verb;
 						nextObject = (inst as PronounInstance);
 					}
+					break;
+				}
+				else if (inst is ConjunctionInstance)
+				{
+					nextConj = (inst as ConjunctionInstance);
+					break;
 				}
 			}
 			return true;
@@ -308,8 +327,9 @@ namespace Alyx.Linguistics
 			return verb;
 		}
 
-		private static NounInstance PredictNoun(ref Stack<Word> nextUnknown, ref List<AdjectiveInstance> listAdjectives, ref ArticleInstance nextArticle)
+		private static NounInstance[] PredictNoun(ref Stack<Word> nextUnknown, ref List<AdjectiveInstance> listAdjectives, ref ArticleInstance nextArticle, ref ConjunctionInstance nextConj)
 		{
+			List<NounInstance> list = new List<NounInstance>();
 			Word unkNoun = nextUnknown.Pop();
 
 			// since it came before a known AdjectiveInstance, it must be an adjective
@@ -318,6 +338,19 @@ namespace Alyx.Linguistics
 			NounInstance noun = new NounInstance(unkNoun);
 
 			Console.WriteLine("prediction: next unknown word '" + noun.Word.Value + "' created as Noun");
+
+			if (nextConj != null)
+			{
+				Word unkNoun2 = nextUnknown.Pop();
+				unkNoun2.Classes.Add(WordClasses.Noun);
+
+				NounInstance noun2 = new NounInstance(unkNoun2);
+				Console.WriteLine("prediction: next unknown word '" + noun2.Word.Value + "' created as Noun");
+
+				list.Add(noun2);
+
+				nextConj = null;
+			}
 
 			PredictAdjectives(ref nextUnknown, ref listAdjectives);
 
@@ -333,7 +366,9 @@ namespace Alyx.Linguistics
 				noun.Quantity = nextArticle.Quantity;
 				nextArticle = null;
 			}
-			return noun;
+			list.Insert(0, noun);
+
+			return list.ToArray();
 		}
 
 		private static void PredictAdjectives(ref Stack<Word> nextUnknown, ref List<AdjectiveInstance> listAdjectives)

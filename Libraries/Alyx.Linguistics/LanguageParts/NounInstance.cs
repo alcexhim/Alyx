@@ -14,9 +14,9 @@ namespace Alyx.Linguistics.LanguageParts
 		public AdjectiveInstance.AdjectiveCollection Adjectives { get { return mvarAdjectives; } }
 
 		/// <summary>
-		/// Creates a noun with the specified name.
+		/// Creates a noun from the specified <see cref="Word" />.
 		/// </summary>
-		/// <param name="name">The name of the word in the default language.</param>
+		/// <param name="word">The <see cref="Word" /> used to create this <see cref="NounInstance" />.</param>
 		/// <returns></returns>
 		public NounInstance(Word word, AdjectiveInstance[] adjectives = null) : base(word)
 		{

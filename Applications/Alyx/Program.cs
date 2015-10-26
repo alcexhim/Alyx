@@ -77,14 +77,12 @@ namespace Alyx
 			cherry.Quantity = Quantity.Plural;
 			cherry.Definiteness = Definiteness.Indefinite;
 
-			Series series = new Series(new WordInstance[] { apple, orange, pear, cherry });
-
 			Sentence sent = new Sentence(SentenceTypes.Declarative, new Clause[]
 			{
 				new Clause
 				(
 					new ISubject[] { lang.GetPronoun(Person.ThirdPerson, Quantity.Singular) },	// I bought [series].
-					new DirectObjectPredicate(lang.GetVerb(new Guid("{48CA88BA-CEAF-423C-8A70-3C68C42E004A}")), series)
+					new DirectObjectPredicate(lang.GetVerb(new Guid("{48CA88BA-CEAF-423C-8A70-3C68C42E004A}")), new ISubject[] { apple, orange, pear, cherry })
 				)
 			});
 
@@ -98,7 +96,9 @@ namespace Alyx
 		{
 			Language lang = Language.CurrentLanguage;
 
-			Sentence sent = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
+			Sentence sent1 = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
+			Sentence sent2 = Sentence.Parse("The enigmatic young kitten fought over the bug.");
+			Sentence sent3 = Sentence.Parse("Jane and Mary jumped over the lazy dog.");
 		}
 		
 		/// <summary>
@@ -168,7 +168,7 @@ namespace Alyx
 				(
 					langEnglish.GetVerb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
 					langEnglish.GetPreposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
-					dog
+					new ISubject[] { dog }
 				))
 			});
 
