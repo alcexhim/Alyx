@@ -118,14 +118,8 @@ namespace Alyx.Linguistics
 
 			Sentence sent = new Sentence(type);
 
-			Stack<Word> nextUnknown = new Stack<Word>();
-			ArticleInstance nextArticle = null;
-			List<AdjectiveInstance> listAdjectives = new List<AdjectiveInstance>();
-			Clause nextClause = new Clause();
-			VerbInstance nextVerb = null;
-			PrepositionInstance nextPrep = null;
-			ISubject nextObject = null;
-			ConjunctionInstance nextConj = null;
+			SentenceParserContext context = new SentenceParserContext();
+			context.Clause = new Clause();
 
 			for (int i = 0; i < value.Length; i++)
 			{
@@ -139,9 +133,9 @@ namespace Alyx.Linguistics
 
 					next = sbNext.ToString();
 					sbNext = new StringBuilder();
-					ProcessWord(next, false, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject, ref nextConj);
+					ProcessWord(next, false, ref context);
 				}
-				else if (value[i] != '.' && value[i] != '?' && value[i] != '!' && value[i] != ',')
+				else if (value[i] != '.' && value[i] != '?' && value[i] != '!')
 				{
 					sbNext.Append(value[i]);
 				}
@@ -151,21 +145,27 @@ namespace Alyx.Linguistics
 			{
 				// final word
 				next = sbNext.ToString();
-				ProcessWord(next, true, ref nextClause, ref nextUnknown, ref nextArticle, ref listAdjectives, ref nextVerb, ref nextPrep, ref nextObject, ref nextConj);
+				ProcessWord(next, true, ref context);
 
-				sent.Clauses.Add(nextClause);
+				sent.Clauses.Add(context.Clause);
 			}
 
-			if (nextUnknown.Count > 0)
+			if (context.UnknownWords.Count > 0)
 			{
 				Console.WriteLine("prediction: sentence '" + value + "' contains too many unknowns and is unparseable");
 			}
 			return sent;
 		}
 
-		private static bool ProcessWord(string next, bool final, ref Clause nextClause, ref Stack<Word> nextUnknown, ref ArticleInstance nextArticle, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep, ref ISubject nextObject, ref ConjunctionInstance nextConj)
+		private static bool ProcessWord(string next, bool final, ref SentenceParserContext context)
 		{
 			Language lang = Language.CurrentLanguage;
+
+			if (next.EndsWith(","))
+			{
+				next = next.Substring(0, next.Length - 1);
+				context.Conjunction = new ConjunctionInstance(lang.Words[new Guid("{AD54FAAF-3C4A-4027-9EAB-E4F41B6329D4}")]);
+			}
 
 			WordInstance[] wordInstances = lang.Words.GetWordInstances(next);
 			if (wordInstances.Length == 0)
@@ -175,32 +175,32 @@ namespace Alyx.Linguistics
 					Word unk = new Word(Guid.NewGuid());
 					unk.Value = next.ToLower();
 					lang.Words.Add(unk);
-					nextUnknown.Push(unk);
+					context.UnknownWords.Push(unk);
 				}
 				if (final)
 				{
-					if (nextUnknown.Count > 0)
+					if (context.UnknownWords.Count > 0)
 					{
-						NounInstance[] nouns = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
-						if (nextPrep != null)
+						NounInstance[] nouns = PredictNoun(ref context);
+						if (context.Preposition != null)
 						{
-							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, nouns);
-							nextPrep = null;
+							context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, nouns);
+							context.Preposition = null;
 						}
-						else if (nextClause.Subjects.Count > 0)
+						else if (context.Clause.Subjects.Count > 0)
 						{
-							if (nextObject != null)
+							if (context.PredicateObject != null)
 							{
-								nextClause.Predicate = new Predicates.IndirectObjectPredicate(nextVerb, nouns, new ISubject[] { nextObject });
+								context.Clause.Predicate = new Predicates.IndirectObjectPredicate(context.Verb, nouns, new ISubject[] { context.PredicateObject });
 							}
 							else
 							{
-								nextClause.Predicate = new Predicates.DirectObjectPredicate(nextVerb, nouns);
+								context.Clause.Predicate = new Predicates.DirectObjectPredicate(context.Verb, nouns);
 							}
 						}
 						else
 						{
-							nextClause.Subjects.AddRange(nouns);
+							context.Clause.Subjects.AddRange(nouns);
 						}
 					}
 				}
@@ -209,114 +209,119 @@ namespace Alyx.Linguistics
 
 			foreach (WordInstance inst in wordInstances)
 			{
+				context.Word = inst;
 				if (inst is ArticleInstance)
 				{
-					if (nextUnknown.Count > 2)
-					{
-						VerbInstance verb = PredictVerb(ref nextUnknown);
-						if (nextUnknown.Count > 1)
-						{
-							NounInstance[] ni = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
-							nextClause.Subjects.AddRange(ni);
-							nextVerb = verb;
-						}
-					}
-
-					nextArticle = (inst as ArticleInstance);
+					ProcessArticle(ref context);
 					break;
 				}
 				else if (inst is AdjectiveInstance)
 				{
-					if (nextUnknown.Count > 0)
+					if (context.UnknownWords.Count > 0)
 					{
-						PredictAdjectives(ref nextUnknown, ref listAdjectives);
+						PredictAdjectives(ref context);
 					}
 
-					listAdjectives.Add(inst as AdjectiveInstance);
+					context.Adjectives.Add(inst as AdjectiveInstance);
 					break;
 				}
 				else if (inst is NounInstance)
 				{
 					NounInstance noun = (inst as NounInstance);
 
-					PredictAdjectives(ref nextUnknown, ref listAdjectives);
+					PredictAdjectives(ref context);
 
-					foreach (AdjectiveInstance adj1 in listAdjectives)
+					foreach (AdjectiveInstance adj1 in context.Adjectives)
 					{
 						noun.Adjectives.Add(adj1);
 					}
-					listAdjectives.Clear();
+					context.Adjectives.Clear();
 
-					if (nextArticle != null)
+					if (context.Article != null)
 					{
-						noun.Definiteness = nextArticle.Definiteness;
-						noun.Quantity = nextArticle.Quantity;
-						nextArticle = null;
+						noun.Definiteness = context.Article.Definiteness;
+						noun.Quantity = context.Article.Quantity;
+						context.Article = null;
 					}
 
-					if (nextPrep != null)
+					if (context.Preposition != null)
 					{
-						nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, new ISubject[] { noun });
+						context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, new ISubject[] { noun });
 					}
 					else
 					{
-						nextClause.Subjects.Add(noun);
+						context.Clause.Subjects.Add(noun);
 					}
 					break;
 				}
 				else if (inst is VerbInstance)
 				{
-					if (nextUnknown.Count > 0)
+					if (context.UnknownWords.Count > 0)
 					{
-						NounInstance[] nouns = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
+						NounInstance[] nouns = PredictNoun(ref context);
 
-						if (nextPrep != null)
+						if (context.Preposition != null)
 						{
-							nextClause.Predicate = new Predicates.PrepositionalObjectPredicate(nextVerb, nextPrep, nouns);
+							context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, nouns);
 						}
 						else
 						{
 							foreach (NounInstance noun in nouns)
 							{
-								nextClause.Subjects.Add(noun);
+								context.Clause.Subjects.Add(noun);
 							}
 						}
 					}
 
-					nextVerb = (inst as VerbInstance);
+					context.Verb = (inst as VerbInstance);
 					break;
 				}
 				else if (inst is PrepositionInstance)
 				{
-					nextPrep = (inst as PrepositionInstance);
+					context.Preposition = (inst as PrepositionInstance);
 					break;
 				}
 				else if (inst is PronounInstance)
 				{
-					if (nextClause.Subjects.Count == 0)
+					if (context.Clause.Subjects.Count == 0)
 					{
-						nextClause.Subjects.Add(inst as PronounInstance);
+						context.Clause.Subjects.Add(inst as PronounInstance);
 					}
 					else
 					{
-						VerbInstance verb = PredictVerb(ref nextUnknown);
-						nextVerb = verb;
-						nextObject = (inst as PronounInstance);
+						VerbInstance verb = PredictVerb(ref context);
+						context.Verb = verb;
+						context.PredicateObject = (inst as PronounInstance);
 					}
 					break;
 				}
 				else if (inst is ConjunctionInstance)
 				{
-					nextConj = (inst as ConjunctionInstance);
+					context.Conjunction = (inst as ConjunctionInstance);
 					break;
 				}
 			}
 			return true;
 		}
 
-		private static VerbInstance PredictVerb(ref Stack<Word> nextUnknown)
+		private static void ProcessArticle(ref SentenceParserContext context)
 		{
-			Word unkVerb = nextUnknown.Pop();
+			if (context.UnknownWords.Count > 2)
+			{
+				VerbInstance verb = PredictVerb(ref context);
+				if (context.UnknownWords.Count > 1)
+				{
+					NounInstance[] ni = PredictNoun(ref context);
+					context.Clause.Subjects.AddRange(ni);
+					context.Verb = verb;
+				}
+			}
+			context.Article = (context.Word as ArticleInstance);
+		}
+
+		private static VerbInstance PredictVerb(ref SentenceParserContext context)
+		{
+			Word unkVerb = context.UnknownWords.Pop();
 
 			// since it came before a known AdjectiveInstance, it must be an adjective
 			unkVerb.Classes.Add(WordClasses.Verb);
@@ -327,16 +332,16 @@ namespace Alyx.Linguistics
 			return verb;
 		}
 
-		private static NounInstance[] PredictNoun(ref Stack<Word> nextUnknown, ref List<AdjectiveInstance> listAdjectives, ref ArticleInstance nextArticle, ref ConjunctionInstance nextConj)
+		private static NounInstance[] PredictNoun(ref SentenceParserContext context)
 		{
 			List<NounInstance> list = new List<NounInstance>();
-			Word unkNoun = nextUnknown.Pop();
+			Word unkNoun = context.UnknownWords.Pop();
 
 			// since it came before a known AdjectiveInstance, it must be an adjective
 			unkNoun.Classes.Add(WordClasses.Noun);
 
 			NounInstance noun = new NounInstance(unkNoun);
-			if (nextArticle == null)
+			if (context.Article == null)
 			{
 				// a noun without an article and not in the dictionary is considered a proper noun
 				noun.IsProper = true;
@@ -344,46 +349,46 @@ namespace Alyx.Linguistics
 
 			Console.WriteLine("prediction: next unknown word '" + noun.ToString() + "' created as Noun");
 
-			if (nextConj != null)
+			if (context.Conjunction != null)
 			{
-				nextConj = null;
+				context.Conjunction = null;
 
-				NounInstance[] nis = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
+				NounInstance[] nis = PredictNoun(ref context);
 				foreach (NounInstance ni in nis)
 				{
 					list.Add(ni);
 				}
 			}
 
-			PredictAdjectives(ref nextUnknown, ref listAdjectives);
+			PredictAdjectives(ref context);
 
-			foreach (AdjectiveInstance adj in listAdjectives)
+			foreach (AdjectiveInstance adj in context.Adjectives)
 			{
 				noun.Adjectives.Add(adj);
 			}
-			listAdjectives.Clear();
+			context.Adjectives.Clear();
 
-			if (nextArticle != null)
+			if (context.Article != null)
 			{
-				noun.Definiteness = nextArticle.Definiteness;
-				noun.Quantity = nextArticle.Quantity;
-				nextArticle = null;
+				noun.Definiteness = context.Article.Definiteness;
+				noun.Quantity = context.Article.Quantity;
+				context.Article = null;
 			}
 			list.Insert(0, noun);
 
 			return list.ToArray();
 		}
 
-		private static void PredictAdjectives(ref Stack<Word> nextUnknown, ref List<AdjectiveInstance> listAdjectives)
+		private static void PredictAdjectives(ref SentenceParserContext context)
 		{
-			while (nextUnknown.Count > 0)
+			while (context.UnknownWords.Count > 0)
 			{
-				Word unk1 = nextUnknown.Pop();
+				Word unk1 = context.UnknownWords.Pop();
 				unk1.Classes.Add(WordClasses.Adjective);
 
 				AdjectiveInstance adj = new AdjectiveInstance(unk1);
-				listAdjectives.Insert(0, adj);
-				Console.WriteLine("prediction: next unknown word '" + adj.Word.Value + "' created as Adjective");
+				context.Adjectives.Insert(0, adj);
+				Console.WriteLine("prediction: next unknown word '" + adj.ToString() + "' created as Adjective");
 			}
 		}
 	}

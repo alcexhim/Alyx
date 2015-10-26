@@ -97,8 +97,8 @@ namespace Alyx
 			Language lang = Language.CurrentLanguage;
 
 			Sentence sent1 = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
-			Sentence sent2 = Sentence.Parse("The enigmatic young kitten fought over the bug.");
-			Sentence sent3 = Sentence.Parse("Jane and Mary jumped over the lazy dog.");
+			Sentence sent2 = Sentence.Parse("The adorable young kitten chased the bug.");
+			Sentence sent3 = Sentence.Parse("Jane, John, and Francheska jumped over the lazy dog.");
 		}
 		
 		/// <summary>
