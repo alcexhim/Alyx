@@ -62,11 +62,28 @@ namespace Alyx.Linguistics.LanguageParts
 				}
 				sb.Append(' ');
 			}
-			sb.Append(base.ToString());
+
+			string str = base.ToString();
+			if (mvarIsProper)
+			{
+				// TODO: replace with configuration from current language
+				if (str.Length > 1)
+				{
+					str = str.Substring(0, 1).ToUpper() + str.Substring(1);
+				}
+				else
+				{
+					str = str.ToUpper();
+				}
+			}
+			sb.Append(str);
 			return sb.ToString();
 		}
 
 		private Quantity mvarQuantity = Quantity.Unspecified;
 		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
+
+		private bool mvarIsProper = false;
+		public bool IsProper { get { return mvarIsProper; } set { mvarIsProper = value; } }
 	}
 }

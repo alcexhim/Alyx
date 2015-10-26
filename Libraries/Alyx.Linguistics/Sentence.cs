@@ -336,20 +336,23 @@ namespace Alyx.Linguistics
 			unkNoun.Classes.Add(WordClasses.Noun);
 
 			NounInstance noun = new NounInstance(unkNoun);
+			if (nextArticle == null)
+			{
+				// a noun without an article and not in the dictionary is considered a proper noun
+				noun.IsProper = true;
+			}
 
-			Console.WriteLine("prediction: next unknown word '" + noun.Word.Value + "' created as Noun");
+			Console.WriteLine("prediction: next unknown word '" + noun.ToString() + "' created as Noun");
 
 			if (nextConj != null)
 			{
-				Word unkNoun2 = nextUnknown.Pop();
-				unkNoun2.Classes.Add(WordClasses.Noun);
-
-				NounInstance noun2 = new NounInstance(unkNoun2);
-				Console.WriteLine("prediction: next unknown word '" + noun2.Word.Value + "' created as Noun");
-
-				list.Add(noun2);
-
 				nextConj = null;
+
+				NounInstance[] nis = PredictNoun(ref nextUnknown, ref listAdjectives, ref nextArticle, ref nextConj);
+				foreach (NounInstance ni in nis)
+				{
+					list.Add(ni);
+				}
 			}
 
 			PredictAdjectives(ref nextUnknown, ref listAdjectives);
@@ -379,7 +382,7 @@ namespace Alyx.Linguistics
 				unk1.Classes.Add(WordClasses.Adjective);
 
 				AdjectiveInstance adj = new AdjectiveInstance(unk1);
-				listAdjectives.Add(adj);
+				listAdjectives.Insert(0, adj);
 				Console.WriteLine("prediction: next unknown word '" + adj.Word.Value + "' created as Adjective");
 			}
 		}
