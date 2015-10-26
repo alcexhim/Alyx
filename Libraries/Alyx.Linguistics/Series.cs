@@ -27,14 +27,22 @@ namespace Alyx.Linguistics
 			}
 		}
 
+		public Series(ISubjectCollection subjects)
+		{
+			foreach (ISubject subject in subjects)
+			{
+				mvarWords.Add(subject as WordInstance);
+			}
+		}
+
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < mvarWords.Count; i++)
 			{
-				if (i == mvarWords.Count - 1)
+				if (i == mvarWords.Count - 1 && mvarWords.Count > 1)
 				{
-					if (Language.CurrentLanguage.EnableOxfordComma) sb.Append(',');
+					if (Language.CurrentLanguage.EnableOxfordComma && mvarWords.Count > 2) sb.Append(',');
 					sb.Append(' ');
 					sb.Append("and");
 					sb.Append(' ');
