@@ -121,7 +121,7 @@ namespace Alyx.Linguistics
 			Clause nextClause = new Clause();
 			VerbInstance nextVerb = null;
 			PrepositionInstance nextPrep = null;
-			INounInstance nextObject = null;
+			ISubject nextObject = null;
 
 			for (int i = 0; i < value.Length; i++)
 			{
@@ -159,7 +159,7 @@ namespace Alyx.Linguistics
 			return sent;
 		}
 
-		private static bool ProcessWord(string next, bool final, ref Clause nextClause, ref Stack<Word> nextUnknown, ref ArticleInstance nextArticle, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep, ref INounInstance nextObject)
+		private static bool ProcessWord(string next, bool final, ref Clause nextClause, ref Stack<Word> nextUnknown, ref ArticleInstance nextArticle, ref List<AdjectiveInstance> listAdjectives, ref VerbInstance nextVerb, ref PrepositionInstance nextPrep, ref ISubject nextObject)
 		{
 			Language lang = Language.CurrentLanguage;
 

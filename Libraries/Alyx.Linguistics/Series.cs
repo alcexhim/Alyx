@@ -8,7 +8,7 @@ namespace Alyx.Linguistics
 	/// <summary>
 	/// Formats a series of <see cref="Word" />s using the rules defined in the current <see cref="Language" />.
 	/// </summary>
-	public class Series : INounInstance
+	public class Series : ISubject
 	{
 		private WordInstance.WordInstanceCollection mvarWords = new WordInstance.WordInstanceCollection();
 		/// <summary>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alyx.Linguistics.LanguageParts
 {
-	public class NounInstance : WordInstance, INounInstance
+	public class NounInstance : WordInstance, ISubject
 	{
 		private Definiteness mvarDefiniteness = Definiteness.Unspecified;
 		public Definiteness Definiteness { get { return mvarDefiniteness; } set { mvarDefiniteness = value; } }

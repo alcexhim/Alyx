@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alyx.Linguistics.LanguageParts
 {
-	public class PronounInstance : WordInstance, INounInstance
+	public class PronounInstance : WordInstance, ISubject
 	{
 		public PronounInstance(Word word) : base(word)
 		{

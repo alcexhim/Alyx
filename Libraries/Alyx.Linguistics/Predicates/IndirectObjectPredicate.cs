@@ -8,10 +8,10 @@ namespace Alyx.Linguistics.Predicates
 {
 	public class IndirectObjectPredicate : DirectObjectPredicate
 	{
-		private INounInstance mvarIndirectObject = null;
-		public INounInstance IndirectObject { get { return mvarIndirectObject; } set { mvarIndirectObject = value; } }
+		private ISubject mvarIndirectObject = null;
+		public ISubject IndirectObject { get { return mvarIndirectObject; } set { mvarIndirectObject = value; } }
 
-		public IndirectObjectPredicate(VerbInstance verb, INounInstance subject, INounInstance indirectObject)
+		public IndirectObjectPredicate(VerbInstance verb, ISubject subject, ISubject indirectObject)
 			: base(verb, subject)
 		{
 			mvarIndirectObject = indirectObject;

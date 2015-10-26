@@ -18,14 +18,17 @@ namespace Alyx.Linguistics
 		{
 
 		}
-		public Clause(INounInstance subject, Predicate predicate)
+		public Clause(ISubject[] subjects, Predicate predicate)
 		{
-			mvarSubject = subject;
+			foreach (ISubject subject in subjects)
+			{
+				mvarSubjects.Add(subject);
+			}
 			mvarPredicate = predicate;
 		}
 
-		private INounInstance mvarSubject = null;
-		public INounInstance Subject { get { return mvarSubject; } set { mvarSubject = value; } }
+		private ISubjectCollection mvarSubjects = new ISubjectCollection();
+		public ISubjectCollection Subjects { get { return mvarSubjects; } }
 
 		private Predicate mvarPredicate = null;
 		public Predicate Predicate { get { return mvarPredicate; } set { mvarPredicate = value; } }
@@ -33,9 +36,9 @@ namespace Alyx.Linguistics
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			if (mvarSubject != null)
+			foreach (ISubject subject in mvarSubjects)
 			{
-				sb.Append(mvarSubject.ToString());
+				sb.Append(subject.ToString());
 			}
 			if (mvarPredicate != null)
 			{
