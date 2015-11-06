@@ -3,42 +3,42 @@
 	<Languages>
 		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
 			<WordMappers>
-				<WordMapper ID="{1FD16571-DBF4-4CB5-A744-639910C595E0}" Priority="Highest">
+				<WordMapper ID="{C72EFC21-0F63-486A-9279-A2193DEC7521}" Priority="Highest">
 					<ConditionalStatement>
-						<Condition Variable="ID" Comparison="Equal" Value="{C0992F4D-134A-4662-8D17-BFEC65F6DA5E}" />
+						<Condition Variable="ID" Comparison="Equal" Value="{400FE17B-231D-4743-8852-FE66DE29E5AE}" />
 					</ConditionalStatement>
 					<Mappings>
-						<Mapping Value="I">
+						<Mapping Value="my">
 							<Criteria>
 								<Criterion Person="FirstPerson" Quantity="Singular" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="you">
+						<Mapping Value="your">
 							<Criteria>
 								<Criterion Person="SecondPerson" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="he">
+						<Mapping Value="his">
 							<Criteria>
 								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="she">
+						<Mapping Value="her">
 							<Criteria>
 								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="it">
+						<Mapping Value="its">
 							<Criteria>
 								<Criterion Person="ThirdPerson" Quantity="Singular" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="they">
+						<Mapping Value="their">
 							<Criteria>
 								<Criterion Person="ThirdPerson" Quantity="Plural" />
 							</Criteria>
 						</Mapping>
-						<Mapping Value="we">
+						<Mapping Value="our">
 							<Criteria>
 								<Criterion Person="FirstPerson" Quantity="Plural" />
 							</Criteria>
