@@ -52,6 +52,8 @@ namespace Alyx.Linguistics
 
 			string value = this.Word.Value;
 			if (mapper != null) value = mapper.GetValue(this);
+			if (value == null) value = this.Word.Value;
+
 			sb.Append(value);
 			return sb.ToString();
 		}
