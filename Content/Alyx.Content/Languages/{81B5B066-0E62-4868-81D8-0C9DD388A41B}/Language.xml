@@ -5,11 +5,16 @@
 			<Information>
 				<Title>English (United States)</Title>
 			</Information>
-      <Genders>
-        <Gender ID="{00000000-0000-0000-0000-000000000000}" Title="Unspecified" />
-        <Gender ID="{272413AD-BF77-473E-B118-8C766C1025E4}" Title="Feminine" />
-        <Gender ID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" Title="Masculine" />
-      </Genders>
+			<Genders>
+				<Gender ID="{00000000-0000-0000-0000-000000000000}" Title="Unspecified" />
+				<Gender ID="{272413AD-BF77-473E-B118-8C766C1025E4}" Title="Feminine" />
+				<Gender ID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" Title="Masculine" />
+			</Genders>
+			<WordUsages>
+				<WordUsage ID="{64AE32D4-3DCB-43C8-A91C-D2D5DF66DE26}" Title="Subject" />
+				<WordUsage ID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" Title="Object" />
+				<WordUsage ID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" Title="Possessive" />
+			</WordUsages>
 			<SentenceTypes>
 				<SentenceType ID="{29F7837F-3865-4716-8D87-1E11FD57A7E8}" Prefix="" Suffix="." />
 				<SentenceType ID="{1B13AE97-CF7B-4379-9529-F101A232A79C}" Prefix="" Suffix="." />

@@ -74,6 +74,7 @@ namespace Alyx.Linguistics
 						{
 							foreach (WordMapperMappingCriteria criteria in mapping.Criteria)
 							{
+								if (criteria.Usage != WordUsages.Unspecified) inst.Usage = criteria.Usage;
 								if (criteria.Gender != Genders.Unspecified) inst.Gender = criteria.Gender;
 								if (criteria.Person != Person.Unspecified) inst.Person = criteria.Person;
 								if (criteria.Quantity != Quantity.Unspecified) inst.Quantity = criteria.Quantity;

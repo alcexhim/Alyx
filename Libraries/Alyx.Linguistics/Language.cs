@@ -26,6 +26,9 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public SentenceTypeMapping.SentenceTypeMappingCollection SentenceTypeMappings { get { return mvarSentenceTypeMappings; } }
 
+		private WordUsage.WordUsageCollection mvarWordUsages = new WordUsage.WordUsageCollection();
+		public WordUsage.WordUsageCollection WordUsages { get { return mvarWordUsages; } }
+
 		private Gender.GenderCollection mvarGenders = new Gender.GenderCollection();
 		public Gender.GenderCollection Genders { get { return mvarGenders; } }
 
@@ -131,6 +134,27 @@ namespace Alyx.Linguistics
 									if (attGenderTitle != null) gender.Title = attGenderTitle.Value;
 
 									lang.Genders.Add(gender);
+								}
+							}
+
+							MarkupTagElement tagWordUsages = (tagLanguage.Elements["WordUsages"] as MarkupTagElement);
+							if (tagWordUsages != null)
+							{
+								foreach (MarkupElement elWordUsage in tagWordUsages.Elements)
+								{
+									MarkupTagElement tagWordUsage = (elWordUsage as MarkupTagElement);
+									if (tagWordUsage == null) continue;
+									if (tagWordUsage.FullName != "WordUsage") continue;
+
+									MarkupAttribute attWordUsageID = tagWordUsage.Attributes["ID"];
+									if (attWordUsageID == null) continue;
+
+									WordUsage usage = new WordUsage(new Guid(attWordUsageID.Value));
+
+									MarkupAttribute attWordUsageTitle = tagWordUsage.Attributes["Title"];
+									if (attWordUsageTitle != null) usage.Title = attWordUsageTitle.Value;
+
+									lang.WordUsages.Add(usage);
 								}
 							}
 
@@ -415,6 +439,12 @@ namespace Alyx.Linguistics
 							break;
 						}
 					}
+				}
+				
+				MarkupAttribute attUsage = tagCriterion.Attributes["UsageID"];
+				if (attUsage != null)
+				{
+					criterion.Usage = lang.WordUsages[new Guid(attUsage.Value)];
 				}
 
 				MarkupAttribute attGenderID = tagCriterion.Attributes["GenderID"];

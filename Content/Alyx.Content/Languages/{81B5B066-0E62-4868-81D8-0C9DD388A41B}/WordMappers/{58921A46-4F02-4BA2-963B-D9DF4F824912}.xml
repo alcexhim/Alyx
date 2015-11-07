@@ -10,37 +10,37 @@
 					<Mappings>
 						<Mapping Value="me">
 							<Criteria>
-								<Criterion Person="FirstPerson" Quantity="Singular" />
+								<Criterion Person="FirstPerson" Quantity="Singular" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="you">
 							<Criteria>
-								<Criterion Person="SecondPerson" />
+								<Criterion Person="SecondPerson" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="him">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="her">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="it">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="them">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Plural" />
+								<Criterion Person="ThirdPerson" Quantity="Plural" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="us">
 							<Criteria>
-								<Criterion Person="FirstPerson" Quantity="Plural" />
+								<Criterion Person="FirstPerson" Quantity="Plural" UsageID="{1B51C0CE-8F1E-44DA-B9A1-D3E78E8D963A}" />
 							</Criteria>
 						</Mapping>
 					</Mappings>

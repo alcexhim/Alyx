@@ -14,6 +14,9 @@ namespace Alyx.Linguistics
 
 		}
 
+		private WordUsage mvarUsage = WordUsages.Unspecified;
+		public WordUsage Usage { get { return mvarUsage; } set { mvarUsage = value; } }
+
 		private Gender mvarGender = Genders.Unspecified;
 		public Gender Gender { get { return mvarGender; } set { mvarGender = value; } }
 

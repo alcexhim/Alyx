@@ -10,37 +10,37 @@
 					<Mappings>
 						<Mapping Value="my">
 							<Criteria>
-								<Criterion Person="FirstPerson" Quantity="Singular" />
+								<Criterion Person="FirstPerson" Quantity="Singular" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="your">
 							<Criteria>
-								<Criterion Person="SecondPerson" />
+								<Criterion Person="SecondPerson" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="his">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{DD296D03-F8B5-42A5-9A9E-B62E342667B6}" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="her">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" GenderID="{272413AD-BF77-473E-B118-8C766C1025E4}" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="its">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Singular" />
+								<Criterion Person="ThirdPerson" Quantity="Singular" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="their">
 							<Criteria>
-								<Criterion Person="ThirdPerson" Quantity="Plural" />
+								<Criterion Person="ThirdPerson" Quantity="Plural" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 						<Mapping Value="our">
 							<Criteria>
-								<Criterion Person="FirstPerson" Quantity="Plural" />
+								<Criterion Person="FirstPerson" Quantity="Plural" UsageID="{D4D598DD-4931-497D-83A4-34BD76B85F08}" />
 							</Criteria>
 						</Mapping>
 					</Mappings>

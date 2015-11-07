@@ -283,9 +283,15 @@ namespace Alyx.Linguistics
 				}
 				else if (inst is PronounInstance)
 				{
-					if (context.Clause.Subjects.Count == 0)
+					PronounInstance pi = (inst as PronounInstance);
+					if (pi.Usage == WordUsages.Subject && context.Clause.Subjects.Count == 0)
 					{
 						context.Clause.Subjects.Add(inst as PronounInstance);
+					}
+					else if (pi.Usage == WordUsages.Object && context.Clause.Predicate == null)
+					{
+						VerbInstance verb = PredictVerb(ref context);
+						context.Clause.Predicate = new Predicates.DirectObjectPredicate(verb, new ISubject[] { (inst as PronounInstance) });
 					}
 					else
 					{

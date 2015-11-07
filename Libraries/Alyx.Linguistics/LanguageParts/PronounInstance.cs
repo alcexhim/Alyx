@@ -12,6 +12,9 @@ namespace Alyx.Linguistics.LanguageParts
 			if (!word.Classes.Contains(WordClasses.Pronoun)) throw new InvalidOperationException("Specified word cannot be used as a Pronoun");
 		}
 
+		private WordUsage mvarUsage = WordUsages.Subject;
+		public WordUsage Usage { get { return mvarUsage; } set { mvarUsage = value; } }
+
 		private Person mvarPerson = Person.Unspecified;
 		public Person Person { get { return mvarPerson; } set { mvarPerson = value; } }
 
