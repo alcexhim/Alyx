@@ -42,7 +42,7 @@ namespace Alyx.Linguistics
 
 			if (mvarPredicate != null)
 			{
-				sb.Append(" ");
+				if (mvarSubjects.Count > 0) sb.Append(" ");
 				sb.Append(mvarPredicate.ToString());
 			}
 			return sb.ToString();
