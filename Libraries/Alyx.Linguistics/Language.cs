@@ -116,6 +116,44 @@ namespace Alyx.Linguistics
 								if (tagTitle != null) lang.Title = tagTitle.Value;
 							}
 
+							MarkupTagElement tagContractionTypes = (tagLanguage.Elements["ContractionTypes"] as MarkupTagElement);
+							if (tagContractionTypes != null)
+							{
+								foreach (MarkupElement elContractionType in tagContractionTypes.Elements)
+								{
+									MarkupTagElement tagContractionType = (elContractionType as MarkupTagElement);
+									if (tagContractionType == null) continue;
+									if (tagContractionType.FullName != "ContractionType") continue;
+
+									MarkupAttribute attContractionTypeID = tagContractionType.Attributes["ID"];
+									if (attContractionTypeID == null) continue;
+
+									MarkupAttribute attContraction = tagContractionType.Attributes["Contraction"];
+									MarkupAttribute attValue = tagContractionType.Attributes["Value"];
+
+									MarkupTagElement tagAllowedPrefixes = (tagContractionType.Elements["AllowedPrefixes"] as MarkupTagElement);
+
+									if (attContraction == null || attValue == null || tagAllowedPrefixes == null) continue;
+
+									ContractionType ctype = new ContractionType();
+									ctype.ID = new Guid(attContractionTypeID.Value);
+									ctype.Contraction = attContraction.Value;
+									ctype.Value = attValue.Value;
+									foreach (MarkupElement elAllowedPrefix in tagAllowedPrefixes.Elements)
+									{
+										MarkupTagElement tagAllowedPrefix = (elAllowedPrefix as MarkupTagElement);
+										if (tagAllowedPrefix == null) continue;
+										if (tagAllowedPrefix.FullName != "AllowedPrefix") continue;
+
+										MarkupAttribute attAllowedPrefixValue = tagAllowedPrefix.Attributes["Value"];
+										if (attAllowedPrefixValue == null) continue;
+
+										ctype.Prefixes.Add(attAllowedPrefixValue.Value);
+									}
+									lang.ContractionTypes.Add(ctype);
+								}
+							}
+
 							MarkupTagElement tagGenders = (tagLanguage.Elements["Genders"] as MarkupTagElement);
 							if (tagGenders != null)
 							{
@@ -546,6 +584,9 @@ namespace Alyx.Linguistics
 			return pi;
 		}
 
+		private ContractionType.ContractionTypeCollection mvarContractionTypes = new ContractionType.ContractionTypeCollection();
+		public ContractionType.ContractionTypeCollection ContractionTypes { get { return mvarContractionTypes; } }
+
 		private Word[] mvarPronouns = null;
 		public Word[] GetPronouns()
 		{
@@ -569,5 +610,36 @@ namespace Alyx.Linguistics
 		/// Determines whether the Oxford comma (a comma before the final "and" in a multiple-item <see cref="Series" />) is rendered.
 		/// </summary>
 		public bool EnableOxfordComma { get { return mvarEnableOxfordComma; } set { mvarEnableOxfordComma = value; } }
+
+		public string ReplaceContractions(string value)
+		{
+			StringBuilder sb = new StringBuilder();
+			string[] words = value.Split(new char[] { ' ' });
+			for (int i = 0; i < words.Length; i++)
+			{
+				if (words[i].Contains('\''))
+				{
+					string[] w = words[i].Split(new char[] { '\'' });
+					string prefix = w[0].ToLower();
+					string suffix = w[1].ToLower();
+					foreach (ContractionType ct in mvarContractionTypes)
+					{
+						if (ct.Prefixes.Contains(prefix))
+						{
+							sb.Append(prefix);
+							sb.Append(' ');
+							sb.Append(ct.Value);
+							break;
+						}
+					}
+				}
+				else
+				{
+					sb.Append(words[i]);
+				}
+				if (i < words.Length - 1) sb.Append(' ');
+			}
+			return sb.ToString();
+		}
 	}
 }

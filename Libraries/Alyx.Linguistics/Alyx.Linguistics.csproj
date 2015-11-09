@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Aspect.cs" />
     <Compile Include="Clause.cs" />
+    <Compile Include="ContractionType.cs" />
     <Compile Include="Definiteness.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Genders.cs" />

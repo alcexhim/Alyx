@@ -21,6 +21,71 @@
 				<SentenceType ID="{F9D08DF1-F64C-49F1-A115-180A6C6117B1}" Prefix="" Suffix="?" />
 				<SentenceType ID="{4CB83D3F-CD90-46E4-96F5-60A3CDF077B1}" Prefix="" Suffix="!" />
 			</SentenceTypes>
+			<ContractionTypes>
+				<ContractionType ID="{89A620B9-EDC5-415C-A10F-DB0E702E66DE}" Contraction="'s" Value="us">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="let" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{2A3FABB4-32EE-4C97-B405-4A243AA9BD17}" Contraction="'m" Value="am">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="i" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{6824F356-AEC6-490A-BF18-FFDA637D044D}" Contraction="'re" Value="are">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="you" />
+						<AllowedPrefix Value="we" />
+						<AllowedPrefix Value="they" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{B08299CE-2F0E-4171-BAEB-F2B396A12C02}" Contraction="'s" Value="is">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="who" />
+						<AllowedPrefix Value="what" />
+						<AllowedPrefix Value="when" />
+						<AllowedPrefix Value="where" />
+						<AllowedPrefix Value="why" />
+						<AllowedPrefix Value="how" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{54797D4E-2C29-49B6-BAD5-5C80302B67A4}" Contraction="'d" Value="did">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="who" />
+						<AllowedPrefix Value="what" />
+						<AllowedPrefix Value="when" />
+						<AllowedPrefix Value="where" />
+						<AllowedPrefix Value="why" />
+						<AllowedPrefix Value="how" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{1E9C74E0-AED5-498B-9006-6CD447665A36}" Contraction="'ve" Value="have">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="i" />
+						<AllowedPrefix Value="you" />
+						<AllowedPrefix Value="we" />
+						<AllowedPrefix Value="they" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{3F52D67A-ED06-4097-AC41-07EBA0862F87}" Contraction="'s" Value="has">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="he" />
+						<AllowedPrefix Value="she" />
+						<AllowedPrefix Value="it" />
+					</AllowedPrefixes>
+				</ContractionType>
+				<ContractionType ID="{34E741AD-7DCB-46DB-9DA1-0F2B002B1CFE}" Contraction="'d" Value="would">
+					<AllowedPrefixes>
+						<AllowedPrefix Value="i" />
+						<AllowedPrefix Value="you" />
+						<AllowedPrefix Value="he" />
+						<AllowedPrefix Value="she" />
+						<AllowedPrefix Value="it" />
+						<AllowedPrefix Value="we" />
+						<AllowedPrefix Value="they" />
+					</AllowedPrefixes>
+				</ContractionType>
+			</ContractionTypes>
 			<WordClasses>
 				<WordClass ID="{225DF6CF-D334-4227-A308-B31F709B82DA}" Title="Noun" />
 				<WordClass ID="{916C924A-0FD2-4939-9CD8-1441FF7B5E64}" Title="Pronoun" />

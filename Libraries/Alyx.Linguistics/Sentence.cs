@@ -85,6 +85,8 @@ namespace Alyx.Linguistics
 			Language lang = Language.CurrentLanguage;
 			SentenceType type = null;
 
+			value = lang.ReplaceContractions(value);
+
 			foreach (SentenceTypeMapping mapping in lang.SentenceTypeMappings)
 			{
 				if ((mapping.Prefix == null || value.StartsWith(mapping.Prefix)) && (mapping.Suffix == null || value.EndsWith(mapping.Suffix)))
