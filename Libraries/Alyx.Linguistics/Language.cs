@@ -29,6 +29,9 @@ namespace Alyx.Linguistics
 		private WordUsage.WordUsageCollection mvarWordUsages = new WordUsage.WordUsageCollection();
 		public WordUsage.WordUsageCollection WordUsages { get { return mvarWordUsages; } }
 
+		private WordSource.WordSourceCollection mvarWordSources = new WordSource.WordSourceCollection();
+		public WordSource.WordSourceCollection WordSources { get { return mvarWordSources; } }
+
 		private Gender.GenderCollection mvarGenders = new Gender.GenderCollection();
 		public Gender.GenderCollection Genders { get { return mvarGenders; } }
 
@@ -217,6 +220,28 @@ namespace Alyx.Linguistics
 									if (attSuffix != null) mapping.Suffix = attSuffix.Value;
 
 									lang.SentenceTypeMappings.Add(mapping);
+								}
+							}
+
+							MarkupTagElement tagWordSources = (tagLanguage.Elements["WordSources"] as MarkupTagElement);
+							if (tagWordSources != null)
+							{
+								foreach (MarkupElement elWordSource in tagWordSources.Elements)
+								{
+									MarkupTagElement tagWordSource = (elWordSource as MarkupTagElement);
+									if (tagWordSource == null) continue;
+									if (tagWordSource.FullName != "WordSource") continue;
+
+									MarkupAttribute attWordSourceID = tagWordSource.Attributes["ID"];
+									if (attWordSourceID == null) continue;
+
+									MarkupAttribute attWordSourceTitle = tagWordSource.Attributes["Title"];
+									if (attWordSourceTitle == null) continue;
+
+									WordSource source = new WordSource();
+									source.ID = new Guid(attWordSourceID.Value);
+									source.Title = attWordSourceTitle.Value;
+									lang.WordSources.Add(source);
 								}
 							}
 

@@ -73,6 +73,8 @@
     <Compile Include="WordMapper.cs" />
     <Compile Include="WordMapperMapping.cs" />
     <Compile Include="WordMapperMappingCriteria.cs" />
+    <Compile Include="WordSource.cs" />
+    <Compile Include="WordSourceGuids.cs" />
     <Compile Include="WordUsage.cs" />
     <Compile Include="WordUsages.cs" />
   </ItemGroup>

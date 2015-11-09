@@ -97,6 +97,9 @@
 				<WordClass ID="{87394734-657E-462F-93ED-08FAC2365ABC}" Title="Interjection" />
 				<WordClass ID="{96157C04-35B6-456D-B9C0-949A806BE70D}" Title="Article" />
 			</WordClasses>
+			<WordSources>
+				<WordSource ID="{1BFAB365-2BAD-43A8-8CCF-6C3B42CDD255}" Title="Learned" />
+			</WordSources>
 		</Language>
 	</Languages>
 </Alyx>

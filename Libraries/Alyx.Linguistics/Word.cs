@@ -185,6 +185,9 @@ namespace Alyx.Linguistics
 		private WordMapper mvarMapper = null;
 		public WordMapper Mapper { get { return mvarMapper; } set { mvarMapper = value; } }
 
+		private WordSource.WordSourceCollection mvarSources = new WordSource.WordSourceCollection();
+		public WordSource.WordSourceCollection Sources { get { return mvarSources; } }
+
 		public Word(Guid id)
 		{
 			mvarID = id;

@@ -176,6 +176,10 @@ namespace Alyx.Linguistics
 				{
 					Word unk = new Word(Guid.NewGuid());
 					unk.Value = next.ToLower();
+					if (lang.WordSources[WordSourceGuids.Learned] != null)
+					{
+						unk.Sources.Add(lang.WordSources[WordSourceGuids.Learned]);
+					}
 					lang.Words.Add(unk);
 					context.UnknownWords.Push(unk);
 				}
