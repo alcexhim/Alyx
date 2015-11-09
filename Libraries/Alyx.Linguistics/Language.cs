@@ -85,7 +85,7 @@ namespace Alyx.Linguistics
 				string[] dirnames = System.IO.Directory.GetDirectories(basePath);
 				foreach (string dirname in dirnames)
 				{
-					string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.xml", System.IO.SearchOption.AllDirectories);
+					string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.alyxml", System.IO.SearchOption.AllDirectories);
 					foreach (string xmlfile in xmlfiles)
 					{
 						MarkupObjectModel xmlconf = new MarkupObjectModel();
