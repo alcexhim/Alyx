@@ -78,6 +78,10 @@
       <Project>{35d24257-56a1-40e0-b7c7-530b37c92d25}</Project>
       <Name>Alyx.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Linguistics.Thought\Alyx.Linguistics.Thought.csproj">
+      <Project>{fa1ae067-10e5-4719-aaa4-ac29a993ffe2}</Project>
+      <Name>Alyx.Linguistics.Thought</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Linguistics\Alyx.Linguistics.csproj">
       <Project>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</Project>
       <Name>Alyx.Linguistics</Name>

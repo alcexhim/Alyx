@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<EmotionClasses>
+		<!-- Depressed ======== Sad ======== [ Happiness ] ======== Happy ======== Joyful -->
+		<EmotionClass ID="{097C9C84-4958-4CB3-B076-FF2A9EB4E236}" Title="Happiness" MaximumValue="1.0" MinimumValue="-1.0" />
+	</EmotionClasses>
+</Alyx>

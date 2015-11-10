@@ -13,6 +13,8 @@ using Alyx.Linguistics.Predicates;
 
 using Alyx.Core;
 using Alyx.Speech;
+using Alyx.Thought;
+using Alyx.Linguistics.Thought;
 
 namespace Alyx
 {
@@ -59,6 +61,18 @@ namespace Alyx
 		private static System.Drawing.Icon iconDefault = null;
 		private static System.Drawing.Icon iconActive = null;
 
+		private static void TestMind()
+		{
+			Language lang = Language.CurrentLanguage;
+			Mind mind = new Mind();
+
+			Idea idea = new Idea(new Guid("{5846643F-70E1-4E55-A77A-CDF5F17C2A83}"));
+			idea.Representations.Add(new WordInstanceIdeaRepresentation(lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"))));
+			mind.Ideas.Add(idea);
+
+			mind.Start();
+		}
+
 		private static void TestSentenceRenderer()
 		{
 			Language lang = Language.CurrentLanguage;
@@ -96,9 +110,16 @@ namespace Alyx
 		{
 			Language lang = Language.CurrentLanguage;
 
+
+			Sentence sent5 = Sentence.Parse("The name of the boy is John.");
+
 			Sentence sent1 = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
 			Sentence sent2 = Sentence.Parse("The adorable young kitten chased the bug.");
 			Sentence sent3 = Sentence.Parse("Jane, John, and Francheska jumped over the lazy dog.");
+
+			Sentence sent4 = Sentence.Parse("Dazzle me.");
+
+			// Sentence sent5 = Sentence.Parse("What's the name of the founder of Wikipedia?");
 		}
 		
 		/// <summary>
@@ -113,8 +134,10 @@ namespace Alyx
 			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			Language.CurrentLanguage = lang;
 
-			TestSentenceRenderer();
-			TestSentenceParser();
+			TestMind();
+
+			// TestSentenceRenderer();
+			// TestSentenceParser();
 
 			// start the Alyx server
 			Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);

@@ -37,6 +37,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EmotionClasses\{BD75D636-082D-4B3B-A2DA-F046CBB1A552}.alyxml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Ideas\{D74E362A-5C5D-4E31-B268-D9958DE198EF}\Representations.alyxml" />
+    <Content Include="Ideas\{D74E362A-5C5D-4E31-B268-D9958DE198EF}\Emotions.alyxml" />
     <Content Include="Images\TrayIcon\Active.png" />
     <Content Include="Images\TrayIcon\Default.png" />
     <Content Include="Images\TrayIcon\Disabled.png" />
@@ -48,6 +53,9 @@
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{4CFC7208-A8C3-45FE-AC1D-2A3FB1A4C000}.alyxml" />
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{1FD16571-DBF4-4CB5-A744-639910C595E0}.alyxml" />
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{E7F7334E-7E11-41F4-8926-6D01F25697AF}.alyxml" />
+    <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{225DF6CF-D334-4227-A308-B31F709B82DA}\{FDD8EAFA-C846-4212-B0DD-6057ABC2AA6D}.alyxml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{225DF6CF-D334-4227-A308-B31F709B82DA}\{B7177096-0816-4C29-8394-B420F05615EF}.alyxml" />
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{225DF6CF-D334-4227-A308-B31F709B82DA}\{4CA5238C-7403-480F-99BD-B3B382434105}.alyxml" />
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{225DF6CF-D334-4227-A308-B31F709B82DA}\{DD172F11-DFF6-43A0-938E-52B08B1E36FC}.alyxml" />
@@ -77,6 +85,7 @@
     <Content Include="Languages\{F369FB77-533C-409D-BBEE-7E9EF347B445}\Words\{225DF6CF-D334-4227-A308-B31F709B82DA}\{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}.alyxml" />
     <Content Include="Messages\Goodbye.alyxml" />
     <Content Include="Messages\Hello.alyxml" />
+    <Content Include="Readme.odt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\WordMappers\{FFA4B146-A461-47E2-858E-3DADC918D442}.alyxml">
@@ -84,7 +93,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EmotionClasses\{097C9C84-4958-4CB3-B076-FF2A9EB4E236}.alyxml" />
     <None Include="Images\Alyx_MainIcon.xcf" />
+    <Content Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\SentencePatterns\{98FF7B1C-E52C-43B2-83B2-CFEAFD74F228}.alyxml" />
   </ItemGroup>
   <Target Name="Build">
     <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Ideas>
+		<Idea ID="{D74E362A-5C5D-4E31-B268-D9958DE198EF}">
+			<!-- e.g. snakes -->
+			<Representations>
+				<WordRepresentation WordID="{FDD8EAFA-C846-4212-B0DD-6057ABC2AA6D}" />
+			</Representations>
+		</Idea>
+	</Ideas>
+</Alyx>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Ideas>
+		<Idea ID="{D74E362A-5C5D-4E31-B268-D9958DE198EF}">
+			<!-- e.g. snakes -->
+			<Emotions>
+				<Emotion ClassID="{BD75D636-082D-4B3B-A2DA-F046CBB1A552}">
+					<!-- fear -->
+					<Parameters>
+						<!--
+							Emotion Annotation and Representation Language (EARL)
+							from "Representing Emotions and Related States in Technological Systems"
+							by Marc Schroeder, Hannes Pirker, Myriam Lamolle, Felix Burkhardt, Christian Peter, Enrico Zovato
+							
+							... no, I have no idea what the hell this means either.
+						-->
+						<Parameter Name="Intensity" Value="0.4" />
+						<Parameter Name="Suppression" Value="0.6" />
+						<Parameter Name="Activation" Value="0.3" />
+						<Parameter Name="Evaluation" Value="-0.6" />
+						<Parameter Name="Power" Value="-0.3" />
+					</Parameters>
+				</Emotion>
+			</Emotions>
+		</Idea>
+	</Ideas>
+</Alyx>

@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.ServerApplication", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Networking", "Libraries\Alyx.Networking\Alyx.Networking.csproj", "{80656D38-A2CA-4994-9717-1F0F01BD51D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Linguistics.Thought", "Libraries\Alyx.Linguistics.Thought\Alyx.Linguistics.Thought.csproj", "{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,12 @@ Global
 		{80656D38-A2CA-4994-9717-1F0F01BD51D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80656D38-A2CA-4994-9717-1F0F01BD51D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80656D38-A2CA-4994-9717-1F0F01BD51D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +175,7 @@ Global
 		{8DED80F3-1483-43A7-A37A-86D01C46B992} = {542C6238-55AD-4781-8368-F049909185F4}
 		{B4B7D3F2-B969-43D9-9408-10AB71B7F1A5} = {A679A1AA-81EF-43B2-BD1B-4E6CB479EF8D}
 		{80656D38-A2CA-4994-9717-1F0F01BD51D5} = {7B1C3470-9D85-458C-91AA-96A97FEE4EF3}
+		{FA1AE067-10E5-4719-AAA4-AC29A993FFE2} = {7B1C3470-9D85-458C-91AA-96A97FEE4EF3}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Applications\Alyx\Alyx.csproj
