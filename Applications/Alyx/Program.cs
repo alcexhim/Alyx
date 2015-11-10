@@ -61,10 +61,11 @@ namespace Alyx
 		private static System.Drawing.Icon iconDefault = null;
 		private static System.Drawing.Icon iconActive = null;
 
+		private static Mind mind = new Mind();
+
 		private static void TestMind()
 		{
 			Language lang = Language.CurrentLanguage;
-			Mind mind = new Mind();
 
 			Idea idea = new Idea(new Guid("{5846643F-70E1-4E55-A77A-CDF5F17C2A83}"));
 			idea.Representations.Add(new WordInstanceIdeaRepresentation(lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"))));
@@ -141,11 +142,15 @@ namespace Alyx
 			// TestSentenceRenderer();
 			// TestSentenceParser();
 
-			// start the Alyx server
-			Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
-			Server.Start();
+			bool enableNetworking = false;
+			if (enableNetworking)
+			{
+				// start the Alyx server
+				Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
+				Server.Start();
 
-			Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
+				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
+			}
 
 			nid.Text = "Alyx";
 			nid.ContextMenu = BuildContextMenu();
@@ -230,6 +235,9 @@ namespace Alyx
 			Speak(String.Format(GoodbyeLiterals[r], "Michael"), true);
 
 			nid.Visible = false;
+
+			mind.Stop();
+			server.Stop();
 		}
 
 		private static Language InitializeLanguage_English()
