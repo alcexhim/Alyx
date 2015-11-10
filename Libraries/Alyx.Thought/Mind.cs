@@ -50,13 +50,16 @@ namespace Alyx.Thought
 			if (_thread != null) _thread.Abort();
 			
 			_thread = new System.Threading.Thread(_thread_ThreadStart);
+			_thread.Name = "Alyx Thought Mind Thread";
 			_thread.Start();
 		}
 		public void Stop()
 		{
 			if (_thread == null) return;
-
-			_thread.Abort();
+			if (_thread.IsAlive)
+			{
+				_thread.Abort();
+			}
 			_thread = null;
 		}
 	}
