@@ -43,14 +43,16 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			return _ser;
 		}
 
-		[DebuggerNonUserCode()]
-		protected override void SpeakInternal(string text)
+		private System.Threading.Thread _tSpeak = null;
+		private void _tSpeak_ParameterizedThreadStart(object value)
 		{
+			string text = (value as string);
+
 			System.Diagnostics.Process p = new System.Diagnostics.Process();
-			
+
 			Dictionary<string, string> paramz = new Dictionary<string, string>();
 			paramz.Add("speech/rate", "220"); // default is 170
-			
+
 			StringBuilder sb = new StringBuilder();
 			foreach (KeyValuePair<string, string> kvp in paramz)
 			{
@@ -63,10 +65,13 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.RedirectStandardInput = true;
 			p.StartInfo.RedirectStandardOutput = true;
-
+			
 			try
 			{
 				p.Start();
+				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking));
+				p.WaitForExit();
+				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
 			}
 			catch (System.ComponentModel.Win32Exception ex)
 			{
@@ -76,6 +81,17 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 					throw new SpeechEngineNotFoundException(GetType().FullName, ex);
 				}
 				throw ex;
+			}
+		}
+
+		[DebuggerNonUserCode()]
+		protected override void SpeakInternal(string text)
+		{
+			if (_tSpeak == null) _tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
+			if (!_tSpeak.IsAlive)
+			{
+				_tSpeak.Name = "Alyx Speech Swift Engine Thread";
+				_tSpeak.Start(text);
 			}
 		}
 
