@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alyx.Linguistics.LanguageParts
 {
-	public class AdjectiveInstance : WordInstance
+	public class AdjectiveInstance : WordInstance, ISubject
 	{
 		public class AdjectiveCollection
 			: System.Collections.ObjectModel.Collection<AdjectiveInstance>
