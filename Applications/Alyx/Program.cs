@@ -70,6 +70,8 @@ namespace Alyx
 			idea.Representations.Add(new WordInstanceIdeaRepresentation(lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"))));
 			mind.Ideas.Add(idea);
 
+			Sentence sent1 = Sentence.Parse("You're ugly.");
+
 			mind.Start();
 		}
 
