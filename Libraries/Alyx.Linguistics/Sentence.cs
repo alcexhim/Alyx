@@ -187,6 +187,34 @@ namespace Alyx.Linguistics
 				{
 					if (context.UnknownWords.Count > 0)
 					{
+						if (context.Clause.Subjects.Count > 0 && context.UnknownWords.Count == 2)
+						{
+							// [subject] [verb] [...]
+							// you are [a cheap dirty bastard]			N.(NP.) V. N.
+							// you are [ugly]							N.(NP.) V. A.
+
+							// N. = ('a' | 'an' | 'the') + ' ' + ...
+							// A. = ...
+
+							AdjectiveInstance ai = null;
+							NounInstance ni = null;
+							Word unk1 = context.UnknownWords.Pop();
+							if (context.Article == null)
+							{
+								unk1.Classes.Add(WordClasses.Adjective);
+
+								ai = new AdjectiveInstance(unk1);
+							}
+							else
+							{
+								unk1.Classes.Add(WordClasses.Noun);
+							}
+
+							VerbInstance vi = PredictVerb(ref context);
+							context.Clause.Predicate = new Predicates.DirectObjectPredicate(vi, new ISubject[] { ai });
+							return true;
+						}
+
 						NounInstance[] nouns = PredictNoun(ref context);
 						if (context.Preposition != null)
 						{
@@ -290,11 +318,11 @@ namespace Alyx.Linguistics
 				else if (inst is PronounInstance)
 				{
 					PronounInstance pi = (inst as PronounInstance);
-					if (pi.Usage == WordUsages.Subject && context.Clause.Subjects.Count == 0)
+					if (pi.Usages.Contains(WordUsages.Subject) && context.Clause.Subjects.Count == 0)
 					{
 						context.Clause.Subjects.Add(inst as PronounInstance);
 					}
-					else if (pi.Usage == WordUsages.Object && context.Clause.Predicate == null)
+					else if (pi.Usages.Contains(WordUsages.Object) && context.Clause.Predicate == null)
 					{
 						VerbInstance verb = PredictVerb(ref context);
 						context.Clause.Predicate = new Predicates.DirectObjectPredicate(verb, new ISubject[] { (inst as PronounInstance) });
@@ -333,6 +361,8 @@ namespace Alyx.Linguistics
 
 		private static VerbInstance PredictVerb(ref SentenceParserContext context)
 		{
+			if (context.UnknownWords.Count == 0) return null;
+
 			Word unkVerb = context.UnknownWords.Pop();
 
 			// since it came before a known AdjectiveInstance, it must be an adjective
