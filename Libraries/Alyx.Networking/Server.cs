@@ -55,5 +55,5 @@ namespace Alyx.Networking
 			base.Protocol = ptp;
 			base.Transport = new Indigo.Transports.TCP.TCPTransport(51220);
 		}
-    }
+	}
 }
