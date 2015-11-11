@@ -65,6 +65,8 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.RedirectStandardInput = true;
 			p.StartInfo.RedirectStandardOutput = true;
+
+			p.StartInfo.FileName = @"C:\Program Files (x86)\Cepstral\bin\swift.exe";
 			
 			try
 			{
@@ -87,12 +89,11 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 		[DebuggerNonUserCode()]
 		protected override void SpeakInternal(string text)
 		{
-			if (_tSpeak == null) _tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
-			if (!_tSpeak.IsAlive)
-			{
-				_tSpeak.Name = "Alyx Speech Swift Engine Thread";
-				_tSpeak.Start(text);
-			}
+			if (_tSpeak != null && _tSpeak.IsAlive) _tSpeak.Abort();
+			_tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
+
+			_tSpeak.Name = "Alyx Speech Swift Engine Thread";
+			_tSpeak.Start(text);
 		}
 
 		protected override Voice[] GetVoicesInternal()
