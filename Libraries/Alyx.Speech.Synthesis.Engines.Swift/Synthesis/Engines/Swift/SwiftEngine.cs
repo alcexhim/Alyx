@@ -31,6 +31,10 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 		{
 		}
 
+		private string mvarSwiftApplicationPath = "swift"; // @"C:\Program Files (x86)\Cepstral\bin\swift.exe";
+		public string SwiftApplicationPath { get { return mvarSwiftApplicationPath; } set { mvarSwiftApplicationPath = value; } }
+
+
 		#region implemented abstract members of SynthesisEngine
 
 		private static SynthesisEngineReference _ser = null;
@@ -54,20 +58,18 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			paramz.Add("speech/rate", "220"); // default is 170
 
 			StringBuilder sb = new StringBuilder();
+			if (Voice != null)
+			{
+				sb.Append("-n \"" + Voice.Name + "\"");
+			}
 			foreach (KeyValuePair<string, string> kvp in paramz)
 			{
 				sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
 			}
 			sb.Append(text);
-			p.StartInfo = new System.Diagnostics.ProcessStartInfo("swift", sb.ToString());
-			p.StartInfo.CreateNoWindow = true;
-			p.StartInfo.UseShellExecute = false;
-			p.StartInfo.RedirectStandardError = true;
-			p.StartInfo.RedirectStandardInput = true;
-			p.StartInfo.RedirectStandardOutput = true;
 
-			p.StartInfo.FileName = @"C:\Program Files (x86)\Cepstral\bin\swift.exe";
-			
+			p.StartInfo = CreateProcessStartInfo(sb.ToString());
+
 			try
 			{
 				p.Start();
@@ -86,6 +88,17 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			}
 		}
 
+		private ProcessStartInfo CreateProcessStartInfo(string arguments)
+		{
+			ProcessStartInfo psi = new ProcessStartInfo(mvarSwiftApplicationPath, arguments);
+			psi.CreateNoWindow = true;
+			psi.UseShellExecute = false;
+			psi.RedirectStandardError = true;
+			psi.RedirectStandardInput = true;
+			psi.RedirectStandardOutput = true;
+			return psi;
+		}
+
 		[DebuggerNonUserCode()]
 		protected override void SpeakInternal(string text)
 		{
@@ -98,7 +111,52 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 
 		protected override Voice[] GetVoicesInternal()
 		{
-			return new Voice[0];
+			Process p = new Process();
+			p.StartInfo = CreateProcessStartInfo("--voices");
+			p.Start();
+			p.WaitForExit();
+
+			string output = p.StandardOutput.ReadToEnd();
+			output = output.Replace("\r\n", "\n");
+
+			int index = 0;
+			string[] lines = output.Split(new char[] { '\n' });
+
+			List<List<string>> rows = new List<List<string>>();
+
+			foreach (string line in lines)
+			{
+				if (line.Contains("|"))
+				{
+					string[] parts = line.Split(new char[] { '|' });
+					if (index == 0)
+					{
+
+					}
+					else if (index == 1)
+					{
+
+					}
+					else
+					{
+						List<string> columns = new List<string>();
+						foreach (string part in parts)
+						{
+							columns.Add(part.Trim());
+						}
+						rows.Add(columns);
+					}
+					index++;
+				}
+			}
+
+			List<Voice> voices = new List<Voice>();
+			foreach (List<string> columns in rows)
+			{
+				voices.Add(new Voice(columns[0]));
+			}
+
+			return voices.ToArray();
 		}
 
 		public override void SetVoiceInternal(Voice voice)
