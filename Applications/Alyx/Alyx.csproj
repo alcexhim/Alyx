@@ -44,6 +44,30 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanel.Designer.cs">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanels\Applications\Chat\ChatControlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanels\Applications\Chat\ChatControlPanel.Designer.cs">
+      <DependentUpon>ChatControlPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.Designer.cs">
+      <DependentUpon>LanguagesControlPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanels\Configuration\Speech\SpeechControlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanels\Configuration\Speech\SpeechControlPanel.Designer.cs">
+      <DependentUpon>SpeechControlPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,6 +76,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ControlPanels\Applications\Chat\ChatControlPanel.resx">
+      <DependentUpon>ChatControlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.resx">
+      <DependentUpon>LanguagesControlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanels\Configuration\Speech\SpeechControlPanel.resx">
+      <DependentUpon>SpeechControlPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
