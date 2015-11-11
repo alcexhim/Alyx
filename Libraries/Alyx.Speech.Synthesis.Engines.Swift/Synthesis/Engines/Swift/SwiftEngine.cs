@@ -60,13 +60,16 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			StringBuilder sb = new StringBuilder();
 			if (Voice != null)
 			{
-				sb.Append("-n \"" + Voice.Name + "\"");
+				sb.Append("-n \"" + Voice.Name + "\" ");
 			}
 			foreach (KeyValuePair<string, string> kvp in paramz)
 			{
 				sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
 			}
+
+			sb.Append("\"");
 			sb.Append(text);
+			sb.Append("\"");
 
 			p.StartInfo = CreateProcessStartInfo(sb.ToString());
 
