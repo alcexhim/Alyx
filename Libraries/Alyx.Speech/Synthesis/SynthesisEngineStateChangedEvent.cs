@@ -9,11 +9,15 @@ namespace Alyx.Speech.Synthesis
 	public class SynthesisEngineStateChangedEventArgs : EventArgs
 	{
 		private SynthesisEngineState mvarState = SynthesisEngineState.Ready;
-		public SynthesisEngineState State { get { return mvarState; } set { mvarState = value; } }
+		public SynthesisEngineState State { get { return mvarState; } }
 
-		public SynthesisEngineStateChangedEventArgs(SynthesisEngineState state)
+		private string mvarText = String.Empty;
+		public string Text { get { return mvarText; } set { mvarText = value; } }
+
+		public SynthesisEngineStateChangedEventArgs(SynthesisEngineState state, string text = null)
 		{
 			mvarState = state;
+			if (text != null) mvarText = text;
 		}
 	}
 }
