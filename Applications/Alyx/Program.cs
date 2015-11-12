@@ -23,6 +23,9 @@ namespace Alyx
 		public static SynthesisEngine speaker = null;
 		public static RecognitionEngine listener = null;
 
+		private static ChildWindows.SpeechMonitorWindow mvarSpeechMonitorWindow = null;
+		private static bool mvarShowSpeechMonitorWindow = true;
+
 		private static NotifyIcon nid = new NotifyIcon();
 
 		private static Alyx.Networking.Server server = new Alyx.Networking.Server();
@@ -162,10 +165,14 @@ namespace Alyx
 
 			nid.Icon = iconDefault;
 			nid.Visible = true;
+
+			mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
+			mvarSpeechMonitorWindow.Show();
 			
 			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
 			
 			if (engines.Length > 0) speaker = engines[0].Create();
+
 			RefreshAvailableVoices();
 
 			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
@@ -347,6 +354,10 @@ namespace Alyx
 				}
 				case SynthesisEngineState.Speaking:
 				{
+					if (mvarSpeechMonitorWindow != null)
+					{
+						mvarSpeechMonitorWindow.AddOutputLine(e.Text);
+					}
 					nid.Icon = iconActive;
 					break;
 				}

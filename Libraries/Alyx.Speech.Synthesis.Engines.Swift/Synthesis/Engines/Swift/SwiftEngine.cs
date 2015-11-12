@@ -76,7 +76,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			try
 			{
 				p.Start();
-				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking));
+				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking, text));
 				p.WaitForExit();
 				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
 			}

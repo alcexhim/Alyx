@@ -44,6 +44,18 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChildWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildWindow.Designer.cs">
+      <DependentUpon>ChildWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildWindows\SpeechMonitorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildWindows\SpeechMonitorWindow.Designer.cs">
+      <DependentUpon>SpeechMonitorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,6 +88,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChildWindows\SpeechMonitorWindow.resx">
+      <DependentUpon>SpeechMonitorWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ControlPanels\Applications\Chat\ChatControlPanel.resx">
       <DependentUpon>ChatControlPanel.cs</DependentUpon>
     </EmbeddedResource>
