@@ -68,7 +68,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			}
 
 			sb.Append("\"");
-			sb.Append(text);
+			sb.Append(text.Replace("\"", "\\\""));
 			sb.Append("\"");
 
 			p.StartInfo = CreateProcessStartInfo(sb.ToString());
