@@ -12,6 +12,7 @@ namespace Alyx.ControlPanels.Configuration.Speech
 		public SpeechControlPanel()
 		{
 			InitializeComponent();
+			Program.speaker.StateChanged += speaker_StateChanged;
 		}
 
 		public override string[] Path
@@ -27,8 +28,28 @@ namespace Alyx.ControlPanels.Configuration.Speech
 			cmdSpeak.Enabled = false;
 			txtSpeak.ReadOnly = true;
 			Program.speaker.Speak(txtSpeak.Text);
-			cmdSpeak.Enabled = true;
-			txtSpeak.ReadOnly = false;
+		}
+
+		private void speaker_StateChanged(object sender, Alyx.Speech.Synthesis.SynthesisEngineStateChangedEventArgs e)
+		{
+			if (e.State == Alyx.Speech.Synthesis.SynthesisEngineState.Ready)
+			{
+				if (!IsHandleCreated) return;
+				Invoke(new Action(delegate()
+				{
+					cmdSpeak.Enabled = true;
+					txtSpeak.ReadOnly = false;
+				}));
+			}
+			else if (e.State == Alyx.Speech.Synthesis.SynthesisEngineState.Speaking)
+			{
+				if (!IsHandleCreated) return;
+				Invoke(new Action(delegate()
+				{
+					cmdSpeak.Enabled = false;
+					txtSpeak.ReadOnly = true;
+				}));
+			}
 		}
 
 	}
