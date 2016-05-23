@@ -13,6 +13,13 @@ namespace Alyx.Speech.Synthesis
 	/// </summary>
 	public abstract class SynthesisEngine
 	{
+		private bool mvarSuppressSpeechEngineNotFound = false;
+		/// <summary>
+		/// Determines whether the SpeechEngineNotFoundException should be suppressed. 
+		/// </summary>
+		/// <value><c>true</c> if the SpeechEngineNotFoundException should be suppressed; otherwise, <c>false</c>.</value>
+		public bool SuppressSpeechEngineNotFound { get { return mvarSuppressSpeechEngineNotFound; } set { mvarSuppressSpeechEngineNotFound = value; } }
+
 		public abstract SynthesisEngineReference MakeReference();
 		
 		public static SynthesisEngineReference[] GetEngines()

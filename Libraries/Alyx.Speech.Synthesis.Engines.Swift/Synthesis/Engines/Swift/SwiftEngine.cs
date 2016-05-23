@@ -85,6 +85,9 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 				if (ex.NativeErrorCode == 2)
 				{
 					// file not found
+					if (SuppressSpeechEngineNotFound)
+						return;
+
 					throw new SpeechEngineNotFoundException(GetType().FullName, ex);
 				}
 				throw ex;
@@ -116,7 +119,15 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 		{
 			Process p = new Process();
 			p.StartInfo = CreateProcessStartInfo("--voices");
-			p.Start();
+
+			try
+			{
+				p.Start();
+			}
+			catch (System.ComponentModel.Win32Exception ex)
+			{
+				return new Voice[0];
+			}
 			p.WaitForExit();
 
 			string output = p.StandardOutput.ReadToEnd();

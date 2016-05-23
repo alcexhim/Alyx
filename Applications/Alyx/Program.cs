@@ -52,6 +52,9 @@ namespace Alyx
 		}
 		private static System.Drawing.Icon ToIcon(this System.Drawing.Image image)
 		{
+			if (image == null)
+				return null;
+
 			System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(image.Width, image.Height);
 			System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
 			g.DrawImage(image, 0, 0, image.Width, image.Height);
@@ -75,6 +78,7 @@ namespace Alyx
 			mind.Ideas.Add(idea);
 
 			Sentence sent1 = Sentence.Parse("You're ugly.");
+			Console.WriteLine (sent1.ToString ());
 
 			mind.Start();
 		}
@@ -172,6 +176,9 @@ namespace Alyx
 			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
 			
 			if (engines.Length > 0) speaker = engines[0].Create();
+
+			if (speaker != null)
+				speaker.SuppressSpeechEngineNotFound = true;
 
 			RefreshAvailableVoices();
 
