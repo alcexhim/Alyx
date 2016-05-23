@@ -22,7 +22,11 @@ namespace Alyx.Linguistics.Predicates
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append(Verb.ToString());
+			if (Verb != null) {
+				sb.Append (Verb.ToString ());
+			} else {
+				sb.Append ("[verb:null]");
+			}
 			sb.Append(' ');
 
 			Series series = new Series();
