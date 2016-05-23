@@ -6,9 +6,6 @@
 *.user
 *.sln.docstates
 
-# User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -187,3 +184,7 @@ FakesAssemblies/
 
 # LibreOffice lock files
 .~lock.*
+
+# MonoDevelop crap
+*.resources
+*.userprefs
