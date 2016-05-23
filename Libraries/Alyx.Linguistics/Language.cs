@@ -80,19 +80,39 @@ namespace Alyx.Linguistics
 			{
 				List<Language> list = new List<Language>();
 
-				string basePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-				basePath = basePath + System.IO.Path.DirectorySeparatorChar.ToString() + "Languages";
-				string[] dirnames = System.IO.Directory.GetDirectories(basePath);
-				foreach (string dirname in dirnames)
+				string[] basePaths = new string[]
 				{
-					string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.alyxml", System.IO.SearchOption.AllDirectories);
-					foreach (string xmlfile in xmlfiles)
+					String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
 					{
-						MarkupObjectModel xmlconf = new MarkupObjectModel();
-						
-						Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
-						xmlconf.CopyTo(conf);
+						System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+						"alyx",
+						"Languages"
+					}),
+					String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
+					{
+						System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
+						"Languages"
+					})
+				};
+
+				foreach (string basePath in basePaths)
+				{
+					if (!System.IO.Directory.Exists (basePath))
+						continue;
+
+					string[] dirnames = System.IO.Directory.GetDirectories(basePath);
+					foreach (string dirname in dirnames)
+					{
+						string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.alyxml", System.IO.SearchOption.AllDirectories);
+						foreach (string xmlfile in xmlfiles)
+						{
+							MarkupObjectModel xmlconf = new MarkupObjectModel();
+							
+							Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
+							xmlconf.CopyTo(conf);
+						}
 					}
+
 				}
 
 				MarkupTagElement tagAlyx = (conf.Elements["Alyx"] as MarkupTagElement);
