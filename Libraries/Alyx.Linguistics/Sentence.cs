@@ -249,10 +249,21 @@ namespace Alyx.Linguistics
 									context.Clause.Predicate.Verb = context.Verb;
 									context.Verb = null;
 								} else {
-									NounInstance[] noun1 = PredictNoun (ref context);
-									ni.Word.Value = noun1[0].Word.Value + ' ' + ni.Word.Value;
+									if (context.Article == null) {
+										// no article, so it must be a multiple-word proper noun; e.g. "John Smith"
+										NounInstance[] noun1 = PredictNoun (ref context);
+										ni.Word.Value = noun1 [0].Word.Value + ' ' + ni.Word.Value;
 
-									context.Clause.Predicate = new Predicates.DirectObjectPredicate (context.Verb, new ISubject[] { ni });
+										context.Clause.Predicate = new Predicates.DirectObjectPredicate (context.Verb, new ISubject[] { ni });
+									} else {
+										// there is an article, so treat it as a single-word noun with adjectives
+										ni.Definiteness = context.Article.Definiteness;
+										ni.Quantity = context.Article.Quantity;
+
+										PredictAdjectives (ref context);
+										ni.Adjectives.AddRange (context.Adjectives.ToArray ());
+										context.Clause.Predicate = new Predicates.DirectObjectPredicate (context.Verb, new ISubject[] { ni });
+									}
 								}
 							}
 							return true;
