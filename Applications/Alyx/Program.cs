@@ -116,20 +116,39 @@ namespace Alyx
 
 			string str = sent.ToString();
 		}
+
+		private static void TestSentenceParser(string sentence)
+		{
+			Sentence sent = Sentence.Parse(sentence);
+			Console.WriteLine (" Input: " + sentence);
+			Console.WriteLine ("Output: " + sent.ToString ());
+		}
 		private static void TestSentenceParser()
 		{
 			Language lang = Language.CurrentLanguage;
 
+			// A Word Sequence should be considered a Proper Noun if either of the following conditions apply:
+			//		1.  If a particular word is capitalized, it should be considered a proper noun.
+			//			An example of this case would be "John".
+			//		2.	The entire sequence should be considered a proper noun, if the word sequence is such that:
+			//			a.	Every word in the sequence is capitalized.
+			//			An example of this case would be "Elm Street"
+			//		3.  The entire sequence should be considered a proper noun, if the word sequence is such that:
+			//			a.	the beginning and end word are both capitalized, and
+			//			b.	lowercase words in between are solely of Article and Preposition classes
+			//			An example of this case would be "Lord of the Rings".
 
-			Sentence sent5 = Sentence.Parse("The name of the boy is John.");
 
-			Sentence sent1 = Sentence.Parse("The quick brown fox jumped over the lazy dog.");
-			Sentence sent2 = Sentence.Parse("The adorable young kitten chased the bug.");
-			Sentence sent3 = Sentence.Parse("Jane, John, and Francheska jumped over the lazy dog.");
+			// Fix this one:
+			//	----- Subject -----	  -Object-
+			// [The name of the boy] [is John]
+			TestSentenceParser ("The name of the boy is John.");
 
-			Sentence sent4 = Sentence.Parse("Dazzle me.");
-
-			// Sentence sent5 = Sentence.Parse("What's the name of the founder of Wikipedia?");
+			TestSentenceParser("The quick brown fox jumped over the lazy dog.");
+			TestSentenceParser("The adorable young kitten chased the bug.");
+			TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
+			TestSentenceParser("Dazzle me.");
+			TestSentenceParser("What's the name of the founder of Wikipedia?");
 		}
 		
 		/// <summary>
@@ -144,10 +163,10 @@ namespace Alyx
 			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			Language.CurrentLanguage = lang;
 
-			TestMind();
+			// TestMind();
 
 			// TestSentenceRenderer();
-			// TestSentenceParser();
+			TestSentenceParser();
 
 			bool enableNetworking = false;
 			if (enableNetworking)
