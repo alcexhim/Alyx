@@ -143,10 +143,17 @@ namespace Alyx
 			// [What is] [the boy's name]?
 			// [What is] [the name of the boy]?
 
+			// this one is weird
+			TestSentenceParser ("The founder of Wikipedia is Jimmy Wales.");
+
+			// this next one is REALLY weird
+			// TestSentenceParser ("I am going to Spring Oaks today.");
+
 			TestSentenceParser("The quick brown fox jumped over the lazy dog.");
 			TestSentenceParser("The adorable young kitten chased the bug.");
 			TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
 			TestSentenceParser("Dazzle me.");
+
 			TestSentenceParser("What's the name of the founder of Wikipedia?");
 		}
 		
