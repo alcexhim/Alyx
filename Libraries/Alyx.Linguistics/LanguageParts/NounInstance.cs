@@ -13,6 +13,9 @@ namespace Alyx.Linguistics.LanguageParts
 		private AdjectiveInstance.AdjectiveCollection mvarAdjectives = new AdjectiveInstance.AdjectiveCollection();
 		public AdjectiveInstance.AdjectiveCollection Adjectives { get { return mvarAdjectives; } }
 
+		private PrepositionalPhrase mvarPrepositionalPhrase = null;
+		public PrepositionalPhrase PrepositionalPhrase { get { return mvarPrepositionalPhrase; } set { mvarPrepositionalPhrase = value; } }
+
 		/// <summary>
 		/// Creates a noun from the specified <see cref="Word" />.
 		/// </summary>
@@ -77,6 +80,11 @@ namespace Alyx.Linguistics.LanguageParts
 				}
 			}
 			sb.Append(str);
+
+			if (mvarPrepositionalPhrase != null) {
+				sb.Append (' ');
+				sb.Append (mvarPrepositionalPhrase.ToString ());
+			}
 			return sb.ToString();
 		}
 
