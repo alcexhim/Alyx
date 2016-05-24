@@ -89,8 +89,25 @@ namespace Alyx.Linguistics.LanguageParts
 				sb.Append (' ');
 				sb.Append (mvarPrepositionalPhrase.ToString ());
 			}
+
+			// determine whether to apply the possessive "NOUN's PHRASE" construct for "PHRASE of NOUN"
+			// TODO: figure out if target language supports it (e.g. Spanish and Japanese do not)
+			int r = rand.Next (0, 1);
+			if (r == 1)
+			{
+				if (mvarPrepositionalPhrase != null && mvarPrepositionalPhrase.Preposition.Word.ID == new Guid("{A31F3995-EE00-40F0-8DE4-984A0C5302B2}"))
+				{
+					sb.Clear ();
+					sb.Append (new Series (mvarPrepositionalPhrase.Subjects).ToString ());
+					sb.Append ("'s");
+					sb.Append (' ');
+					sb.Append (this.Word.Value);
+				}
+			}
 			return sb.ToString();
 		}
+
+		private static Random rand = new Random();
 
 		private Quantity mvarQuantity = Quantity.Unspecified;
 		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
