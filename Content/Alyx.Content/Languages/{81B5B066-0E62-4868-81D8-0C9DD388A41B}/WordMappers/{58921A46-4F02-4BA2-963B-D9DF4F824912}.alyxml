@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Alyx>
 	<Languages>
 		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
 			<WordMappers>
 				<WordMapper ID="{58921A46-4F02-4BA2-963B-D9DF4F824912}" Priority="Highest">
 					<ConditionalStatement>
-						<Condition Variable="ID" Comparison="Equal" Value="{400FE17B-231D-4743-8852-FE66DE29E5AE}" />
+						<Condition Variable="ID" Comparison="Equal" Value="{46C0FA3C-CD20-47C7-88D4-AEAFD5120F10}" />
 					</ConditionalStatement>
 					<Mappings>
 						<Mapping Value="me">
