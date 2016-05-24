@@ -120,6 +120,7 @@ namespace Alyx
 		private static void TestSentenceParser(string sentence)
 		{
 			Sentence sent = Sentence.Parse(sentence);
+
 			Console.WriteLine (" Input: " + sentence);
 			Console.WriteLine ("Output: " + sent.ToString ());
 		}
@@ -138,19 +139,21 @@ namespace Alyx
 			//			b.	lowercase words in between are solely of Article and Preposition classes
 			//			An example of this case would be "Lord of the Rings".
 
+			// TODO: fix this, when run more than once it fails epicly
 			TestSentenceParser ("The name of the boy is John.");
+
 			// [What's] [the boy's name]?
 			// [What is] [the boy's name]?
 			// [What is] [the name of the boy]?
 
 			// this one is weird
-			TestSentenceParser ("The founder of Wikipedia is Jimmy Wales.");
+			TestSentenceParser ("The founder of Wikipedia and Slashdot is Jimmy Wales.");
 
 			// this next one is REALLY weird
 			// TestSentenceParser ("I am going to Spring Oaks today.");
 
 			TestSentenceParser("The quick brown fox jumped over the lazy dog.");
-			TestSentenceParser("The adorable young kitten chased the bug.");
+			TestSentenceParser("The adorable young kitten chased the red bug.");
 			TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
 			TestSentenceParser("Dazzle me.");
 
