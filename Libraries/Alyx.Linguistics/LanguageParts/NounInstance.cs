@@ -41,14 +41,18 @@ namespace Alyx.Linguistics.LanguageParts
 			Language lang = Language.CurrentLanguage;
 			if (lang != null)
 			{
-				ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
-				if (article != null)
+				// proper nouns don't get articles
+				if (!mvarIsProper)
 				{
-					string value = article.ToString();
-					if (!String.IsNullOrEmpty(value))
+					ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
+					if (article != null)
 					{
-						sb.Append(article.ToString());
-						sb.Append(' ');
+						string value = article.ToString();
+						if (!String.IsNullOrEmpty(value))
+						{
+							sb.Append(article.ToString());
+							sb.Append(' ');
+						}
 					}
 				}
 			}
