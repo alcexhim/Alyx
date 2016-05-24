@@ -11,6 +11,14 @@ namespace Alyx.Linguistics.LanguageParts
 			: System.Collections.ObjectModel.Collection<AdjectiveInstance>
 		{
 
+			public void AddRange(AdjectiveInstance[] values)
+			{
+				for (int i = 0; i < values.Length; i++)
+				{
+					this.Add (values [i]);
+				}
+			}
+
 		}
 
 		public AdjectiveInstance(Word word) : base(word)
