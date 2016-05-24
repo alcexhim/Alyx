@@ -21,8 +21,8 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public Stack<Word> UnknownWords { get { return mvarUnknownWords; } }
 
-		private ConjunctionInstance mvarConjunction = null;
-		public ConjunctionInstance Conjunction { get { return mvarConjunction; } set { mvarConjunction = value; } }
+		private Stack<ConjunctionInstance> mvarConjunctions = new Stack<ConjunctionInstance>();
+		public Stack<ConjunctionInstance> Conjunctions { get { return mvarConjunctions; } }
 
 		private List<AdjectiveInstance> mvarAdjectives = new List<AdjectiveInstance>();
 		public List<AdjectiveInstance> Adjectives { get { return mvarAdjectives; } }

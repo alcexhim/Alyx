@@ -166,7 +166,7 @@ namespace Alyx.Linguistics
 			if (next.EndsWith(","))
 			{
 				next = next.Substring(0, next.Length - 1);
-				context.Conjunction = new ConjunctionInstance(lang.Words[new Guid("{AD54FAAF-3C4A-4027-9EAB-E4F41B6329D4}")]);
+				context.Conjunctions.Push (new ConjunctionInstance (lang.Words [new Guid ("{AD54FAAF-3C4A-4027-9EAB-E4F41B6329D4}")]));
 			}
 
 			WordInstance[] wordInstances = lang.Words.GetWordInstances(next);
@@ -368,7 +368,7 @@ namespace Alyx.Linguistics
 				}
 				else if (inst is ConjunctionInstance)
 				{
-					context.Conjunction = (inst as ConjunctionInstance);
+					context.Conjunctions.Push (inst as ConjunctionInstance);
 					break;
 				}
 			}
@@ -425,9 +425,9 @@ namespace Alyx.Linguistics
 
 			Console.WriteLine("prediction: next unknown word '" + noun.ToString() + "' created as Noun");
 
-			if (context.Conjunction != null)
+			if (context.Conjunctions.Count > 0)
 			{
-				context.Conjunction = null;
+				ConjunctionInstance conj = context.Conjunctions.Pop ();
 
 				NounInstance[] nis = PredictNoun(ref context);
 				foreach (NounInstance ni in nis)
@@ -450,7 +450,7 @@ namespace Alyx.Linguistics
 				noun.Quantity = context.Article.Quantity;
 				context.Article = null;
 			}
-			list.Insert(0, noun);
+			list.Add(noun);
 
 			return list.ToArray();
 		}
