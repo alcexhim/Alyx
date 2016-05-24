@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?> 
 <Alyx>
 	<EmotionClasses>
 		<EmotionClass ID="{BD75D636-082D-4B3B-A2DA-F046CBB1A552}" Title="Fear" MaximumValue="1.0" MinimumValue="0.0" />
