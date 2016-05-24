@@ -143,6 +143,9 @@ namespace Alyx
 			//	----- Subject -----	  -Object-
 			// [The name of the boy] [is John]
 			TestSentenceParser ("The name of the boy is John.");
+			// [What's] [the boy's name]?
+			// [What is] [the boy's name]?
+			// [What is] [the name of the boy]?
 
 			TestSentenceParser("The quick brown fox jumped over the lazy dog.");
 			TestSentenceParser("The adorable young kitten chased the bug.");
