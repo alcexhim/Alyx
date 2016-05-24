@@ -211,32 +211,49 @@ namespace Alyx.Linguistics
 							{
 								if (unk1.Value.Length > 0 && Char.IsUpper(unk1.Value[0]))
 								{
-									unk1.Classes.Add (WordClasses.Pronoun);
+									unk1.Classes.Add (WordClasses.Noun);
+									unk1.SetClassProperty<bool> (WordClasses.Noun, "IsProper", true);
+									ni = new NounInstance (unk1);
 								}
 								else
 								{
 									unk1.Classes.Add(WordClasses.Adjective);
-
 									ai = new AdjectiveInstance(unk1);
 								}
 							}
 							else
 							{
 								unk1.Classes.Add(WordClasses.Noun);
+								ni = new NounInstance (unk1);
 							}
 
-							VerbInstance vi = PredictVerb(ref context);
-							if (ai == null) {
-								if (context.Clause.Predicate is Predicates.PrepositionalObjectPredicate) {
+							if (context.Verb == null)
+							{
+								VerbInstance vi = PredictVerb(ref context);
+								if (ai == null) {
+									if (context.Clause.Predicate is Predicates.PrepositionalObjectPredicate) {
 
-									Predicates.PrepositionalObjectPredicate ppo = (context.Clause.Predicate as Predicates.PrepositionalObjectPredicate);
-									if (ppo != null) {
-										(context.Clause.Subjects [0] as NounInstance).PrepositionalPhrase = new PrepositionalPhrase (ppo.Preposition, ppo.Subjects.ToArray ());
+										Predicates.PrepositionalObjectPredicate ppo = (context.Clause.Predicate as Predicates.PrepositionalObjectPredicate);
+										if (ppo != null) {
+											(context.Clause.Subjects [0] as NounInstance).PrepositionalPhrase = new PrepositionalPhrase (ppo.Preposition, ppo.Subjects.ToArray ());
+										}
+										context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { new NounInstance(unk1) });
 									}
-									context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { new PronounInstance(unk1) });
+								} else {
+									context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { ai });
 								}
-							} else {
-								context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { ai });
+							}
+							else
+							{
+								if (context.Clause.Predicate != null) {
+									context.Clause.Predicate.Verb = context.Verb;
+									context.Verb = null;
+								} else {
+									NounInstance[] noun1 = PredictNoun (ref context);
+									ni.Word.Value = noun1[0].Word.Value + ' ' + ni.Word.Value;
+
+									context.Clause.Predicate = new Predicates.DirectObjectPredicate (context.Verb, new ISubject[] { ni });
+								}
 							}
 							return true;
 						}
@@ -244,8 +261,16 @@ namespace Alyx.Linguistics
 						NounInstance[] nouns = PredictNoun(ref context);
 						if (context.Preposition != null)
 						{
-							context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, nouns);
-							context.Preposition = null;
+							if (context.Verb != null)
+							{
+								context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate (context.Verb, context.Preposition, nouns);
+								context.Preposition = null;
+							}
+							else
+							{
+								NounInstance ni = (context.Clause.Subjects [context.Clause.Subjects.Count - 1] as NounInstance);
+								ni.PrepositionalPhrase = new PrepositionalPhrase (context.Preposition, nouns);
+							}
 						}
 						else if (context.Clause.Subjects.Count > 0)
 						{
@@ -322,7 +347,15 @@ namespace Alyx.Linguistics
 
 						if (context.Preposition != null)
 						{
-							context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, nouns);
+							if (context.Verb != null)
+							{
+								context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, nouns);
+							}
+							else
+							{
+								NounInstance ni = (context.Clause.Subjects [context.Clause.Subjects.Count - 1] as NounInstance);
+								ni.PrepositionalPhrase = new PrepositionalPhrase (context.Preposition, nouns);
+							}
 						}
 						else
 						{
@@ -423,8 +456,6 @@ namespace Alyx.Linguistics
 				unkNoun.SetClassProperty<bool>(WordClasses.Noun, "IsProper", true);
 			}
 
-			Console.WriteLine("prediction: next unknown word '" + noun.ToString() + "' created as Noun");
-
 			if (context.Conjunctions.Count > 0)
 			{
 				ConjunctionInstance conj = context.Conjunctions.Pop ();
@@ -451,6 +482,8 @@ namespace Alyx.Linguistics
 				context.Article = null;
 			}
 			list.Add(noun);
+
+			Console.WriteLine("prediction: next unknown word '" + unkNoun.Value + "' created as Noun '" + noun.ToString() + "'");
 
 			return list.ToArray();
 		}
