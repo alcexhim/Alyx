@@ -138,10 +138,6 @@ namespace Alyx
 			//			b.	lowercase words in between are solely of Article and Preposition classes
 			//			An example of this case would be "Lord of the Rings".
 
-
-			// Fix this one:
-			//	----- Subject -----	  -Object-
-			// [The name of the boy] [is John]
 			TestSentenceParser ("The name of the boy is John.");
 			// [What's] [the boy's name]?
 			// [What is] [the boy's name]?
