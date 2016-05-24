@@ -182,6 +182,25 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public WordClass.WordClassCollection Classes { get { return mvarClasses; } }
 
+		private Dictionary<WordClass, Dictionary<string, object>> dictClassProperties = new Dictionary<WordClass, Dictionary<string, object>>();
+		public void SetClassProperty<T>(WordClass wordClass, string propertyName, T propertyValue)
+		{
+			if (!dictClassProperties.ContainsKey (wordClass)) {
+				dictClassProperties [wordClass] = new Dictionary<string, object> ();
+			}
+			dictClassProperties [wordClass] [propertyName] = propertyValue;
+		}
+		public T GetClassProperty<T>(WordClass wordClass, string propertyName, T defaultValue = default(T))
+		{
+			if (!dictClassProperties.ContainsKey (wordClass)) {
+				dictClassProperties [wordClass] = new Dictionary<string, object> ();
+			}
+			if (!dictClassProperties [wordClass].ContainsKey (propertyName)) {
+				dictClassProperties [wordClass] [propertyName] = defaultValue;
+			}
+			return (T)dictClassProperties [wordClass] [propertyName];
+		}
+
 		private WordMapper mvarMapper = null;
 		public WordMapper Mapper { get { return mvarMapper; } set { mvarMapper = value; } }
 

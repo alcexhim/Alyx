@@ -42,7 +42,7 @@ namespace Alyx.Linguistics.LanguageParts
 			if (lang != null)
 			{
 				// proper nouns don't get articles
-				if (!mvarIsProper)
+				if (!Word.GetClassProperty<bool>(WordClasses.Noun, "IsProper", false))
 				{
 					ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
 					if (article != null)
@@ -71,7 +71,7 @@ namespace Alyx.Linguistics.LanguageParts
 			}
 
 			string str = base.ToString();
-			if (mvarIsProper)
+			if (Word.GetClassProperty<bool>(WordClasses.Noun, "IsProper", false))
 			{
 				// TODO: replace with configuration from current language
 				if (str.Length > 1)
@@ -94,8 +94,5 @@ namespace Alyx.Linguistics.LanguageParts
 
 		private Quantity mvarQuantity = Quantity.Unspecified;
 		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
-
-		private bool mvarIsProper = false;
-		public bool IsProper { get { return mvarIsProper; } set { mvarIsProper = value; } }
 	}
 }

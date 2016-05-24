@@ -420,7 +420,7 @@ namespace Alyx.Linguistics
 			if (context.Article == null)
 			{
 				// a noun without an article and not in the dictionary is considered a proper noun
-				noun.IsProper = true;
+				unkNoun.SetClassProperty<bool>(WordClasses.Noun, "IsProper", true);
 			}
 
 			Console.WriteLine("prediction: next unknown word '" + noun.ToString() + "' created as Noun");
