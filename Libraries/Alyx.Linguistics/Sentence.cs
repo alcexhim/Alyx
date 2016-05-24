@@ -175,13 +175,21 @@ namespace Alyx.Linguistics
 				Console.WriteLine("Unknown word '" + next.ToLower() + "'");
 				{
 					Word unk = new Word(Guid.NewGuid());
-					unk.Value = next.ToLower();
+					unk.Value = next;
 					if (lang.WordSources[WordSourceGuids.Learned] != null)
 					{
 						unk.Sources.Add(lang.WordSources[WordSourceGuids.Learned]);
 					}
 					lang.Words.Add(unk);
 					context.UnknownWords.Push(unk);
+
+					if (context.Word is ArticleInstance)
+					{
+						// PredictAdjectives (ref context);
+
+						// NounInstance[] nouns = PredictNoun (ref context);
+						// context.Clause.Subjects.AddRange (nouns);
+					}
 				}
 				if (final)
 				{
@@ -201,9 +209,16 @@ namespace Alyx.Linguistics
 							Word unk1 = context.UnknownWords.Pop();
 							if (context.Article == null)
 							{
-								unk1.Classes.Add(WordClasses.Adjective);
+								if (unk1.Value.Length > 0 && Char.IsUpper(unk1.Value[0]))
+								{
+									unk1.Classes.Add (WordClasses.Pronoun);
+								}
+								else
+								{
+									unk1.Classes.Add(WordClasses.Adjective);
 
-								ai = new AdjectiveInstance(unk1);
+									ai = new AdjectiveInstance(unk1);
+								}
 							}
 							else
 							{
@@ -211,7 +226,18 @@ namespace Alyx.Linguistics
 							}
 
 							VerbInstance vi = PredictVerb(ref context);
-							context.Clause.Predicate = new Predicates.DirectObjectPredicate(vi, new ISubject[] { ai });
+							if (ai == null) {
+								if (context.Clause.Predicate is Predicates.PrepositionalObjectPredicate) {
+
+									Predicates.PrepositionalObjectPredicate ppo = (context.Clause.Predicate as Predicates.PrepositionalObjectPredicate);
+									if (ppo != null) {
+										(context.Clause.Subjects [0] as NounInstance).PrepositionalPhrase = new PrepositionalPhrase (ppo.Preposition, ppo.Subjects.ToArray ());
+									}
+									context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { new PronounInstance(unk1) });
+								}
+							} else {
+								context.Clause.Predicate = new Predicates.DirectObjectPredicate (vi, new ISubject[] { ai });
+							}
 							return true;
 						}
 
@@ -312,6 +338,11 @@ namespace Alyx.Linguistics
 				}
 				else if (inst is PrepositionInstance)
 				{
+					NounInstance[] nis = PredictNoun (ref context);
+					if (nis.Length > 0)
+					{
+						context.Clause.Subjects.Add (nis [0]);
+					}
 					context.Preposition = (inst as PrepositionInstance);
 					break;
 				}
@@ -376,7 +407,10 @@ namespace Alyx.Linguistics
 
 		private static NounInstance[] PredictNoun(ref SentenceParserContext context)
 		{
-			List<NounInstance> list = new List<NounInstance>();
+			if (context.UnknownWords.Count == 0)
+				return new NounInstance[0];
+
+			List<NounInstance> list = new List<NounInstance> ();
 			Word unkNoun = context.UnknownWords.Pop();
 
 			// since it came before a known AdjectiveInstance, it must be an adjective
