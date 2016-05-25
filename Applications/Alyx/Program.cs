@@ -105,7 +105,7 @@ namespace Alyx
 			{
 				new Clause
 				(
-					new ISubject[] { lang.GetPronoun(Person.ThirdPerson, Quantity.Singular) },	// I bought [series].
+					new ISubject[] { lang.GetPronoun(new Guid("{C0992F4D-134A-4662-8D17-BFEC65F6DA5E}"), Person.ThirdPerson, Quantity.Singular) },	// I bought [series].
 					new DirectObjectPredicate(lang.GetVerb(new Guid("{48CA88BA-CEAF-423C-8A70-3C68C42E004A}")), new ISubject[] { apple, orange, pear, cherry })
 				)
 			});
@@ -115,6 +115,7 @@ namespace Alyx
 			(sent.Clauses[0].Subjects[0] as PronounInstance).Quantity = Quantity.Plural;
 
 			string str = sent.ToString();
+			Console.WriteLine (str);
 		}
 
 		private static void TestSentenceParser(string sentence)
@@ -174,8 +175,8 @@ namespace Alyx
 
 			// TestMind();
 
-			// TestSentenceRenderer();
-			TestSentenceParser();
+			TestSentenceRenderer();
+			// TestSentenceParser();
 
 			bool enableNetworking = false;
 			if (enableNetworking)

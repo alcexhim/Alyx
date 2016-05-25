@@ -620,13 +620,18 @@ namespace Alyx.Linguistics
 			return new PrepositionInstance(word);
 		}
 
-		public PronounInstance GetPronoun(Person person, Quantity quantity)
+		public PronounInstance GetPronoun(Guid id, Person person, Quantity quantity)
 		{
 			Word[] pronouns = GetPronouns();
-			PronounInstance pi = new PronounInstance(pronouns[0]);
-			pi.Person = person;
-			pi.Quantity = quantity;
-			return pi;
+			for (int i = 0; i < pronouns.Length; i++) {
+				if (pronouns [i].ID == id) {
+					PronounInstance pi = new PronounInstance (pronouns [i]);
+					pi.Person = person;
+					pi.Quantity = quantity;
+					return pi;
+				}
+			}
+			return null;
 		}
 
 		private ContractionType.ContractionTypeCollection mvarContractionTypes = new ContractionType.ContractionTypeCollection();
