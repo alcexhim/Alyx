@@ -12,7 +12,9 @@ namespace Alyx.ControlPanels.Configuration.Speech
 		public SpeechControlPanel()
 		{
 			InitializeComponent();
-			Program.speaker.StateChanged += speaker_StateChanged;
+			if (Program.speaker != null) {
+				Program.speaker.StateChanged += speaker_StateChanged;
+			}
 		}
 
 		public override string[] Path
