@@ -93,8 +93,8 @@ namespace Alyx.Linguistics
 					{
 						if 
 						(
-							((criterion.Definiteness == Definiteness.Unspecified && article.Definiteness == Definiteness.Unspecified) || (criterion.Definiteness == article.Definiteness))
-							&& ((criterion.Quantity == Quantity.Unspecified && article.Quantity == Quantity.Unspecified) || (criterion.Quantity == article.Quantity))
+							((criterion.Definiteness == Definiteness.Unspecified) || (criterion.Definiteness == article.Definiteness))
+							&& ((criterion.Quantity == Quantity.Unspecified) || (criterion.Quantity == article.Quantity))
 						)
 						{
 							found = true;
