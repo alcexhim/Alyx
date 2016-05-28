@@ -149,6 +149,24 @@ namespace Alyx.Linguistics
 				next = sbNext.ToString();
 				ProcessWord(next, true, ref context);
 
+				if (context.Verb != null) {
+					// subject-verb agreement
+					if (context.Clause.Subjects.Count > 0) {
+						if (context.Clause.Subjects [0] is PronounInstance) {
+							PronounInstance pi = (context.Clause.Subjects [0] as PronounInstance);
+							context.Verb.Person = pi.Person;
+							context.Verb.Quantity  = pi.Quantity;
+						}
+					}
+				}
+
+				if (context.Adjectives.Count > 0 && context.Clause.Predicate == null)
+				{
+					context.Clause.Predicate = new Predicates.AdjectivePredicate (context.Verb, context.Adjectives.ToArray ());
+					context.Verb = null;
+					context.Adjectives.Clear ();
+				}
+
 				sent.Clauses.Add(context.Clause);
 			}
 

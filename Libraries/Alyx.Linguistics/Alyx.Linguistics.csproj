@@ -78,6 +78,7 @@
     <Compile Include="WordUsage.cs" />
     <Compile Include="WordUsages.cs" />
     <Compile Include="PrepositionalPhrase.cs" />
+    <Compile Include="Predicates\AdjectivePredicate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
