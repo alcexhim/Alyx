@@ -9,7 +9,7 @@ namespace Alyx.Linguistics
 	public class Word
 	{
 		public class WordCollection
-			: System.Collections.ObjectModel.Collection<Word>
+			: System.Collections.Generic.List<Word>
 		{
 			public Word this[Guid id]
 			{
@@ -172,6 +172,9 @@ namespace Alyx.Linguistics
 
 		private Guid mvarID = Guid.Empty;
 		public Guid ID { get { return mvarID; } }
+
+		private int mvarPriority = 0;
+		public int Priority { get { return mvarPriority; } set { mvarPriority = value; } }
 
 		private string mvarValue = String.Empty;
 		public string Value { get { return mvarValue; } set { mvarValue = value; } }

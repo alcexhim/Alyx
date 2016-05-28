@@ -378,6 +378,25 @@ namespace Alyx.Linguistics
 
 									Word word = new Word(new Guid(attWordID.Value));
 
+									MarkupAttribute attPriority = tagWord.Attributes["Priority"];
+									if (attPriority != null)
+									{
+										int priority = 0;
+										if (attPriority.Value.ToLower() == "highest")
+										{
+											priority = Int32.MaxValue;
+										}
+										else if (attPriority.Value.ToLower() == "lowest")
+										{
+											priority = Int32.MinValue;
+										}
+										else
+										{
+											Int32.TryParse(attPriority.Value, out priority);
+										}
+										word.Priority = priority;
+									}
+
 									MarkupAttribute attValue = tagWord.Attributes["Value"];
 									if (attValue != null) word.Value = attValue.Value;
 
@@ -408,6 +427,11 @@ namespace Alyx.Linguistics
 
 									lang.Words.Add(word);
 								}
+
+								lang.Words.Sort(new Comparison<Word>(delegate(Word left, Word right)
+								                                                 {
+									return right.Priority.CompareTo(left.Priority);
+								}));
 							}
 
 							list.Add(lang);
