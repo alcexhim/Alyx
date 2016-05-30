@@ -23,8 +23,10 @@ namespace Alyx.Linguistics.Predicates
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append(Verb.ToString());
-			sb.Append(' ');
+			if (Verb != null) {
+				sb.Append (Verb.ToString ());
+				sb.Append (' ');
+			}
 			
 			Series series1 = new Series(mvarIndirectObjects);
 			sb.Append(series1.ToString());
