@@ -5,7 +5,7 @@ using System.Text;
 
 using Alyx.Linguistics.LanguageParts;
 
-namespace Alyx.Linguistics
+namespace Alyx.Linguistics.SentenceParsers.V1
 {
 	public class SentenceParserContext
 	{
