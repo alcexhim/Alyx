@@ -185,8 +185,7 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 
 					if (context.Article != null)
 					{
-						noun.Definiteness = context.Article.Definiteness;
-						noun.Quantity = context.Article.Quantity;
+						noun.Article = context.Article;
 						context.Article = null;
 					}
 
