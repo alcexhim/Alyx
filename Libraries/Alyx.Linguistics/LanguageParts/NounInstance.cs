@@ -7,7 +7,21 @@ namespace Alyx.Linguistics.LanguageParts
 {
 	public class NounInstance : WordInstance, ISubject
 	{
+		public ArticleInstance Article
+		{
+			get { return Language.CurrentLanguage.GetArticle(mvarDefiniteness, mvarQuantity); }
+			set
+			{
+				mvarDefiniteness = value.Definiteness;
+				mvarQuantity = value.Quantity;
+			}
+		}
+
+		private Quantity mvarQuantity = Quantity.Unspecified;
+		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
+
 		private Definiteness mvarDefiniteness = Definiteness.Unspecified;
+
 		public Definiteness Definiteness { get { return mvarDefiniteness; } set { mvarDefiniteness = value; } }
 
 		private AdjectiveInstance.AdjectiveCollection mvarAdjectives = new AdjectiveInstance.AdjectiveCollection();
@@ -44,7 +58,7 @@ namespace Alyx.Linguistics.LanguageParts
 				// proper nouns don't get articles
 				if (!Word.GetClassProperty<bool>(WordClasses.Noun, "IsProper", false))
 				{
-					ArticleInstance article = lang.GetArticle(mvarDefiniteness, mvarQuantity);
+					ArticleInstance article = this.Article;
 					if (article != null)
 					{
 						string value = article.ToString();
@@ -108,8 +122,5 @@ namespace Alyx.Linguistics.LanguageParts
 		}
 
 		private static Random rand = new Random();
-
-		private Quantity mvarQuantity = Quantity.Unspecified;
-		public Quantity Quantity { get { return mvarQuantity; } set { mvarQuantity = value; } }
 	}
 }
