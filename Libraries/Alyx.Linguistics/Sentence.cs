@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Alyx.Linguistics.LanguageParts;
-using Alyx.Linguistics.SentenceParsers;
+using Alyx.Linguistics.SentenceParsers.V1;
 
 namespace Alyx.Linguistics
 {
