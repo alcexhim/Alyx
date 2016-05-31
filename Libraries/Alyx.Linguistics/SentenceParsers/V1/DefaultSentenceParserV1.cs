@@ -365,57 +365,36 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 		protected override void ParseInternal (string value, ref Sentence sentence)
 		{
 			string next = null;
-			StringBuilder sbNext = new StringBuilder();
 
 			SentenceParserContext context = new SentenceParserContext();
 			context.Clause = new Clause();
 
-			for (int i = 0; i < value.Length; i++)
-			{
-				if (value[i] == ' ')
-				{
-					while (value[i] == ' ')
-					{
-						i++;
-					}
-					i--;
+			string[] wordValues = value.Split (new char[] { ' ' });
 
-					next = sbNext.ToString();
-					sbNext = new StringBuilder();
-					ProcessWord(next, false, ref context);
-				}
-				else if (value[i] != '.' && value[i] != '?' && value[i] != '!')
-				{
-					sbNext.Append(value[i]);
+			for (int i = 0; i < wordValues.Length; i++)
+			{
+				ProcessWord(wordValues[i], (i == wordValues.Length - 1), ref context);
+			}
+
+			if (context.Verb != null) {
+				// subject-verb agreement
+				if (context.Clause.Subjects.Count > 0) {
+					if (context.Clause.Subjects [0] is PronounInstance) {
+						PronounInstance pi = (context.Clause.Subjects [0] as PronounInstance);
+						context.Verb.Person = pi.Person;
+						context.Verb.Quantity  = pi.Quantity;
+					}
 				}
 			}
 
-			if (sbNext.Length > 0)
+			if (context.Adjectives.Count > 0 && context.Clause.Predicate == null)
 			{
-				// final word
-				next = sbNext.ToString();
-				ProcessWord(next, true, ref context);
-
-				if (context.Verb != null) {
-					// subject-verb agreement
-					if (context.Clause.Subjects.Count > 0) {
-						if (context.Clause.Subjects [0] is PronounInstance) {
-							PronounInstance pi = (context.Clause.Subjects [0] as PronounInstance);
-							context.Verb.Person = pi.Person;
-							context.Verb.Quantity  = pi.Quantity;
-						}
-					}
-				}
-
-				if (context.Adjectives.Count > 0 && context.Clause.Predicate == null)
-				{
-					context.Clause.Predicate = new Predicates.AdjectivePredicate (context.Verb, context.Adjectives.ToArray ());
-					context.Verb = null;
-					context.Adjectives.Clear ();
-				}
-
-				sentence.Clauses.Add(context.Clause);
+				context.Clause.Predicate = new Predicates.AdjectivePredicate (context.Verb, context.Adjectives.ToArray ());
+				context.Verb = null;
+				context.Adjectives.Clear ();
 			}
+
+			sentence.Clauses.Add(context.Clause);
 
 			if (context.UnknownWords.Count > 0)
 			{
