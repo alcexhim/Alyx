@@ -15,6 +15,8 @@ namespace Alyx.Linguistics
 			value = mvarLanguage.ReplaceContractions(value);
 
 			SentenceType type = null;
+			SentenceTypeMapping typeMapping = null;
+
 			foreach (SentenceTypeMapping mapping in mvarLanguage.SentenceTypeMappings)
 			{
 				if ((mapping.Prefix == null || value.StartsWith(mapping.Prefix)) && (mapping.Suffix == null || value.EndsWith(mapping.Suffix)))
@@ -22,24 +24,32 @@ namespace Alyx.Linguistics
 					if (mapping.ID == SentenceTypes.Declarative.ID)
 					{
 						type = SentenceTypes.Declarative;
+						typeMapping = mapping;
 						break;
 					}
 					else if (mapping.ID == SentenceTypes.Exclamatory.ID)
 					{
 						type = SentenceTypes.Exclamatory;
+						typeMapping = mapping;
 						break;
 					}
 					else if (mapping.ID == SentenceTypes.Imperative.ID)
 					{
 						type = SentenceTypes.Imperative;
+						typeMapping = mapping;
 						break;
 					}
 					else if (mapping.ID == SentenceTypes.Interrogative.ID)
 					{
 						type = SentenceTypes.Interrogative;
+						typeMapping = mapping;
 						break;
 					}
 				}
+			}
+
+			if (typeMapping != null) {
+				value = value.Substring (typeMapping.Prefix.Length, value.Length - typeMapping.Prefix.Length - typeMapping.Suffix.Length);
 			}
 
 			Sentence sentence = new Sentence (type);
