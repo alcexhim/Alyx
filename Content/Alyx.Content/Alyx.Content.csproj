@@ -100,6 +100,7 @@
     <None Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}\{727C3791-0F8D-4921-B5F4-E2B54D1A0679}.alyxml" />
     <None Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{97A4620E-686D-4F4F-9E99-FD104D16DBCE}\{47977EC7-0CF6-4B08-B2AE-74E87DB8D936}.alyxml" />
     <None Include="Languages\{81B5B066-0E62-4868-81D8-0C9DD388A41B}\Words\{C08DF48F-EDC8-4DF5-BC93-491A3D93B5CD}\{A31F3995-EE00-40F0-8DE4-984A0C5302B2}.alyxml" />
+    <None Include="cleanup.sh" />
   </ItemGroup>
   <Target Name="Build">
     <Copy SourceFiles="@(Content)" DestinationFiles="@(Content-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
