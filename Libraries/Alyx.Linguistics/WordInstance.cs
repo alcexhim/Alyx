@@ -7,7 +7,7 @@ namespace Alyx.Linguistics
 {
 	public abstract class WordInstance
 	{
-		public class WordInstanceCollection : System.Collections.ObjectModel.Collection<WordInstance>
+		public class WordInstanceCollection : System.Collections.Generic.List<WordInstance>
 		{
 
 		}
