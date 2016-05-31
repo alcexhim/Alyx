@@ -10,6 +10,24 @@ namespace Alyx.Linguistics
 		public class WordInstanceCollection : System.Collections.Generic.List<WordInstance>
 		{
 
+			public bool ContainsClass(WordClass clasz)
+			{
+				foreach (WordInstance inst in this) {
+					if (inst.Word.Classes.Contains (clasz))
+						return true;
+				}
+				return false;
+			}
+			public WordInstance[] GetByClass(WordClass clasz)
+			{
+				List<WordInstance> list = new List<WordInstance> ();
+				foreach (WordInstance inst in this) {
+					if (inst.Word.Classes.Contains (clasz))
+						list.Add (inst);
+				}
+				return list.ToArray ();
+			}
+
 		}
 
 		private Word mvarWord = null;
