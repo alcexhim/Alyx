@@ -188,3 +188,6 @@ FakesAssemblies/
 # MonoDevelop crap
 *.resources
 *.userprefs
+
+# explicitly excluded files from version control
+*.exclude
