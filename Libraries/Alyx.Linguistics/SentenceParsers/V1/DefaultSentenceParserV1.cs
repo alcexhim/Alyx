@@ -24,6 +24,23 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 			{
 				Console.WriteLine("Unknown word '" + next.ToLower() + "'");
 				{
+					Dictionary<string, object> dict = new Dictionary<string, object> ();
+					dict.Add ("ID", Guid.Empty);
+					dict.Add ("Word", next);
+					dict.Add ("WordClasses", new WordClass[] { WordClasses.Verb });
+
+					WordMapper[] mappers = Language.CurrentLanguage.WordMappers.GetByCondition (dict);
+					foreach (WordMapper mapper in mappers) {
+						WordInstance[] ins = mapper.GetInstances (next);
+						if (ins.Length > 0) {
+							if (ins [0] is VerbInstance) {
+								Console.WriteLine ("pre-prediction found verb '" + ins [0].ToString () + "'");
+								context.Verb = (ins [0] as VerbInstance);
+							}
+							return true;
+						}
+					}
+
 					Word unk = new Word(Guid.NewGuid());
 					unk.Value = next;
 					if (lang.WordSources[WordSourceGuids.Learned] != null)
