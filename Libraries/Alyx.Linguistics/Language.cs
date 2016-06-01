@@ -20,6 +20,9 @@ namespace Alyx.Linguistics
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
 
+		private SentenceParser mvarSentenceParser = new Alyx.Linguistics.SentenceParsers.V1.DefaultSentenceParserV1 ();
+		public SentenceParser SentenceParser { get { return mvarSentenceParser; } set { mvarSentenceParser = value; } }
+
 		private SentenceTypeMapping.SentenceTypeMappingCollection mvarSentenceTypeMappings = new SentenceTypeMapping.SentenceTypeMappingCollection();
 		/// <summary>
 		/// Sentence type mappings from ID to sentence type value.

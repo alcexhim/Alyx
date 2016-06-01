@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 
 using Alyx.Linguistics.LanguageParts;
-using Alyx.Linguistics.SentenceParsers.V1;
 
 namespace Alyx.Linguistics
 {
@@ -82,9 +81,9 @@ namespace Alyx.Linguistics
 			return (text.Substring(0, 1).ToUpper() + text.Substring(1));
 		}
 
-		public static Sentence Parse(string value)
+		public static Sentence Parse(string value, SentenceParser parser = null)
 		{
-			DefaultSentenceParserV1 parser = new DefaultSentenceParserV1 ();
+			if (parser == null) parser = Language.CurrentLanguage.SentenceParser;
 			return parser.Parse (value);
 		}
 	}
