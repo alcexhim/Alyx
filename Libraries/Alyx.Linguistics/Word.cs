@@ -118,48 +118,40 @@ namespace Alyx.Linguistics
 					}
 					else
 					{
-						foreach (WordMapper mapper in Language.CurrentLanguage.WordMappers)
+						Dictionary<string, object> dict = new Dictionary<string, object> ();
+						dict.Add ("Word", word);
+						dict.Add ("WordClasses", word.Classes);
+						dict.Add ("ID", word.ID.ToString ("B").ToUpper ());
+
+						WordMapper[] mappers = Language.CurrentLanguage.WordMappers.GetByCondition (dict);
+						foreach (WordMapper mapper in mappers)
 						{
-							bool exit = false;
-							if (mapper.Condition == null || mapper.Condition.Test
-							(
-								new KeyValuePair<string, object>("Word", word),
-								new KeyValuePair<string, object>("WordClasses", word.Classes),
-								new KeyValuePair<string, object>("ID", word.ID.ToString("B").ToUpper())
-							))
+							foreach (WordMapperMapping mapping in mapper.Mappings)
 							{
-								foreach (WordMapperMapping mapping in mapper.Mappings)
+								string[] mappingValueParts = mapping.Value.Split(new string[] { "$(Word)" }, StringSplitOptions.None);
+								if (mappingValueParts.Length >= 2)
 								{
-									string[] mappingValueParts = mapping.Value.Split(new string[] { "$(Word)" }, StringSplitOptions.None);
-									if (mappingValueParts.Length >= 2)
+									if (String.IsNullOrEmpty(mappingValueParts[0]) && String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]))
 									{
-										if (String.IsNullOrEmpty(mappingValueParts[0]) && String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]))
+										if (mapping.Value.Replace("$(Word)", word.Value) == value)
 										{
-											if (mapping.Value.Replace("$(Word)", word.Value) == value)
-											{
-												return GetWordInstances(word, mapping);
-											}
-										}
-										else if ((!String.IsNullOrEmpty(mappingValueParts[0]) && value.StartsWith(mappingValueParts[0]))
-											|| (!String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]) && value.EndsWith(mappingValueParts[mappingValueParts.Length - 1])))
-										{
-											string wordValue = value.Substring(mappingValueParts[0].Length, value.Length - mappingValueParts[mappingValueParts.Length - 1].Length);
-											if (word.Value == wordValue)
-											{
-												return GetWordInstances(word, mapping);
-											}
+											return GetWordInstances(word, mapping);
 										}
 									}
-									else if (mappingValueParts.Length == 1)
+									else if ((!String.IsNullOrEmpty(mappingValueParts[0]) && value.StartsWith(mappingValueParts[0]))
+										|| (!String.IsNullOrEmpty(mappingValueParts[mappingValueParts.Length - 1]) && value.EndsWith(mappingValueParts[mappingValueParts.Length - 1])))
 									{
-										if (mapping.Value.ToLower() == value) return GetWordInstances(word, mapping);
+										string wordValue = value.Substring(mappingValueParts[0].Length, value.Length - mappingValueParts[mappingValueParts.Length - 1].Length);
+										if (word.Value == wordValue)
+										{
+											return GetWordInstances(word, mapping);
+										}
 									}
 								}
-							}
-							if (exit)
-							{
-								exitAll = true;
-								break;
+								else if (mappingValueParts.Length == 1)
+								{
+									if (mapping.Value.ToLower() == value) return GetWordInstances(word, mapping);
+								}
 							}
 						}
 					}

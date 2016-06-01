@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +16,14 @@ namespace Alyx.Linguistics
 		public class WordMapperCollection
 			: System.Collections.Generic.List<WordMapper>
 		{
-
+			public WordMapper[] GetByCondition(Dictionary<string, object> dict) {
+				List<WordMapper> list = new List<WordMapper> ();
+				foreach (WordMapper mapper in this) {
+					if (mapper.Condition.Test (dict))
+						list.Add (mapper);
+				}
+				return list.ToArray ();
+			}
 		}
 
 		private Guid mvarID = Guid.Empty;
