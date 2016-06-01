@@ -30,6 +30,12 @@
 								<Criterion Tense="Past" />
 							</Criteria>
 						</Mapping>
+						<!-- * jumping -->
+						<Mapping Value="$(Word)ing">
+							<Criteria>
+								<Criterion Aspect="Continuous" Tense="Present" />
+							</Criteria>
+						</Mapping>
 					</Mappings>
 				</WordMapper>
 			</WordMappers>
