@@ -38,6 +38,48 @@ namespace Alyx.Linguistics
 		private WordMapperMapping.WordMapperMappingCollection mvarMappings = new WordMapperMapping.WordMapperMappingCollection();
 		public WordMapperMapping.WordMapperMappingCollection Mappings { get { return mvarMappings; } }
 
+		public WordInstance[] GetInstances (string value)
+		{
+			List<WordInstance> list = new List<WordInstance> ();
+			foreach (WordMapperMapping mapping in mvarMappings) {
+				if (mapping.Value == "$(Word)") {
+					string word = value;
+				}
+				else {
+					string[] parts = mapping.Value.Split (new string[] { "$(Word)" }, StringSplitOptions.None);
+					  
+					if (parts.Length == 2) {
+						if (String.IsNullOrEmpty (parts [0])) {
+							if (value.EndsWith (parts [1])) {
+								string wordStr = value.Substring (0, value.Length - parts [1].Length);
+
+								Console.WriteLine ("root word found: '" + wordStr + "'");
+								// still don't know how to create arbitrary WordInstance for this word
+
+								WordInstance[] inst = Language.CurrentLanguage.Words.GetWordInstances (wordStr);
+								if (inst.Length == 0) {
+									Word word = new Word (Guid.NewGuid ());
+									word.Classes.Add (WordClasses.Verb);
+									word.Value = wordStr;
+
+									// Aspect=Continuous, Tense=Present: loving
+									// Aspect=Continuous, Tense=Past: being loved
+									// Aspect=Perfect, Tense=Present: having loved
+									// Aspect=Perfect, Tense=Past: having been loved
+
+									VerbInstance verb = new VerbInstance (word);
+									verb.Aspect = Aspect.Continuous;
+									verb.Tense = Tense.Present;
+									list.Add (verb);
+								}
+							}
+						}
+					}
+				}
+			}
+			return list.ToArray ();
+		}
+
 		public string GetValue(WordInstance word)
 		{
 			ArticleInstance article = (word as ArticleInstance);
