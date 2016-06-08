@@ -69,6 +69,13 @@ namespace Alyx
 
 		private static Mind mind = new Mind();
 
+		private class VMI_Test_Camera : VideoMindInput
+		{
+			protected override void ProcessInternal ()
+			{
+			}
+		}
+
 		private static void TestMind()
 		{
 			Language lang = Language.CurrentLanguage;
@@ -76,6 +83,9 @@ namespace Alyx
 			Idea idea = new Idea(new Guid("{5846643F-70E1-4E55-A77A-CDF5F17C2A83}"));
 			idea.Representations.Add(new WordInstanceIdeaRepresentation(lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"))));
 			mind.Ideas.Add(idea);
+
+			mind.Inputs.Add (new VMI_Test_Camera ());
+			mind.Inputs.Add (new VMI_Test_Camera ());
 
 			Sentence sent1 = Sentence.Parse("You're ugly.");
 			Console.WriteLine (sent1.ToString ());
@@ -139,8 +149,16 @@ namespace Alyx
 			//			a.	the beginning and end word are both capitalized, and
 			//			b.	lowercase words in between are solely of Article and Preposition classes
 			//			An example of this case would be "Lord of the Rings".
+			
+			// TestSentenceParser ("The boy went fishing after school.");
+
+			// TestSentenceParser ("The boy often went fishing after school.");
+			// TestSentenceParser ("The boy often went to the library after school.");
 
 			// TODO: fix this, when run more than once it fails epicly
+			TestSentenceParser ("History is an interesting subject.");
+
+			TestSentenceParser ("Jane, John, and Francheska jumped over the lazy dog.");
 			TestSentenceParser ("The name of the boy is John.");
 
 			// [What's] [the boy's name]?
@@ -148,17 +166,30 @@ namespace Alyx
 			// [What is] [the name of the boy]?
 
 			// this one is weird
-			TestSentenceParser ("The founder of Wikipedia and Slashdot is Jimmy Wales.");
+			// TestSentenceParser ("The founder of Wikipedia is Jimmy Wales.");
 
 			// this next one is REALLY weird
 			// TestSentenceParser ("I am going to Spring Oaks today.");
 
-			TestSentenceParser("The quick brown fox jumped over the lazy dog.");
-			TestSentenceParser("The adorable young kitten chased the red bug.");
-			TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
-			TestSentenceParser("Dazzle me.");
+			TestSentenceParser("The quick brown fox jumped quickly over the lazy dog.");
+			// TestSentenceParser("The adorable young kitten chased the red bug.");
+			// TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
+			// TestSentenceParser("Dazzle me.");
 
-			TestSentenceParser("What's the name of the founder of Wikipedia?");
+			// TestSentenceParser("What's the name of the founder of Wikipedia?");
+		}
+
+		private static void TestConversation()
+		{
+			// sample conversation:
+			// YOU:		What's your name?
+			// ALYX:	My name is Alyx.
+
+
+
+			Language lang = Language.CurrentLanguage;
+			Sentence input1 = Sentence.Parse ("What's your name?");
+			string input1Str = input1.ToString ();
 		}
 		
 		/// <summary>
@@ -173,10 +204,12 @@ namespace Alyx
 			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			Language.CurrentLanguage = lang;
 
+			TestConversation ();
+
 			// TestMind();
 
-			TestSentenceRenderer();
-			// TestSentenceParser();
+			// TestSentenceRenderer();
+			TestSentenceParser();
 
 			bool enableNetworking = false;
 			if (enableNetworking)
@@ -199,8 +232,10 @@ namespace Alyx
 			nid.Icon = iconDefault;
 			nid.Visible = true;
 
-			mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
-			mvarSpeechMonitorWindow.Show();
+			MainWindow mw = new MainWindow ();
+			mw.Show ();
+			// mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
+			// mvarSpeechMonitorWindow.Show();
 			
 			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
 			
