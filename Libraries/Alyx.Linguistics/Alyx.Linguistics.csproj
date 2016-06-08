@@ -81,6 +81,8 @@
     <Compile Include="SentenceParser.cs" />
     <Compile Include="SentenceParsers\V1\DefaultSentenceParserV1.cs" />
     <Compile Include="SentenceParsers\V1\SentenceParserContext.cs" />
+    <Compile Include="SentenceParsers\V2\DefaultSentenceParserV2.cs" />
+    <Compile Include="SentenceParsers\V2\WordCandidate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
@@ -107,5 +109,6 @@
   <ItemGroup>
     <Folder Include="SentenceParsers\" />
     <Folder Include="SentenceParsers\V1\" />
+    <Folder Include="SentenceParsers\V2\" />
   </ItemGroup>
 </Project>
