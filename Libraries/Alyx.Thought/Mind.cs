@@ -13,14 +13,25 @@ namespace Alyx.Thought
 		private Idea.IdeaCollection mvarIdeas = new Idea.IdeaCollection();
 		public Idea.IdeaCollection Ideas { get { return mvarIdeas; } }
 
+		private MindInput.MindInputCollection mvarInputs = new MindInput.MindInputCollection();
+		public MindInput.MindInputCollection Inputs { get { return mvarInputs; } }
+
 		private System.Threading.Thread _thread = null;
 		private void _thread_ThreadStart()
 		{
 			while (true)
 			{
+				// check our status, process inputs, etc.
+				foreach (MindInput input in mvarInputs)
+				{
+					input.Process ();
+				}
+
+				// finally print our current status
 				debug_PrintStatus();
 
-				System.Threading.Thread.Sleep(1000);
+				// and sleep for a while so we don't suck up CPU time
+				System.Threading.Thread.Sleep(500);
 			}
 		}
 
