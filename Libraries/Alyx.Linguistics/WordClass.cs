@@ -51,10 +51,20 @@ namespace Alyx.Linguistics
 
 		public static bool operator ==(WordClass left, WordClass right)
 		{
+			if ((object)left == null && (object)right == null)
+				return true;
+			if ((object)left == null || (object)right == null)
+				return false;
+
 			return left.Equals(right);
 		}
 		public static bool operator !=(WordClass left, WordClass right)
 		{
+			if ((object)left == null && (object)right == null)
+				return false;
+			if ((object)left == null || (object)right == null)
+				return true;
+
 			return !left.Equals(right);
 		}
 	}
