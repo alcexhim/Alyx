@@ -146,6 +146,10 @@
       <Project>{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}</Project>
       <Name>Alyx.Thought</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Configuration\Alyx.Configuration.csproj">
+      <Project>{44BB83D2-2DC7-4602-9545-3351137A9E3D}</Project>
+      <Name>Alyx.Configuration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MainIcon.ico" />

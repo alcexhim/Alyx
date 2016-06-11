@@ -16,6 +16,8 @@ using Alyx.Speech;
 using Alyx.Thought;
 using Alyx.Linguistics.Thought;
 
+using Alyx.Configuration;
+
 namespace Alyx
 {
 	static class Program
@@ -33,7 +35,7 @@ namespace Alyx
 
 		private static Alyx.Networking.Client client = new Alyx.Networking.Client();
 		public static Alyx.Networking.Client Client { get { return client; } }
-		
+
 		private static System.Drawing.Image GetImage(string path)
 		{
 			path = path.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
@@ -185,8 +187,11 @@ namespace Alyx
 			// YOU:		What's your name?
 			// ALYX:	My name is Alyx.
 
+			LocalMachine machine = new LocalMachine ();
+			machine.Load ();
 
-
+			Instance instance = machine.Instances[new Guid("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
+			
 			Language lang = Language.CurrentLanguage;
 			Sentence input1 = Sentence.Parse ("What's your name?");
 			string input1Str = input1.ToString ();
@@ -201,7 +206,13 @@ namespace Alyx
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			LocalMachine machine = new LocalMachine ();
+			machine.Load ();
+
+			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
+			
+
+			Language lang = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
 			Language.CurrentLanguage = lang;
 
 			TestConversation ();
@@ -320,7 +331,7 @@ namespace Alyx
 
 		private static Language InitializeLanguage_English()
 		{
-			Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
+			// Language lang = Language.GetByID(new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}"));
 			/*
 			lang.WordMappings.Add(new WordMapping(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"), new WordMappingValue[]
 			{
@@ -390,7 +401,7 @@ namespace Alyx
 				})
 			}));
 			*/
-			return lang;
+			return null; // lang;
 		}
 
 		private static void Speak(string text, bool waitUntilDone = false)

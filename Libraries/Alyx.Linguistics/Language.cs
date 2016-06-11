@@ -14,6 +14,53 @@ namespace Alyx.Linguistics
 {
 	public class Language
 	{
+		public class LanguageCollection
+			: System.Collections.ObjectModel.Collection<Language>
+		{
+			private Dictionary<Guid, Language> _itemsByID = new Dictionary<Guid, Language> ();
+
+			public Language this[Guid id]
+			{
+				get
+				{
+					if (_itemsByID.ContainsKey (id)) {
+						return _itemsByID [id];
+					}
+					return null;
+				}
+			}
+
+			protected override void ClearItems ()
+			{
+				base.ClearItems ();
+				_itemsByID.Clear ();
+			}
+			protected override void InsertItem (int index, Language item)
+			{
+				base.InsertItem (index, item);
+				_itemsByID[item.ID] = item;
+			}
+			protected override void RemoveItem (int index)
+			{
+				if (index >= 0 && index < this.Count) {
+					if (_itemsByID.ContainsKey (this [index].ID)) {
+						_itemsByID.Remove (this [index].ID);
+					}
+				}
+				base.RemoveItem (index);
+			}
+			protected override void SetItem (int index, Language item)
+			{
+				if (index >= 0 && index < this.Count) {
+					if (_itemsByID.ContainsKey (this [index].ID)) {
+						_itemsByID.Remove (this [index].ID);
+					}
+				}
+				base.SetItem (index, item);
+				_itemsByID[item.ID] = item;
+			}
+		}
+
 		private Guid mvarID = Guid.Empty;
 		public Guid ID { get { return mvarID; } }
 
@@ -68,384 +115,6 @@ namespace Alyx.Linguistics
 		/// All <see cref="Word" />s available in this <see cref="Language" />.
 		/// </summary>
 		public Word.WordCollection Words { get { return mvarWords; } }
-
-		private static MarkupObjectModel conf = new MarkupObjectModel();
-		private static XMLDataFormat xdf = new XMLDataFormat();
-
-		private static Language[] _languages = null;
-		/// <summary>
-		/// Gets all the <see cref="Language" />s defined for the system.
-		/// </summary>
-		/// <returns></returns>
-		public static Language[] Get()
-		{
-			if (_languages == null)
-			{
-				List<Language> list = new List<Language>();
-
-				string[] basePaths = new string[]
-				{
-					String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
-					{
-						System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-						"alyx",
-						"Languages"
-					}),
-					String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
-					{
-						System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
-						"Languages"
-					})
-				};
-
-				foreach (string basePath in basePaths)
-				{
-					if (!System.IO.Directory.Exists (basePath))
-						continue;
-
-					string[] dirnames = System.IO.Directory.GetDirectories(basePath);
-					foreach (string dirname in dirnames)
-					{
-						string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.alyxml", System.IO.SearchOption.AllDirectories);
-						foreach (string xmlfile in xmlfiles)
-						{
-							MarkupObjectModel xmlconf = new MarkupObjectModel();
-							
-							Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
-							xmlconf.CopyTo(conf);
-						}
-					}
-
-				}
-
-				MarkupTagElement tagAlyx = (conf.Elements["Alyx"] as MarkupTagElement);
-				if (tagAlyx != null)
-				{
-					MarkupTagElement tagLanguages = (tagAlyx.Elements["Languages"] as MarkupTagElement);
-					if (tagLanguages != null)
-					{
-						foreach (MarkupElement elLanguage in tagLanguages.Elements)
-						{
-							MarkupTagElement tagLanguage = (elLanguage as MarkupTagElement);
-							if (tagLanguage == null) continue;
-							if (tagLanguage.FullName != "Language") continue;
-
-							MarkupAttribute attLanguageID = tagLanguage.Attributes["ID"];
-							if (attLanguageID == null) continue;
-
-							Language lang = new Language(new Guid(attLanguageID.Value));
-
-							MarkupTagElement tagInformation = (tagLanguage.Elements["Information"] as MarkupTagElement);
-							if (tagInformation != null)
-							{
-								MarkupTagElement tagTitle = (tagInformation.Elements["Title"] as MarkupTagElement);
-								if (tagTitle != null) lang.Title = tagTitle.Value;
-							}
-
-							MarkupTagElement tagContractionTypes = (tagLanguage.Elements["ContractionTypes"] as MarkupTagElement);
-							if (tagContractionTypes != null)
-							{
-								foreach (MarkupElement elContractionType in tagContractionTypes.Elements)
-								{
-									MarkupTagElement tagContractionType = (elContractionType as MarkupTagElement);
-									if (tagContractionType == null) continue;
-									if (tagContractionType.FullName != "ContractionType") continue;
-
-									MarkupAttribute attContractionTypeID = tagContractionType.Attributes["ID"];
-									if (attContractionTypeID == null) continue;
-
-									MarkupAttribute attContraction = tagContractionType.Attributes["Contraction"];
-									MarkupAttribute attValue = tagContractionType.Attributes["Value"];
-
-									MarkupTagElement tagAllowedPrefixes = (tagContractionType.Elements["AllowedPrefixes"] as MarkupTagElement);
-
-									if (attContraction == null || attValue == null || tagAllowedPrefixes == null) continue;
-
-									ContractionType ctype = new ContractionType();
-									ctype.ID = new Guid(attContractionTypeID.Value);
-									ctype.Contraction = attContraction.Value;
-									ctype.Value = attValue.Value;
-									foreach (MarkupElement elAllowedPrefix in tagAllowedPrefixes.Elements)
-									{
-										MarkupTagElement tagAllowedPrefix = (elAllowedPrefix as MarkupTagElement);
-										if (tagAllowedPrefix == null) continue;
-										if (tagAllowedPrefix.FullName != "AllowedPrefix") continue;
-
-										MarkupAttribute attAllowedPrefixValue = tagAllowedPrefix.Attributes["Value"];
-										if (attAllowedPrefixValue == null) continue;
-
-										ctype.Prefixes.Add(attAllowedPrefixValue.Value);
-									}
-									lang.ContractionTypes.Add(ctype);
-								}
-							}
-
-							MarkupTagElement tagGenders = (tagLanguage.Elements["Genders"] as MarkupTagElement);
-							if (tagGenders != null)
-							{
-								foreach (MarkupElement elGender in tagGenders.Elements)
-								{
-									MarkupTagElement tagGender = (elGender as MarkupTagElement);
-									if (tagGender == null) continue;
-									if (tagGender.FullName != "Gender") continue;
-
-									MarkupAttribute attGenderID = tagGender.Attributes["ID"];
-									if (attGenderID == null) continue;
-
-									Gender gender = new Gender(new Guid(attGenderID.Value));
-									
-									MarkupAttribute attGenderTitle = tagGender.Attributes["Title"];
-									if (attGenderTitle != null) gender.Title = attGenderTitle.Value;
-
-									lang.Genders.Add(gender);
-								}
-							}
-
-							MarkupTagElement tagWordUsages = (tagLanguage.Elements["WordUsages"] as MarkupTagElement);
-							if (tagWordUsages != null)
-							{
-								foreach (MarkupElement elWordUsage in tagWordUsages.Elements)
-								{
-									MarkupTagElement tagWordUsage = (elWordUsage as MarkupTagElement);
-									if (tagWordUsage == null) continue;
-									if (tagWordUsage.FullName != "WordUsage") continue;
-
-									MarkupAttribute attWordUsageID = tagWordUsage.Attributes["ID"];
-									if (attWordUsageID == null) continue;
-
-									WordUsage usage = new WordUsage(new Guid(attWordUsageID.Value));
-
-									MarkupAttribute attWordUsageTitle = tagWordUsage.Attributes["Title"];
-									if (attWordUsageTitle != null) usage.Title = attWordUsageTitle.Value;
-
-									lang.WordUsages.Add(usage);
-								}
-							}
-
-							MarkupTagElement tagSentenceTypes = (tagLanguage.Elements["SentenceTypes"] as MarkupTagElement);
-							if (tagSentenceTypes != null)
-							{
-								foreach (MarkupElement elSentenceType in tagSentenceTypes.Elements)
-								{
-									MarkupTagElement tagSentenceType = (elSentenceType as MarkupTagElement);
-									if (tagSentenceType == null) continue;
-									if (tagSentenceType.FullName != "SentenceType") continue;
-
-									MarkupAttribute attID = tagSentenceType.Attributes["ID"];
-									if (attID == null) continue;
-
-									SentenceTypeMapping mapping = new SentenceTypeMapping(new Guid(attID.Value));
-
-									MarkupAttribute attPrefix = tagSentenceType.Attributes["Prefix"];
-									if (attPrefix != null) mapping.Prefix = attPrefix.Value;
-
-									MarkupAttribute attSuffix = tagSentenceType.Attributes["Suffix"];
-									if (attSuffix != null) mapping.Suffix = attSuffix.Value;
-
-									lang.SentenceTypeMappings.Add(mapping);
-								}
-							}
-
-							MarkupTagElement tagWordSources = (tagLanguage.Elements["WordSources"] as MarkupTagElement);
-							if (tagWordSources != null)
-							{
-								foreach (MarkupElement elWordSource in tagWordSources.Elements)
-								{
-									MarkupTagElement tagWordSource = (elWordSource as MarkupTagElement);
-									if (tagWordSource == null) continue;
-									if (tagWordSource.FullName != "WordSource") continue;
-
-									MarkupAttribute attWordSourceID = tagWordSource.Attributes["ID"];
-									if (attWordSourceID == null) continue;
-
-									MarkupAttribute attWordSourceTitle = tagWordSource.Attributes["Title"];
-									if (attWordSourceTitle == null) continue;
-
-									WordSource source = new WordSource();
-									source.ID = new Guid(attWordSourceID.Value);
-									source.Title = attWordSourceTitle.Value;
-									lang.WordSources.Add(source);
-								}
-							}
-
-							MarkupTagElement tagWordMappers = (tagLanguage.Elements["WordMappers"] as MarkupTagElement);
-							if (tagWordMappers != null)
-							{
-								foreach (MarkupElement elWordMapper in tagWordMappers.Elements)
-								{
-									MarkupTagElement tagWordMapper = (elWordMapper as MarkupTagElement);
-									if (tagWordMapper == null) continue;
-									if (tagWordMapper.FullName != "WordMapper") continue;
-
-									MarkupAttribute attID = tagWordMapper.Attributes["ID"];
-									if (attID == null) continue;
-
-									WordMapper mapper = new WordMapper(new Guid(attID.Value));
-
-									MarkupAttribute attPriority = tagWordMapper.Attributes["Priority"];
-									if (attPriority != null)
-									{
-										int priority = 0;
-										if (attPriority.Value.ToLower() == "highest")
-										{
-											priority = Int32.MaxValue;
-										}
-										else if (attPriority.Value.ToLower() == "lowest")
-										{
-											priority = Int32.MinValue;
-										}
-										else
-										{
-											Int32.TryParse(attPriority.Value, out priority);
-										}
-										mapper.Priority = priority;
-									}
-
-									MarkupTagElement tagConditionalStatement = (tagWordMapper.Elements["ConditionalStatement"] as MarkupTagElement);
-									if (tagConditionalStatement != null && tagConditionalStatement.Elements.Count > 0)
-									{
-										MarkupTagElement tagCondition = null;
-										foreach (MarkupElement el in tagConditionalStatement.Elements)
-										{
-											tagCondition = (el as MarkupTagElement);
-											if (tagCondition != null) break;
-										}
-										mapper.Condition = ConditionalStatementParser.Parse(tagCondition);
-									}
-
-									MarkupTagElement tagMappings = (tagWordMapper.Elements["Mappings"] as MarkupTagElement);
-									if (tagMappings != null)
-									{
-										foreach (MarkupElement elMapping in tagMappings.Elements)
-										{
-											MarkupTagElement tagMapping = (elMapping as MarkupTagElement);
-											if (tagMapping == null) continue;
-											if (tagMapping.FullName != "Mapping") continue;
-
-											MarkupAttribute attValue = tagMapping.Attributes["Value"];
-											if (attValue == null) continue;
-
-											WordMapperMapping mapping = new WordMapperMapping(attValue.Value);
-
-											MarkupTagElement tagCriteria = (tagMapping.Elements["Criteria"] as MarkupTagElement);
-											if (tagCriteria != null)
-											{
-												LoadCriteria(lang, tagCriteria, mapping.Criteria);
-											}
-
-											mapper.Mappings.Add(mapping);
-										}
-									}
-
-									lang.WordMappers.Add(mapper);
-								}
-							}
-
-							lang.WordMappers.Sort(new Comparison<WordMapper>(delegate(WordMapper left, WordMapper right)
-							{
-								return right.Priority.CompareTo(left.Priority);
-							}));
-
-							#region Load word classes
-							{
-								MarkupTagElement tagWordClasses = (tagLanguage.Elements["WordClasses"] as MarkupTagElement);
-								if (tagWordClasses != null)
-								{
-									foreach (MarkupElement elWordClass in tagWordClasses.Elements)
-									{
-										MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
-										if (tagWordClass == null) continue;
-
-										MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
-										if (attWordClassID == null) continue;
-
-										WordClass wordClass = new WordClass(new Guid(attWordClassID.Value));
-
-										lang.WordClasses.Add(wordClass);
-									}
-								}
-							}
-							#endregion
-
-							MarkupTagElement tagWords = (tagLanguage.Elements["Words"] as MarkupTagElement);
-							if (tagWords != null)
-							{
-								foreach (MarkupElement elWord in tagWords.Elements)
-								{
-									MarkupTagElement tagWord = (elWord as MarkupTagElement);
-									if (tagWord == null) continue;
-									if (tagWord.FullName != "Word") continue;
-
-									MarkupAttribute attWordID = tagWord.Attributes["ID"];
-									if (attWordID == null) continue;
-
-									Word word = new Word(new Guid(attWordID.Value));
-
-									MarkupAttribute attPriority = tagWord.Attributes["Priority"];
-									if (attPriority != null)
-									{
-										int priority = 0;
-										if (attPriority.Value.ToLower() == "highest")
-										{
-											priority = Int32.MaxValue;
-										}
-										else if (attPriority.Value.ToLower() == "lowest")
-										{
-											priority = Int32.MinValue;
-										}
-										else
-										{
-											Int32.TryParse(attPriority.Value, out priority);
-										}
-										word.Priority = priority;
-									}
-
-									MarkupAttribute attValue = tagWord.Attributes["Value"];
-									if (attValue != null) word.Value = attValue.Value;
-
-									MarkupTagElement tagWordClasses = (tagWord.Elements["WordClasses"] as MarkupTagElement);
-									if (tagWordClasses != null)
-									{
-										foreach (MarkupElement elWordClass in tagWordClasses.Elements)
-										{
-											MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
-											if (tagWordClass == null) continue;
-											if (tagWordClass.FullName != "WordClass") continue;
-
-											MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
-											if (attWordClassID == null) continue;
-
-											WordClass wordClass = lang.WordClasses[new Guid(attWordClassID.Value)];
-											if (wordClass == null) continue;
-
-											MarkupAttribute attWordClassTitle = tagWordClass.Attributes["Title"];
-											if (attWordClassTitle != null)
-											{
-												wordClass.Title = attWordClassTitle.Value;
-											}
-
-											word.Classes.Add(wordClass);
-										}
-									}
-
-									lang.Words.Add(word);
-								}
-
-								lang.Words.Sort(new Comparison<Word>(delegate(Word left, Word right)
-								                                                 {
-									return right.Priority.CompareTo(left.Priority);
-								}));
-							}
-
-							list.Add(lang);
-						}
-					}
-				}
-
-				_languages = list.ToArray();
-			}
-			return _languages;
-		}
 
 		private static void LoadCriteria(Language lang, MarkupTagElement tag, WordMapperMappingCriteria.WordMapperMappingCriteriaCollection criteria)
 		{
@@ -585,16 +254,320 @@ namespace Alyx.Linguistics
 			}
 		}
 
-		public static Language GetByID(Guid id)
+		public static Language FromMarkup(MarkupTagElement tagLanguage)
 		{
-			Language[] languages = Get();
-			foreach (Language lang in languages)
+			if (tagLanguage == null) return null;
+			if (tagLanguage.FullName != "Language") return null;
+
+			MarkupAttribute attLanguageID = tagLanguage.Attributes["ID"];
+			if (attLanguageID == null) return null;
+
+			Language lang = new Language(new Guid(attLanguageID.Value));
+
+			MarkupTagElement tagInformation = (tagLanguage.Elements["Information"] as MarkupTagElement);
+			if (tagInformation != null)
 			{
-				if (lang.ID == id) return lang;
+				MarkupTagElement tagTitle = (tagInformation.Elements["Title"] as MarkupTagElement);
+				if (tagTitle != null) lang.Title = tagTitle.Value;
 			}
-			return null;
+
+			MarkupTagElement tagContractionTypes = (tagLanguage.Elements["ContractionTypes"] as MarkupTagElement);
+			if (tagContractionTypes != null)
+			{
+				foreach (MarkupElement elContractionType in tagContractionTypes.Elements)
+				{
+					MarkupTagElement tagContractionType = (elContractionType as MarkupTagElement);
+					if (tagContractionType == null) continue;
+					if (tagContractionType.FullName != "ContractionType") continue;
+
+					MarkupAttribute attContractionTypeID = tagContractionType.Attributes["ID"];
+					if (attContractionTypeID == null) continue;
+
+					MarkupAttribute attContraction = tagContractionType.Attributes["Contraction"];
+					MarkupAttribute attValue = tagContractionType.Attributes["Value"];
+
+					MarkupTagElement tagAllowedPrefixes = (tagContractionType.Elements["AllowedPrefixes"] as MarkupTagElement);
+
+					if (attContraction == null || attValue == null || tagAllowedPrefixes == null) continue;
+
+					ContractionType ctype = new ContractionType();
+					ctype.ID = new Guid(attContractionTypeID.Value);
+					ctype.Contraction = attContraction.Value;
+					ctype.Value = attValue.Value;
+					foreach (MarkupElement elAllowedPrefix in tagAllowedPrefixes.Elements)
+					{
+						MarkupTagElement tagAllowedPrefix = (elAllowedPrefix as MarkupTagElement);
+						if (tagAllowedPrefix == null) continue;
+						if (tagAllowedPrefix.FullName != "AllowedPrefix") continue;
+
+						MarkupAttribute attAllowedPrefixValue = tagAllowedPrefix.Attributes["Value"];
+						if (attAllowedPrefixValue == null) continue;
+
+						ctype.Prefixes.Add(attAllowedPrefixValue.Value);
+					}
+					lang.ContractionTypes.Add(ctype);
+				}
+			}
+
+			MarkupTagElement tagGenders = (tagLanguage.Elements["Genders"] as MarkupTagElement);
+			if (tagGenders != null)
+			{
+				foreach (MarkupElement elGender in tagGenders.Elements)
+				{
+					MarkupTagElement tagGender = (elGender as MarkupTagElement);
+					if (tagGender == null) continue;
+					if (tagGender.FullName != "Gender") continue;
+
+					MarkupAttribute attGenderID = tagGender.Attributes["ID"];
+					if (attGenderID == null) continue;
+
+					Gender gender = new Gender(new Guid(attGenderID.Value));
+					
+					MarkupAttribute attGenderTitle = tagGender.Attributes["Title"];
+					if (attGenderTitle != null) gender.Title = attGenderTitle.Value;
+
+					lang.Genders.Add(gender);
+				}
+			}
+
+			MarkupTagElement tagWordUsages = (tagLanguage.Elements["WordUsages"] as MarkupTagElement);
+			if (tagWordUsages != null)
+			{
+				foreach (MarkupElement elWordUsage in tagWordUsages.Elements)
+				{
+					MarkupTagElement tagWordUsage = (elWordUsage as MarkupTagElement);
+					if (tagWordUsage == null) continue;
+					if (tagWordUsage.FullName != "WordUsage") continue;
+
+					MarkupAttribute attWordUsageID = tagWordUsage.Attributes["ID"];
+					if (attWordUsageID == null) continue;
+
+					WordUsage usage = new WordUsage(new Guid(attWordUsageID.Value));
+
+					MarkupAttribute attWordUsageTitle = tagWordUsage.Attributes["Title"];
+					if (attWordUsageTitle != null) usage.Title = attWordUsageTitle.Value;
+
+					lang.WordUsages.Add(usage);
+				}
+			}
+
+			MarkupTagElement tagSentenceTypes = (tagLanguage.Elements["SentenceTypes"] as MarkupTagElement);
+			if (tagSentenceTypes != null)
+			{
+				foreach (MarkupElement elSentenceType in tagSentenceTypes.Elements)
+				{
+					MarkupTagElement tagSentenceType = (elSentenceType as MarkupTagElement);
+					if (tagSentenceType == null) continue;
+					if (tagSentenceType.FullName != "SentenceType") continue;
+
+					MarkupAttribute attID = tagSentenceType.Attributes["ID"];
+					if (attID == null) continue;
+
+					SentenceTypeMapping mapping = new SentenceTypeMapping(new Guid(attID.Value));
+
+					MarkupAttribute attPrefix = tagSentenceType.Attributes["Prefix"];
+					if (attPrefix != null) mapping.Prefix = attPrefix.Value;
+
+					MarkupAttribute attSuffix = tagSentenceType.Attributes["Suffix"];
+					if (attSuffix != null) mapping.Suffix = attSuffix.Value;
+
+					lang.SentenceTypeMappings.Add(mapping);
+				}
+			}
+
+			MarkupTagElement tagWordSources = (tagLanguage.Elements["WordSources"] as MarkupTagElement);
+			if (tagWordSources != null)
+			{
+				foreach (MarkupElement elWordSource in tagWordSources.Elements)
+				{
+					MarkupTagElement tagWordSource = (elWordSource as MarkupTagElement);
+					if (tagWordSource == null) continue;
+					if (tagWordSource.FullName != "WordSource") continue;
+
+					MarkupAttribute attWordSourceID = tagWordSource.Attributes["ID"];
+					if (attWordSourceID == null) continue;
+
+					MarkupAttribute attWordSourceTitle = tagWordSource.Attributes["Title"];
+					if (attWordSourceTitle == null) continue;
+
+					WordSource source = new WordSource();
+					source.ID = new Guid(attWordSourceID.Value);
+					source.Title = attWordSourceTitle.Value;
+					lang.WordSources.Add(source);
+				}
+			}
+
+			MarkupTagElement tagWordMappers = (tagLanguage.Elements["WordMappers"] as MarkupTagElement);
+			if (tagWordMappers != null)
+			{
+				foreach (MarkupElement elWordMapper in tagWordMappers.Elements)
+				{
+					MarkupTagElement tagWordMapper = (elWordMapper as MarkupTagElement);
+					if (tagWordMapper == null) continue;
+					if (tagWordMapper.FullName != "WordMapper") continue;
+
+					MarkupAttribute attID = tagWordMapper.Attributes["ID"];
+					if (attID == null) continue;
+
+					WordMapper mapper = new WordMapper(new Guid(attID.Value));
+
+					MarkupAttribute attPriority = tagWordMapper.Attributes["Priority"];
+					if (attPriority != null)
+					{
+						int priority = 0;
+						if (attPriority.Value.ToLower() == "highest")
+						{
+							priority = Int32.MaxValue;
+						}
+						else if (attPriority.Value.ToLower() == "lowest")
+						{
+							priority = Int32.MinValue;
+						}
+						else
+						{
+							Int32.TryParse(attPriority.Value, out priority);
+						}
+						mapper.Priority = priority;
+					}
+
+					MarkupTagElement tagConditionalStatement = (tagWordMapper.Elements["ConditionalStatement"] as MarkupTagElement);
+					if (tagConditionalStatement != null && tagConditionalStatement.Elements.Count > 0)
+					{
+						MarkupTagElement tagCondition = null;
+						foreach (MarkupElement el in tagConditionalStatement.Elements)
+						{
+							tagCondition = (el as MarkupTagElement);
+							if (tagCondition != null) break;
+						}
+						mapper.Condition = ConditionalStatementParser.Parse(tagCondition);
+					}
+
+					MarkupTagElement tagMappings = (tagWordMapper.Elements["Mappings"] as MarkupTagElement);
+					if (tagMappings != null)
+					{
+						foreach (MarkupElement elMapping in tagMappings.Elements)
+						{
+							MarkupTagElement tagMapping = (elMapping as MarkupTagElement);
+							if (tagMapping == null) continue;
+							if (tagMapping.FullName != "Mapping") continue;
+
+							MarkupAttribute attValue = tagMapping.Attributes["Value"];
+							if (attValue == null) continue;
+
+							WordMapperMapping mapping = new WordMapperMapping(attValue.Value);
+
+							MarkupTagElement tagCriteria = (tagMapping.Elements["Criteria"] as MarkupTagElement);
+							if (tagCriteria != null)
+							{
+								LoadCriteria(lang, tagCriteria, mapping.Criteria);
+							}
+
+							mapper.Mappings.Add(mapping);
+						}
+					}
+
+					lang.WordMappers.Add(mapper);
+				}
+			}
+
+			lang.WordMappers.Sort(new Comparison<WordMapper>(delegate(WordMapper left, WordMapper right)
+			{
+				return right.Priority.CompareTo(left.Priority);
+			}));
+
+			#region Load word classes
+			{
+				MarkupTagElement tagWordClasses = (tagLanguage.Elements["WordClasses"] as MarkupTagElement);
+				if (tagWordClasses != null)
+				{
+					foreach (MarkupElement elWordClass in tagWordClasses.Elements)
+					{
+						MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
+						if (tagWordClass == null) continue;
+
+						MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
+						if (attWordClassID == null) continue;
+
+						WordClass wordClass = new WordClass(new Guid(attWordClassID.Value));
+
+						lang.WordClasses.Add(wordClass);
+					}
+				}
+			}
+			#endregion
+
+			MarkupTagElement tagWords = (tagLanguage.Elements["Words"] as MarkupTagElement);
+			if (tagWords != null)
+			{
+				foreach (MarkupElement elWord in tagWords.Elements)
+				{
+					MarkupTagElement tagWord = (elWord as MarkupTagElement);
+					if (tagWord == null) continue;
+					if (tagWord.FullName != "Word") continue;
+
+					MarkupAttribute attWordID = tagWord.Attributes["ID"];
+					if (attWordID == null) continue;
+
+					Word word = new Word(new Guid(attWordID.Value));
+
+					MarkupAttribute attPriority = tagWord.Attributes["Priority"];
+					if (attPriority != null)
+					{
+						int priority = 0;
+						if (attPriority.Value.ToLower() == "highest")
+						{
+							priority = Int32.MaxValue;
+						}
+						else if (attPriority.Value.ToLower() == "lowest")
+						{
+							priority = Int32.MinValue;
+						}
+						else
+						{
+							Int32.TryParse(attPriority.Value, out priority);
+						}
+						word.Priority = priority;
+					}
+
+					MarkupAttribute attValue = tagWord.Attributes["Value"];
+					if (attValue != null) word.Value = attValue.Value;
+
+					MarkupTagElement tagWordClasses = (tagWord.Elements["WordClasses"] as MarkupTagElement);
+					if (tagWordClasses != null)
+					{
+						foreach (MarkupElement elWordClass in tagWordClasses.Elements)
+						{
+							MarkupTagElement tagWordClass = (elWordClass as MarkupTagElement);
+							if (tagWordClass == null) continue;
+							if (tagWordClass.FullName != "WordClass") continue;
+
+							MarkupAttribute attWordClassID = tagWordClass.Attributes["ID"];
+							if (attWordClassID == null) continue;
+
+							WordClass wordClass = lang.WordClasses[new Guid(attWordClassID.Value)];
+							if (wordClass == null) continue;
+
+							MarkupAttribute attWordClassTitle = tagWordClass.Attributes["Title"];
+							if (attWordClassTitle != null)
+							{
+								wordClass.Title = attWordClassTitle.Value;
+							}
+
+							word.Classes.Add(wordClass);
+						}
+					}
+
+					lang.Words.Add(word);
+				}
+
+				lang.Words.Sort(new Comparison<Word>(delegate(Word left, Word right)
+				                                                 {
+					return right.Priority.CompareTo(left.Priority);
+				}));
+			}
+			return lang;
 		}
-		
+
 		public ArticleInstance GetArticle(Definiteness definiteness = Definiteness.Unspecified, Quantity quantity = Quantity.Unspecified)
 		{
 			foreach (Word word in mvarWords)

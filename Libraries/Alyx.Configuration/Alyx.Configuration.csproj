@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44BB83D2-2DC7-4602-9545-3351137A9E3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Alyx.Configuration</RootNamespace>
+    <AssemblyName>Alyx.Configuration</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Machine.cs" />
+    <Compile Include="LocalMachine.cs" />
+    <Compile Include="Instance.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+      <Project>{2D4737E6-6D95-408A-90DB-8DFF38147E85}</Project>
+      <Name>UniversalEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+      <Project>{30467E5C-05BC-4856-AADC-13906EF4CADD}</Project>
+      <Name>UniversalEditor.Essential</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Linguistics\Alyx.Linguistics.csproj">
+      <Project>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</Project>
+      <Name>Alyx.Linguistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Core\Alyx.Core.csproj">
+      <Project>{35D24257-56A1-40E0-B7C7-530B37C92D25}</Project>
+      <Name>Alyx.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Networking\Alyx.Networking.csproj">
+      <Project>{80656D38-A2CA-4994-9717-1F0F01BD51D5}</Project>
+      <Name>Alyx.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Speech\Alyx.Speech.csproj">
+      <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
+      <Name>Alyx.Speech</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Thought\Alyx.Thought.csproj">
+      <Project>{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}</Project>
+      <Name>Alyx.Thought</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ApplicationFramework\CSharp\ApplicationFramework\ApplicationFramework.csproj">
+      <Project>{575C9BFC-445C-45AE-93A2-B06105F743D6}</Project>
+      <Name>ApplicationFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
