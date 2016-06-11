@@ -116,6 +116,16 @@ namespace Alyx.Linguistics
 		/// </summary>
 		public Word.WordCollection Words { get { return mvarWords; } }
 
+		private WordPattern.WordPatternCollection mvarWordPatterns = new WordPattern.WordPatternCollection();
+		/// <summary>
+		/// Gets the word patterns.
+		/// </summary>
+		/// <value>The word patterns.</value>
+		public WordPattern.WordPatternCollection WordPatterns { get { return mvarWordPatterns; } }
+
+		private SentencePattern.SentencePatternCollection mvarSentencePatterns = new SentencePattern.SentencePatternCollection();
+		public SentencePattern.SentencePatternCollection SentencePatterns { get { return mvarSentencePatterns; } }
+
 		private static void LoadCriteria(Language lang, MarkupTagElement tag, WordMapperMappingCriteria.WordMapperMappingCriteriaCollection criteria)
 		{
 			foreach (MarkupElement elCriterion in tag.Elements)
@@ -490,6 +500,10 @@ namespace Alyx.Linguistics
 
 						WordClass wordClass = new WordClass(new Guid(attWordClassID.Value));
 
+						MarkupAttribute attWordClassTitle = tagWordClass.Attributes["Title"];
+						if (attWordClassTitle != null)
+							wordClass.Title = attWordClassTitle.Value;
+
 						lang.WordClasses.Add(wordClass);
 					}
 				}
@@ -565,6 +579,43 @@ namespace Alyx.Linguistics
 					return right.Priority.CompareTo(left.Priority);
 				}));
 			}
+
+			MarkupTagElement tagWordPatterns = (tagLanguage.Elements ["WordPatterns"] as MarkupTagElement);
+			if (tagWordPatterns != null)
+			{
+				foreach (MarkupElement elWordPattern in tagWordPatterns.Elements)
+				{
+					WordPattern pattern = WordPattern.FromMarkup (elWordPattern as MarkupTagElement, lang);
+					if (pattern == null)
+						continue;
+					lang.WordPatterns.Add (pattern);
+				}
+
+				foreach (WordPattern pattern in lang.WordPatterns)
+				{
+					foreach (WordPatternPart part in pattern.Parts)
+					{
+						if (part._WordPatternID != Guid.Empty)
+						{
+							part.WordPattern = lang.WordPatterns [part._WordPatternID];
+						}
+					}
+				}
+			}
+
+			MarkupTagElement tagSentencePatterns = (tagLanguage.Elements ["SentencePatterns"] as MarkupTagElement);
+			if (tagSentencePatterns != null)
+			{
+				foreach (MarkupElement elSentencePattern in tagSentencePatterns.Elements)
+				{
+					SentencePattern pattern = SentencePattern.FromMarkup (elSentencePattern as MarkupTagElement, lang);
+					if (pattern == null)
+						continue;
+
+					lang.SentencePatterns.Add (pattern);
+				}
+			}
+
 			return lang;
 		}
 

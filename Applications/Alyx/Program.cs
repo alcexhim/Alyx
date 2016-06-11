@@ -212,8 +212,8 @@ namespace Alyx
 			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
 			
 
-			Language lang = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
-			Language.CurrentLanguage = lang;
+			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
+			Language.CurrentLanguage = langEnglish;
 
 			TestConversation ();
 
@@ -263,10 +263,6 @@ namespace Alyx
 			{
 				speaker.StateChanged += speaker_StateChanged;
 			}
-
-			Language langEnglish = InitializeLanguage_English();
-
-			Language.CurrentLanguage = langEnglish;
 
 			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
 			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));

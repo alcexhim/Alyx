@@ -83,6 +83,9 @@
     <Compile Include="SentenceParsers\V1\SentenceParserContext.cs" />
     <Compile Include="SentenceParsers\V2\DefaultSentenceParserV2.cs" />
     <Compile Include="SentenceParsers\V2\WordCandidate.cs" />
+    <Compile Include="WordPattern.cs" />
+    <Compile Include="WordPatternPart.cs" />
+    <Compile Include="SentencePattern.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
