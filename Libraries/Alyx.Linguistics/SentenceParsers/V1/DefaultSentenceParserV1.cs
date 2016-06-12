@@ -37,6 +37,17 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 							if (ins.Length > 0) {
 								if (ins [0] is VerbInstance) {
 									Console.WriteLine ("pre-prediction found verb '" + ins [0].ToString () + "'");
+
+									// try to intelligently predict prepositional phrase attached to noun if preposition is seen before verb
+									if (context.Verb == null && context.Preposition != null) {
+										NounInstance ni = context.Clause.Subjects [0] as NounInstance;
+										NounInstance[] nis = PredictNoun (ref context);
+										ni.PrepositionalPhrase = new PrepositionalPhrase (context.Preposition, nis);
+
+										// now that we've used it, clear out the preposition so it's free for the next use and we don't get confused later on
+										context.Preposition = null;
+									}
+									
 									context.Verb = (ins [0] as VerbInstance);
 								}
 								return true;
