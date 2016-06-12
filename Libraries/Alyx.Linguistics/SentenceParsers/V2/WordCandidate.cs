@@ -14,6 +14,9 @@ namespace Alyx.Linguistics.SentenceParsers.V2
 		private WordInstance.WordInstanceCollection mvarInstances = new WordInstance.WordInstanceCollection();
 		public WordInstance.WordInstanceCollection Instances { get { return mvarInstances; } }
 
+		private WordInstance mvarPreferredInstance = null;
+		public WordInstance PreferredInstance { get { return mvarPreferredInstance; } set { mvarPreferredInstance = value; } }
+
 		public WordCandidate(string value) {
 			mvarValue = value;
 		}
@@ -31,6 +34,11 @@ namespace Alyx.Linguistics.SentenceParsers.V2
 				sb.Append (mvarInstances [i].ToString ());
 				if (i < mvarInstances.Count - 1)
 					sb.Append (", ");
+			}
+			if (mvarPreferredInstance != null) {
+				sb.Append (" (");
+				sb.Append (mvarPreferredInstance.ToString ());
+				sb.Append (')');
 			}
 			return sb.ToString ();
 		}
