@@ -18,6 +18,11 @@
 								<Criterion Definiteness="Indefinite" Quantity="Singular" />
 							</Criteria>
 						</Mapping>
+						<Mapping Value="an">
+							<Criteria>
+								<Criterion Definiteness="Indefinite" Quantity="Singular" />
+							</Criteria>
+						</Mapping>
 						<Mapping Value="">
 							<Criteria>
 								<Criterion Quantity="Plural" />
