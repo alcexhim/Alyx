@@ -5,6 +5,7 @@
 			<Information>
 				<Title>English (United States)</Title>
 			</Information>
+			<DefaultSentenceParser TypeName="Alyx.Linguistics.SentenceParsers.V1.DefaultSentenceParserV1" />
 			<Genders>
 				<Gender ID="{00000000-0000-0000-0000-000000000000}" Title="Unspecified" />
 				<Gender ID="{272413AD-BF77-473E-B118-8C766C1025E4}" Title="Feminine" />
