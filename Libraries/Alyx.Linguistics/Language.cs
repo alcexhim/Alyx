@@ -734,6 +734,7 @@ namespace Alyx.Linguistics
 			{
 				if (words[i].Contains('\''))
 				{
+					bool found = false;
 					string[] w = words[i].Split(new char[] { '\'' });
 					string prefix = w[0].ToLower();
 					string suffix = w[1].ToLower();
@@ -744,9 +745,12 @@ namespace Alyx.Linguistics
 							sb.Append(prefix);
 							sb.Append(' ');
 							sb.Append(ct.Value);
+							found = true;
 							break;
 						}
 					}
+					if (!found)
+						sb.Append (words [i]);
 				}
 				else
 				{
