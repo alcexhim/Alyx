@@ -14,6 +14,10 @@ namespace Alyx.Linguistics
 
 			value = mvarLanguage.ReplaceContractions(value);
 
+			// replace "smart quotes" with dumb quotes
+			value = value.Replace ('’', '\'');
+			value = value.Replace ('`', '\'');
+
 			SentenceType type = null;
 			SentenceTypeMapping typeMapping = null;
 
