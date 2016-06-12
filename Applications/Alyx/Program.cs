@@ -157,7 +157,15 @@ namespace Alyx
 			// TestSentenceParser ("The boy often went fishing after school.");
 			// TestSentenceParser ("The boy often went to the library after school.");
 
+			// TestSentenceParser ("The chairman of Walter Industries looks to the future with the company's expansion.");
+			// TestSentenceParser ("He began to build homes after World War II.");
+			// TestSentenceParser ("Walter offered to build affordable housing.");
+
+
+
 			// TODO: fix this, when run more than once it fails epicly
+			TestSentenceParser ("History is an interesting subject.");
+
 			TestSentenceParser ("History is an interesting subject.");
 
 			TestSentenceParser ("Jane, John, and Francheska jumped over the lazy dog.");
@@ -215,7 +223,7 @@ namespace Alyx
 			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
 			Language.CurrentLanguage = langEnglish;
 
-			TestConversation ();
+			// TestConversation ();
 
 			// TestMind();
 
