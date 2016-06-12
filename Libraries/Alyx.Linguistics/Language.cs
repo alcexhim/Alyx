@@ -319,6 +319,20 @@ namespace Alyx.Linguistics
 				}
 			}
 
+			MarkupTagElement tagDefaultSentenceParser = (tagLanguage.Elements ["DefaultSentenceParser"] as MarkupTagElement);
+			if (tagDefaultSentenceParser != null)
+			{
+				MarkupAttribute attDefaultSentenceParserTypeName = tagDefaultSentenceParser.Attributes ["TypeName"];
+				if (attDefaultSentenceParserTypeName != null)
+				{
+					Type type = Type.GetType (attDefaultSentenceParserTypeName.Value);
+					if (type != null)
+					{
+						lang.SentenceParser = (SentenceParser)(type.Assembly.CreateInstance (type.FullName));
+					}
+				}
+			}
+
 			MarkupTagElement tagGenders = (tagLanguage.Elements["Genders"] as MarkupTagElement);
 			if (tagGenders != null)
 			{
