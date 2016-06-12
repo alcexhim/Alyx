@@ -11,17 +11,15 @@
 						<!-- I jump, You jump, They jump -->
 						<Mapping Value="$(Word)">
 							<Criteria>
-								<Criterion Tense="Present" />
-								<Criterion Person="FirstPerson" />
-								<Criterion Person="SecondPerson" />
-								<Criterion Person="ThirdPerson" Quantity="Plural" />
+								<Criterion Tense="Present" Person="FirstPerson" />
+								<Criterion Tense="Present" Person="SecondPerson" />
+								<Criterion Tense="Present" Person="ThirdPerson" Quantity="Plural" />
 							</Criteria>
 						</Mapping>
 						<!-- He/she/it jumps -->
 						<Mapping Value="$(Word)s">
 							<Criteria>
-								<Criterion Tense="Present" />
-								<Criterion Person="ThirdPerson" Quantity="Singular" />
+								<Criterion Tense="Present" Person="ThirdPerson" Quantity="Singular" />
 							</Criteria>
 						</Mapping>
 						<!-- I jumped, You jumped, They jumped, He/she/it jumped -->
