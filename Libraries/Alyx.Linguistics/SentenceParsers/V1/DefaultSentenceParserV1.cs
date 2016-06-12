@@ -29,15 +29,18 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 					dict.Add ("Word", next);
 					dict.Add ("WordClasses", new WordClass[] { WordClasses.Verb });
 
-					WordMapper[] mappers = Language.CurrentLanguage.WordMappers.GetByCondition (dict);
-					foreach (WordMapper mapper in mappers) {
-						WordInstance[] ins = mapper.GetInstances (next);
-						if (ins.Length > 0) {
-							if (ins [0] is VerbInstance) {
-								Console.WriteLine ("pre-prediction found verb '" + ins [0].ToString () + "'");
-								context.Verb = (ins [0] as VerbInstance);
+					if (!Char.IsUpper (next [0])) {
+						// attempt to predict
+						WordMapper[] mappers = Language.CurrentLanguage.WordMappers.GetByCondition (dict);
+						foreach (WordMapper mapper in mappers) {
+							WordInstance[] ins = mapper.GetInstances (next);
+							if (ins.Length > 0) {
+								if (ins [0] is VerbInstance) {
+									Console.WriteLine ("pre-prediction found verb '" + ins [0].ToString () + "'");
+									context.Verb = (ins [0] as VerbInstance);
+								}
+								return true;
 							}
-							return true;
 						}
 					}
 
