@@ -68,8 +68,20 @@ namespace Alyx.Linguistics
 									// Aspect=Perfect, Tense=Past: having been loved
 
 									VerbInstance verb = new VerbInstance (word);
-									verb.Aspect = Aspect.Continuous;
-									verb.Tense = Tense.Present;
+									foreach (WordMapperMappingCriteria criteria in mapping.Criteria) {
+										if (criteria.Aspect != Aspect.Unspecified) {
+											verb.Aspect = criteria.Aspect;
+										}
+										if (criteria.Tense != Tense.Unspecified) {
+											verb.Tense = criteria.Tense;
+										}
+										if (criteria.Person != Person.Unspecified) {
+											verb.Person = criteria.Person;
+										}
+										if (criteria.Quantity != Quantity.Unspecified) {
+											verb.Quantity = criteria.Quantity;
+										}
+									}
 									list.Add (verb);
 								}
 							}
