@@ -7,6 +7,12 @@
 					<WordClasses>
 						<WordClass ID="{C08DF48F-EDC8-4DF5-BC93-491A3D93B5CD}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/ɒv/" Locale="GB" Stressed="true" />
+						<Pronunciation Value="/ʌv/" Locale="US" Stressed="true" />
+						<Pronunciation Value="/əv/" Stressed="false" />
+						<Pronunciation Value="/ə/" Stressed="false" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

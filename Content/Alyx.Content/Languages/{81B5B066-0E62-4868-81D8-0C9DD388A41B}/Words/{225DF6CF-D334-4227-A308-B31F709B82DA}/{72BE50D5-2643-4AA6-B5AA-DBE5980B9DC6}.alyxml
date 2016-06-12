@@ -7,6 +7,11 @@
 					<WordClasses>
 						<WordClass ID="{225DF6CF-D334-4227-A308-B31F709B82DA}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/bɔɪ/" />
+						<!-- Southern American English -->
+						<Pronunciation Value="/bɔːə/" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

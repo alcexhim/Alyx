@@ -7,6 +7,10 @@
 					<WordClasses>
 						<WordClass ID="{225DF6CF-D334-4227-A308-B31F709B82DA}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/pɛə/" Locale="GB" />
+						<Pronunciation Value="/pɛɚ/" Locale="US" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

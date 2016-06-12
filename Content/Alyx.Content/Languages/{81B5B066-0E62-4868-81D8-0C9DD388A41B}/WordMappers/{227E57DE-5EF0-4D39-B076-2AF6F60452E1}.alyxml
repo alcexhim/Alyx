@@ -33,6 +33,9 @@
 							<Criteria>
 								<Criterion Aspect="Continuous" Tense="Present" />
 							</Criteria>
+							<Pronunciations>
+								<Pronunciation Value="/ɪŋ/" />
+							</Pronunciations>
 						</Mapping>
 					</Mappings>
 				</WordMapper>

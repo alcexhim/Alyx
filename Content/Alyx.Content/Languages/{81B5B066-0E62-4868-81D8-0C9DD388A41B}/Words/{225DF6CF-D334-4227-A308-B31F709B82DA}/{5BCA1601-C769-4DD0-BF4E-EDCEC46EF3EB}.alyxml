@@ -7,6 +7,11 @@
 					<WordClasses>
 						<WordClass ID="{225DF6CF-D334-4227-A308-B31F709B82DA}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/dɒɡ/" Locale="GB" />
+						<Pronunciation Value="/dɔɡ/" Locale="US" />
+						<Pronunciation Value="/dɑɡ/" Locale="US" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

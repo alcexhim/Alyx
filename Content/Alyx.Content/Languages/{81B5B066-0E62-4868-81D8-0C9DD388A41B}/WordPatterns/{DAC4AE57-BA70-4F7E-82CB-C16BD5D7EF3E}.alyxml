@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Languages>
+		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
+			<WordPatterns>
+				<!-- noun pattern -->
+				<WordPattern ID="{DAC4AE57-BA70-4F7E-82CB-C16BD5D7EF3E}">
+					<!-- article (optional) -->
+					<PatternPart WordClassID="{96157C04-35B6-456D-B9C0-949A806BE70D}" Optional="true" />
+					<!-- adjective (optional, multiple) -->
+					<PatternPart WordClassID="{97A4620E-686D-4F4F-9E99-FD104D16DBCE}" Optional="true" Multiple="true" />
+					<!-- noun -->
+					<PatternPart WordClassID="{225DF6CF-D334-4227-A308-B31F709B82DA}" />
+				</WordPattern>
+			</WordPatterns>
+		</Language>
+	</Languages>
+</Alyx>
+

@@ -7,6 +7,9 @@
 					<WordClasses>
 						<WordClass ID="{97A4620E-686D-4F4F-9E99-FD104D16DBCE}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/ˈʌɡli/" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

@@ -1,17 +1,20 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Alyx>
 	<Languages>
 		<Language ID="{81B5B066-0E62-4868-81D8-0C9DD388A41B}">
 			<Words>
-				<Word ID="{48CA88BA-CEAF-423C-8A70-3C68C42E004A}" Value="buy">
+				<Word ID="{D1D281FE-C53E-44C4-9340-7AC236AB1F7D}" Value="interest">
 					<WordClasses>
 						<WordClass ID="{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}" />
 					</WordClasses>
 					<Pronunciations>
-						<Pronunciation Value="/baɪ/" />
+						<Pronunciation Value="/ˈɪntəɹəst/" />
+						<Pronunciation Value="/ˈɪnt(ʃ)ɹɛst/" />
+						<Pronunciation Value="/ˈɪnt(ʃ)ɹɪst/" />
 					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>
 	</Languages>
 </Alyx>
+

@@ -7,6 +7,10 @@
 					<WordClasses>
 						<WordClass ID="{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/biː/" Locale="GB" />
+						<Pronunciation Value="/bi/" Locale="US" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

@@ -7,6 +7,12 @@
 					<WordClasses>
 						<WordClass ID="{E63F6105-A6FA-4A4D-BB82-12695D4FF760}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/bʌt/" Locale="UK" Stressed="true" />
+						<Pronunciation Value="[bɐt]" Locale="UK" Stressed="true" />
+						<Pronunciation Value="/bʌt/" Locale="US" Stressed="true" />
+						<Pronunciation Value="/bət/" Stressed="false" /> 
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

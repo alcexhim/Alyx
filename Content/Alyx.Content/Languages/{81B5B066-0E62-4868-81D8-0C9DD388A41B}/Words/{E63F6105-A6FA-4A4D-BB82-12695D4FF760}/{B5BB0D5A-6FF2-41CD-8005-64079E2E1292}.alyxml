@@ -7,6 +7,13 @@
 					<WordClasses>
 						<WordClass ID="{E63F6105-A6FA-4A4D-BB82-12695D4FF760}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/ɔː(ɹ)/" Locale="UK" />
+						<Pronunciation Value="/ɔɹ/" Locale="US" />
+						<Pronunciation Value="/oʊɹ/" Locale="US" />
+						<!-- St. Louis, Missouri -->
+						<Pronunciation Value="/ɑɹ/" Locale="US" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

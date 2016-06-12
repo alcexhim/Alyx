@@ -7,6 +7,12 @@
 					<WordClasses>
 						<WordClass ID="{3661BAB1-0FE0-47AB-BCD8-BAE3F9FBDC1B}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/ɡəʊ/" Locale="GB" />
+						<Pronunciation Value="/ɡoʊ/" Locale="US" />
+						<Pronunciation Value="/ɡəʉ/" Locale="AU" />
+						<Pronunciation Value="/ɡɐʉ/" Locale="NZ" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>

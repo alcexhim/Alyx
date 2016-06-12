@@ -7,6 +7,13 @@
 					<WordClasses>
 						<WordClass ID="{E63F6105-A6FA-4A4D-BB82-12695D4FF760}" />
 					</WordClasses>
+					<Pronunciations>
+						<Pronunciation Value="/ænd/" Stressed="true" />
+						<Pronunciation Value="/ɛnd/" Stressed="true" />
+						<Pronunciation Value="/ən(d)/" Stressed="false" />
+						<Pronunciation Value="/ɛn(d)/" Stressed="false" />
+						<Pronunciation Value="/n̩/" Stressed="false" />
+					</Pronunciations>
 				</Word>
 			</Words>
 		</Language>
