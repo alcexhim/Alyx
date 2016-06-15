@@ -25,17 +25,13 @@ namespace Alyx.Configuration
 					continue;
 
 				XMLDataFormat xdf = new XMLDataFormat ();
-				string[] dirnames = System.IO.Directory.GetDirectories(basePath);
-				foreach (string dirname in dirnames)
+				string[] xmlfiles = System.IO.Directory.GetFiles (basePath, "*.alyxml", System.IO.SearchOption.AllDirectories);
+				foreach (string xmlfile in xmlfiles)
 				{
-					string[] xmlfiles = System.IO.Directory.GetFiles(dirname, "*.alyxml", System.IO.SearchOption.AllDirectories);
-					foreach (string xmlfile in xmlfiles)
-					{
-						MarkupObjectModel xmlconf = new MarkupObjectModel();
+					MarkupObjectModel xmlconf = new MarkupObjectModel();
 
-						Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
-						xmlconf.CopyTo(Markup);
-					}
+					Document.Load(xmlconf, xdf, new FileAccessor(xmlfile));
+					xmlconf.CopyTo(Markup);
 				}
 
 			}
