@@ -86,6 +86,13 @@
     <Compile Include="WordPattern.cs" />
     <Compile Include="WordPatternPart.cs" />
     <Compile Include="SentencePattern.cs" />
+    <Compile Include="Pronunciation\PronunciationSyllable.cs" />
+    <Compile Include="Pronunciation\PronunciationString.cs" />
+    <Compile Include="Pronunciation\PronunciationKey.cs" />
+    <Compile Include="Pronunciation\PronunciationKeySyllable.cs" />
+    <Compile Include="Pronunciation\PronunciationInformation.cs" />
+    <Compile Include="Pronunciation\PronunciationKeys.cs" />
+    <Compile Include="Pronunciation\PronunciationKeySyllableLengthComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
@@ -113,5 +120,6 @@
     <Folder Include="SentenceParsers\" />
     <Folder Include="SentenceParsers\V1\" />
     <Folder Include="SentenceParsers\V2\" />
+    <Folder Include="Pronunciation\" />
   </ItemGroup>
 </Project>

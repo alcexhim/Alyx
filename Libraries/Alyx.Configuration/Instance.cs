@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UniversalEditor.ObjectModels.Markup;
 
 using Alyx.Linguistics;
+using Alyx.Linguistics.Pronunciation;
 
 namespace Alyx.Configuration
 {
@@ -65,8 +66,11 @@ namespace Alyx.Configuration
 		private Guid mvarID = Guid.Empty;
 		public Guid ID { get { return mvarID; } set { mvarID = value; } }
 
-		private Language.LanguageCollection mvarLanguages = new Language.LanguageCollection();
+		private Language.LanguageCollection mvarLanguages = new Language.LanguageCollection ();
 		public Language.LanguageCollection Languages { get { return mvarLanguages; } }
+
+		private PronunciationInformation mvarPronunciation = new PronunciationInformation ();
+		public PronunciationInformation Pronunciation { get { return mvarPronunciation; } }
 
 		public static Instance Create()
 		{
@@ -96,6 +100,9 @@ namespace Alyx.Configuration
 					instance.Languages.Add (lang);
 				}
 			}
+
+			MarkupTagElement tagPronunciation = (tag.Elements ["Pronunciation"] as MarkupTagElement);
+			instance.Pronunciation.LoadMarkup (tagPronunciation);
 
 			return instance;
 		}
