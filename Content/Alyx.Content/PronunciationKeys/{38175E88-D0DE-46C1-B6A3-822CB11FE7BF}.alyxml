@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Alyx>
+	<Pronunciation>
+		<PronunciationKeys>
+			<PronunciationKey ID="{38175E88-D0DE-46C1-B6A3-822CB11FE7BF}" Prefix="/" Suffix="/">
+				<Information>
+					<Title>International Phonetic Alphabet</Title>
+				</Information>
+				<Syllables>
+					<!-- Pulmonic Consonants -->
+					<!-- Nasal -->
+					<Syllable ID="{412F531B-A8C1-4D55-B336-FFE93E840B18}" Value="m̥" />
+					<Syllable ID="{AC7F959F-E199-4C85-B990-F443C7969AD6}" Value="m" />
+					<Syllable ID="{1A25CA3F-B6CC-4B5A-95D5-C5B6DFC6A955}" Value="ɱ" />
+					<Syllable ID="{738B791B-F323-49F5-94E4-FBE67EA8E302}" Value="n̼̊" />
+					<Syllable ID="{D50BE4EA-CA24-4CF9-8317-E03936EA8380}" Value="n̼" />
+					<Syllable ID="{C55200C8-1FF9-4D7F-A69C-9912271AD6E5}" Value="n̥" />
+					<Syllable ID="{B0D88AD6-6FDA-4180-B083-1DEA10844A47}" Value="n" />
+					<Syllable ID="{A5227FD4-82DE-473F-B985-974688918157}" Value="ɳ̊" />
+					<Syllable ID="{B77054F6-EF35-474B-BB6C-FD287BBC9E62}" Value="ɳ" />
+					<Syllable ID="{86352F75-18EC-487D-ACAC-22A422798C77}" Value="ɲ̊" />
+					<Syllable ID="{2461AB18-DF69-4213-AB88-85F38977B6D7}" Value="ɲ" />
+					<Syllable ID="{B5918BCB-2A1A-4FF4-8AF5-84716DC1CDCC}" Value="ŋ̊" />
+					<Syllable ID="{D60917E8-4B7C-4D66-8EA2-01A1DE2CDAED}" Value="ŋ" />
+					<Syllable ID="{94655FF2-CF85-45BA-AA6D-1291CA0220A0}" Value="ɴ̥" />
+					<Syllable ID="{D42D5F1B-B0B7-4698-9659-5B511960B29B}" Value="ɴ" />
+
+					<!-- Stop -->
+					<Syllable ID="{277EC1D3-2D15-493F-9ACE-A3C0009C116D}" Value="p" />
+					<Syllable ID="{4FB5F09D-FB20-47D2-B884-DE4374666C5B}" Value="b" />
+					<Syllable ID="{E10F47F3-FC37-41D2-881B-DEE89218B677}" Value="p̪" />
+					<Syllable ID="{CAF1AF4E-7438-410E-8BD0-00EDA0ACC022}" Value="b̪" />
+					<Syllable ID="{5AF1EA80-79CF-4789-99C5-DB895445F718}" Value="t̼" />
+					<Syllable ID="{27C17A85-047B-4ECB-96D1-2F36DED3CBE6}" Value="d̼" />
+					<Syllable ID="{24E5B713-42D8-4973-A79C-D055901B3F45}" Value="t" />
+					<Syllable ID="{D73843B4-1D27-4F53-9F55-C08FA967E6BD}" Value="d" />
+					<Syllable ID="{89B3519D-ECEC-4F7F-BD2E-5D6CCD60CEA5}" Value="ʈ" />
+					<Syllable ID="{8D45B2D7-027F-4445-AB7E-0FD2D9A7B71E}" Value="ɖ" />
+					<Syllable ID="{062F0B20-5DD6-4260-8408-72F6AB374B46}" Value="c" />
+					<Syllable ID="{29FDD7E9-9D04-418A-8C5E-7F45FE18837E}" Value="ɟ" />
+					<Syllable ID="{386FF5A2-9BAA-4C2D-AE1A-5D3474D2D871}" Value="k" />
+					<Syllable ID="{A3B048ED-1509-414E-BCA3-7D110A86E507}" Value="ɡ" />
+					<Syllable ID="{5F1839EA-5746-4FE8-A926-7745F9FAA0A8}" Value="q" />
+					<Syllable ID="{0557FDA3-3A10-4BFB-9BB8-EFC0799F25E7}" Value="ɢ" />
+					<Syllable ID="{48978A4B-CCF0-40BB-AFAF-BCF0366CB637}" Value="ʡ" />
+					<Syllable ID="{E9B90D8A-E7AF-4472-A9F1-6AFF9B3D8E9B}" Value="ʔ" />
+
+					<!-- Sibilant affricate -->
+					<Syllable ID="{4AE29975-C071-4561-ADF2-A93BDC830EAF}" Value="ts" />
+					<Syllable ID="{F19C5758-57F2-44AB-82E9-0D04118ED5D2}" Value="dz" />
+					<Syllable ID="{697BD984-B82A-4B22-8D9C-9CBFFAFEDB60}" Value="tʃ" />
+					<Syllable ID="{E11458F7-3DA0-4653-A898-2654E01EA463}" Value="dʒ" />
+					<Syllable ID="{944286DA-0001-440E-81DA-792BF67D8CD4}" Value="ʈʂ" />
+					<Syllable ID="{3C9C15AB-EA04-4710-8012-04B6D987F9BC}" Value="ɖʐ" />
+					<Syllable ID="{0B56C616-A514-4604-A101-AA1FF3E607A4}" Value="tɕ" />
+					<Syllable ID="{BDAA0B15-2C8E-4FAD-B647-4FA2C32BB1EF}" Value="dʑ" />
+					
+					<!-- Affricate -->
+					<Syllable ID="{5D3A7C12-7976-4734-928F-84DB7374C197}" Value="pɸ" />
+					<Syllable ID="{F0984E2A-A63A-4A86-BD4B-FB83B926B4B2}" Value="bβ" />
+					<Syllable ID="{9DCC4F86-52BA-4B6A-9E49-68B6FF1DFC40}" Value="p̪f" />
+					<Syllable ID="{212FD8AA-A33D-4056-ACF8-36D02A43607F}" Value="b̪v" />
+					<Syllable ID="{29F62334-8DA2-43FE-9D18-B02AD5996486}" Value="tθ" />
+					<Syllable ID="{41D849F6-E9EE-4338-940C-05CBFD79AB8C}" Value="dð" />
+					<Syllable ID="{DE6FD806-D103-4FA9-BDB5-829AB77F32D9}" Value="tθ̠" />
+					<Syllable ID="{A6C10E93-255C-4580-BDCA-DD031A6AD5C2}" Value="dð̠" />
+					<Syllable ID="{BB4229AC-384B-4C69-9700-473F5909FB9B}" Value="t̠ɹ̠̊˔" />
+					<Syllable ID="{F9F10753-6A3C-4E6B-AE48-7EED2BF0B9B5}" Value="d̠ɹ̠˔" />
+					<Syllable ID="{602812F7-A8C6-4150-AE5A-9674E7A18FFB}" Value="cç" />
+					<Syllable ID="{D4B8B8A8-6069-4CE7-BC50-C0D0A12F8D8F}" Value="ɟʝ" />
+					<Syllable ID="{BF36AE0F-ED4E-491D-B1AF-A71EF920451A}" Value="kx" />
+					<Syllable ID="{B723B598-44A5-41B1-9975-5727331D7073}" Value="ɡɣ" />
+					<Syllable ID="{A43C8039-99EE-4637-BEA6-925AA5FD9D37}" Value="qχ" />
+					<Syllable ID="{9C77F37B-A5BD-4A71-B8F7-4B03AE12C93C}" Value="ɢʁ" />
+					<Syllable ID="{3937CBA2-8921-4F9E-A39D-2B703121775A}" Value="ʡħ" />
+					<Syllable ID="{B44A7368-824C-44B4-B806-34BA097179EF}" Value="ʡʕ" />
+					<Syllable ID="{7827C043-C091-444A-A96A-F7F9CD3856A5}" Value="ʔh" />
+
+					<!-- Sibilant fricative -->
+					<Syllable ID="{C84FE14E-2B17-4579-98EA-A9296B337D22}" Value="s" />
+					<Syllable ID="{F98C374B-FD81-4660-A70B-CEAFB8FDAE8B}" Value="z" />
+					<Syllable ID="{36DA6493-EA5D-4163-B0DD-7AEE9EDED023}" Value="ʃ" />
+					<Syllable ID="{869EBBFD-F67B-4E9A-BBC3-392C4989EA77}" Value="ʒ" />
+					<Syllable ID="{6A077E40-9591-4825-8B98-08862F3022BC}" Value="ʂ" />
+					<Syllable ID="{AB824243-7A27-46B9-A8B4-1319F980352D}" Value="ʐ" />
+					<Syllable ID="{8DF80F69-74FF-4695-A110-061A43155DF4}" Value="ɕ" />
+					<Syllable ID="{6B7E737C-7203-47E6-A31A-38B16FF5EEE1}" Value="ʑ" />
+
+					<!-- Non-sibilant fricative -->
+					<Syllable ID="{4C4A445A-C219-4E5F-806F-3ED0DA3D2629}" Value="ɸ" />
+					<Syllable ID="{A0C10AE6-F011-459B-8FCB-64A7C04DEFB3}" Value="β" />
+					<Syllable ID="{C283579C-7F4B-4E46-B737-C58347E2D229}" Value="f" />
+					<Syllable ID="{0EBA0728-ED34-4121-AEC5-ECBC2D941851}" Value="v" />
+					<Syllable ID="{DE4D396F-8FE4-47C0-A932-7B51256EFD6C}" Value="θ̼" />
+					<Syllable ID="{7C296960-F86B-4A77-ADEF-3D71ABE76789}" Value="ð̼" />
+					<Syllable ID="{0D20C0AE-B492-4B81-BD26-A07D0543D009}" Value="θ" />
+					<Syllable ID="{E810CF08-81DA-4DDE-98C5-8EA3CD53FEBC}" Value="ð" />
+					<Syllable ID="{C07CB454-43F1-4E35-BB89-26D823BBEACC}" Value="θ̱" />
+					<Syllable ID="{276E2E51-C84C-4672-96B4-EC9D695275DF}" Value="ð̠" />
+					<Syllable ID="{1CACFFFC-D218-4F0B-A8BF-0B365F833801}" Value="ɹ̠̊˔" />
+					<Syllable ID="{6942C9C0-7BB9-4E48-9CCF-176E3BFD9BAD}" Value="ɹ̠˔" />
+					<Syllable ID="{89E76AB9-FB8C-4F35-A7F6-CCEC095EDC80}" Value="ç" />
+					<Syllable ID="{91384E95-CC72-4CCD-A043-07AA74776545}" Value="ʝ" />
+					<Syllable ID="{4478C0E7-F827-4E9E-B8E4-514850854BE1}" Value="x" />
+					<Syllable ID="{049E1C01-9E47-426F-849B-56F1711A9631}" Value="ɣ" />
+					<Syllable ID="{D4BB5529-F218-4EBE-B774-88E92042E415}" Value="χ" />
+					<Syllable ID="{72C10D87-A55C-492A-BCB9-22DCBC6D433F}" Value="ʁ" />
+					<Syllable ID="{CADABE42-2D88-439E-B37E-320FC739D469}" Value="ħ" />
+					<Syllable ID="{DC48C91F-7E52-4B29-824C-B13213CAB091}" Value="ʕ" />
+					<Syllable ID="{646E391E-0927-4E96-94DE-B8679B7D5209}" Value="h" />
+					<Syllable ID="{78D43183-E714-4FFB-8390-9800B81D3EB5}" Value="ɦ" />
+
+					<!-- Approximant -->
+					<Syllable ID="{CF8AE01B-C889-43F7-94C0-BBB905EFD3AD}" Value="ʋ̥" />
+					<Syllable ID="{DD1B31BC-1F46-4C7E-AAF9-0754D7B496FD}" Value="ʋ" />
+					<Syllable ID="{63B79DD1-5BA0-4723-AAD0-F09EC729D2DC}" Value="ɹ̥" />
+					<Syllable ID="{2E2820F4-4CA9-4CA2-A7F0-63D8C46EE9E3}" Value="ɹ" />
+					<Syllable ID="{01DEAC9D-52B7-4E20-8E72-92F106CA1B6F}" Value="ɻ̊" />
+					<Syllable ID="{4E60D30B-4B10-4ADA-9D31-6931BF98AABB}" Value="ɻ" />
+					<Syllable ID="{B4BF4AB4-EDC1-4F0B-BBE6-8DA97DA88ED2}" Value="j̊" />
+					<Syllable ID="{9BD130F3-66E1-4F68-90A7-CA407033C9F4}" Value="j" />
+					<Syllable ID="{C668E657-0F0B-4A12-8C37-D3D12456869A}" Value="ɰ̊" />
+					<Syllable ID="{67C80254-7A5E-49E7-8F2B-BF1B0F6AC796}" Value="ɰ" />
+					<Syllable ID="{FAFF86AD-78C5-4FF4-A76E-4D48536D4353}" Value="ʔ̞" />
+
+					<!-- Flap or tap -->
+					<Syllable ID="{2C12CEA4-B677-4E17-8A92-936FAF848D54}" Value="ⱱ̟" />
+					<Syllable ID="{B4CC408B-7422-46E7-8FB2-2134240EF2EB}" Value="ⱱ" />
+					<Syllable ID="{7EFB18C1-BEE3-4ECB-939A-849DAC5FAD9E}" Value="ɾ̼" />
+					<Syllable ID="{B20D2FAE-34F4-4404-9F11-731932EA1A12}" Value="ɾ̥" />
+					<Syllable ID="{AA6462FE-9673-4CA0-BBDE-FB20513CB555}" Value="ɾ" />
+					<Syllable ID="{875C3889-373C-4819-A8DC-FC17E26E2A66}" Value="ɽ̊" />
+					<Syllable ID="{1EED6A4A-F60F-4F5A-B37E-7B7E0ED0543B}" Value="ɽ" />
+					<Syllable ID="{663E0D56-509F-4954-8D52-E0DB2791CB33}" Value="ɢ̆" />
+					<Syllable ID="{A1EE5756-B7F9-4DA9-9D6D-009E5279F438}" Value="ʡ̮" />
+
+					<!-- Trill -->
+					<Syllable ID="{3C6F63B8-2A13-4A8F-A32B-0ACA64EFAA26}" Value="ʙ" />
+					<Syllable ID="{C2D02509-965B-4248-AEB9-E6A6DB5ACCEE}" Value="r̼" />
+					<Syllable ID="{18A5DB21-07B4-4EB3-A8D0-29BCD43AE2FC}" Value="r̥" />
+					<Syllable ID="{48FB701B-9026-4252-9E64-9AE67BB7C9EF}" Value="r" />
+					<Syllable ID="{2556913B-A211-496D-A023-48A5C0A5F254}" Value="ɽr̥" />
+					<Syllable ID="{767D041A-3721-487A-A654-F840FD301062}" Value="ɽr" />
+					<Syllable ID="{CF3706BC-62ED-4627-966C-485124921F61}" Value="ʀ̥" />
+					<Syllable ID="{C639F73C-EE73-4B30-8FDF-0F508AD8BCFA}" Value="ʀ" />
+					<Syllable ID="{DC5FF89C-DF23-45A1-87C2-3494FB7362D5}" Value="ʜ" />
+					<Syllable ID="{FF029836-FE2B-4AC6-B0F5-1F9486B8D840}" Value="ʢ" />
+
+					<!-- Lateral affricate -->
+					<Syllable ID="{C8C6DD5A-5477-4FBE-BA7A-9BDACA657396}" Value="tɬ" />
+					<Syllable ID="{D833DA7C-DA14-4459-8DE8-0527F13D9ACA}" Value="dɮ" />
+					<Syllable ID="{CEBC2C9B-3613-499D-BBA8-CB20156B2248}" Value="ʈɭ̊˔" />
+					<Syllable ID="{1D958F7A-4A0F-4592-B8B6-2384E5B94ECC}" Value="cʎ̥˔" />
+					<Syllable ID="{F8F8162A-4EA1-4DFB-BEDB-4F896A5F2E09}" Value="kʟ̝̊" />
+					<Syllable ID="{0DE9A9AD-9481-42FA-B8CB-EEB2FD3A7377}" Value="ɡʟ̝" />
+
+					<!-- Lateral fricative -->
+					<Syllable ID="{046C584C-3C39-44E9-A846-149F5108E619}" Value="ɬ" />
+					<Syllable ID="{D2535C1C-0E36-4C84-ACB1-10DDC4773072}" Value="ɮ" />
+					<Syllable ID="{302D6E12-8F46-4FBD-B485-1F9447F6989A}" Value="ɭ̊˔" />
+					<Syllable ID="{73B11A96-3B2C-42E5-86EE-EBBCB49C5C22}" Value="ʎ̥˔" />
+					<Syllable ID="{EBCDBD0D-0686-4BB2-B3A6-89133077667A}" Value="ʎ̝" />
+					<Syllable ID="{06DF5778-4CE7-49D8-9F3F-F47362AC0705}" Value="ʟ̝̊" />
+					<Syllable ID="{09B1985F-77C6-483C-967B-3DD1B0C7EA44}" Value="ʟ̝" />
+					
+					<!-- Lateral approximant -->
+					<Syllable ID="{BDECB2FC-1CB5-4CD9-8BA0-240F9EB5CFB0}" Value="l̼" />
+					<Syllable ID="{B4B5D669-9864-47E8-A703-900105B35700}" Value="l̥" />
+					<Syllable ID="{2B0837AF-4300-43AB-8101-2C0AB3A0613B}" Value="l" />
+					<Syllable ID="{EAA5BA6B-B94C-46CC-ACA9-BBFDC1092607}" Value="ɭ̊" />
+					<Syllable ID="{22C6523A-2BD4-4B51-BDD6-5DE2F708E62D}" Value="ɭ" />
+					<Syllable ID="{37F1E027-4045-4449-9A39-34D2CE443D0F}" Value="ʎ̥" />
+					<Syllable ID="{8FC5C82B-02E9-4FD1-992B-B3CBC50F6D38}" Value="ʎ" />
+					<Syllable ID="{3464159C-C760-4D4C-8549-2DC0F2D0E47D}" Value="ʟ̥" />
+					<Syllable ID="{C88C1321-EF26-498C-AC1F-4017DE8D5B9C}" Value="ʟ" />
+					<Syllable ID="{78C8B84B-1C23-4D4D-8555-D58FE7C37DAF}" Value="ʟ̠" />
+					
+					<!-- Lateral flap -->
+					<Syllable ID="{2D603725-8772-46E8-9F18-225A402898DE}" Value="ɺ̼" />
+					<Syllable ID="{30416095-3C34-4AF7-B85E-7AA412C7CF54}" Value="ɺ" />
+					<Syllable ID="{229019FD-25A7-4C9D-BC22-9AB9B66E0B19}" Value="ɭ̆" />
+					<Syllable ID="{7F988287-866C-4DFB-8D29-B016CDD9AA9B}" Value="ʎ̮" />
+					<Syllable ID="{C25009A8-AC7D-4B31-8F1E-CB51D0980A4D}" Value="ʟ̆" />
+
+					<!-- Non-pulmonic Consonants -->
+					<!-- Simple Clicks -->
+					<Syllable ID="{E43395AE-999D-49A7-8730-60A6B49DB26C}" Value="ʘ" />
+					<Syllable ID="{701123B1-A016-401D-8418-82CBE2168EDE}" Value="ʘ̬" />
+					<Syllable ID="{F8FFE589-2544-466F-A852-5B4740E129CB}" Value="ʘ̃" />
+					<Syllable ID="{610A19B7-B994-48ED-B932-E59431CF79A9}" Value="ǀ" />
+					<Syllable ID="{80F54874-241A-4E61-98BD-FD6C8C152EAF}" Value="ǀ̬" />
+					<Syllable ID="{86B124C6-13E4-4F0F-97F3-B054833C39CC}" Value="ǀ̃" />
+					<Syllable ID="{3FA0BFBC-1845-433A-BD0E-D1E94E7A0FF6}" Value="ǃ" />
+					<Syllable ID="{EDACA5DD-1D54-46CD-80C8-4821D42E6005}" Value="ǃ̬" />
+					<Syllable ID="{2FA1E1F2-C7F9-4796-9DA6-A4D427845450}" Value="ǃ̃" />
+					<Syllable ID="{152D9D15-0924-4B2F-AAA4-CB9B822AE881}" Value="ǂ" />
+					<Syllable ID="{C2804692-2618-496C-99F5-25EB41C35665}" Value="ǂ̬" />
+					<Syllable ID="{8CDDCB8E-B3F8-4278-8B76-5802EAFFC173}" Value="ǂ̃" />
+					<Syllable ID="{C221F9C3-4686-4ABB-9EA7-1F148AC95CE4}" Value="ǁ" />
+					<Syllable ID="{95CD87F7-12AC-4D70-8871-B31579B8D241}" Value="ǁ̬" />
+					<Syllable ID="{D14EA623-B4E4-4235-9263-CAE4D3AFD888}" Value="ǁ̃" />
+					<Syllable ID="{FB5C4065-9A72-4E97-9F71-376B5B955EA6}" Value="ǃ˞" />
+					<Syllable ID="{9A9631A3-0AE7-4ECE-91DA-9ED4C3D34DF4}" Value="ǃ̬˞" />
+					<Syllable ID="{788CC2E7-6136-490C-A6C2-819A2A6B2EB0}" Value="ǃ̃˞" />
+					<!-- Other Clicks -->
+					<Syllable ID="{78E5FCC4-6B75-482E-BC86-F6BCE671F8FF}" Value="ʘ̃ˀ" />
+					<Syllable ID="{4181D18C-0ACB-4BCD-A606-FD709FBA6726}" Value="ʘˀ" />
+					<Syllable ID="{3BB2D199-0239-424A-BC59-AFBC933DD863}" Value="ˀʘ̃" />
+					<Syllable ID="{8B09FA23-9DF2-4E9C-9706-58A37B4D5228}" Value="ʘ͡q" />
+					<Syllable ID="{1605B35D-4DC5-4649-9D9B-670C685C81AC}" Value="ʘ͡qχ" />
+					<Syllable ID="{A99E8FE1-5D95-4C05-82EE-CAC70E889CD7}" Value="ʘ͡qʼ" />
+					<Syllable ID="{B74CD808-9FF1-44B4-96F4-4C347BE0DE48}" Value="ʘ͡qχʼ" />
+					<Syllable ID="{35F85C82-3E0D-4BBF-90B6-EC348CF292D5}" Value="¡" />
+					<Syllable ID="{3E7C4738-A0A1-4566-972F-AF63D42EF88E}" Value="ʞ" />
+					<!-- Implosives -->
+					<Syllable ID="{23B770DC-0099-4023-B2BB-23AE78BBE9B0}" Value="ɓ" />
+					<Syllable ID="{20648A9C-2ED7-4195-A0B6-FFB5E14882C0}" Value="ɓ̥" />
+					<Syllable ID="{61722E7F-02C3-403F-87BE-810E8F56BB92}" Value="ɗ" />
+					<Syllable ID="{8986208C-75F5-4C95-A883-29090D2973AD}" Value="ɗ̥" />
+					<Syllable ID="{8352EE55-6C61-43B5-89B3-B8B5843A4CA2}" Value="ᶑ" />
+					<Syllable ID="{692AB1D6-D8DA-490B-A7D3-3A34C5930EE3}" Value="ᶑ̥" />
+					<Syllable ID="{C83D345C-538B-41D6-B6F6-83AB3224931B}" Value="ʄ" />
+					<Syllable ID="{A54802CF-E1B0-4E32-A8EA-1CBA185250BE}" Value="ʄ̊" />
+					<Syllable ID="{E6987B0E-7593-4A8A-8B7A-ABF027E572EC}" Value="ɠ" />
+					<Syllable ID="{20E6559A-F239-4BD6-9184-E3A8A6A7764D}" Value="ɠ̊" />
+					<Syllable ID="{F1F250A8-A636-4C31-9D54-11B68706099E}" Value="ʛ" />
+					<Syllable ID="{B1C4AC1B-BB45-4D1A-B737-04B9C3896D40}" Value="ʛ̥" />
+					<!-- Ejectives -->
+					<Syllable ID="{5A041E2D-A5C0-4F2D-BEB6-E7692AF73A8A}" Value="pʼ" />
+					<Syllable ID="{A1F98D72-2670-41A0-AAA9-4DC0034EF1F5}" Value="tʼ" />
+					<Syllable ID="{C2E6E0AC-EE30-4168-810C-8DBA3987A148}" Value="ʈʼ" />
+					<Syllable ID="{18152710-E3EF-4D51-ADEE-1C59114A3CCF}" Value="cʼ" />
+					<Syllable ID="{0243B1DF-2138-4515-A3B8-1D81C873F8FA}" Value="kʼ" />
+					<Syllable ID="{231CFCD0-94C8-4AB7-9EA7-03ECD7A84BEB}" Value="qʼ" />
+					<Syllable ID="{AFD73B45-3D21-4499-BBD7-FB0A47D1E992}" Value="ʡʼ" />
+					<Syllable ID="{47383143-EFF3-423E-823A-6C1A1C38F706}" Value="fʼ" />
+					<Syllable ID="{1A76B44A-D888-49A5-9C7B-1EB504A3C541}" Value="θʼ" />
+					<Syllable ID="{183A24E7-1DB8-44F1-9403-18F7F395185F}" Value="sʼ" />
+					<Syllable ID="{C58F2C3E-9654-468E-902D-6C307B38D0F9}" Value="ɬʼ" />
+					<Syllable ID="{333260A4-8328-4002-89B9-80B1ECEEE780}" Value="ʃʼ" />
+					<Syllable ID="{E27F009D-8F5C-476E-A893-316936D0BE61}" Value="ʂʼ" />
+					<Syllable ID="{91FF2554-5EC9-4F31-A46B-1636C95A995C}" Value="ɕʼ" />
+					<Syllable ID="{84D037FC-ADBC-493C-B227-824DAA1BFFE0}" Value="xʼ" />
+					<Syllable ID="{F2B6AEEB-9555-4A83-A1D2-52B1E9714DEF}" Value="χʼ" />
+					<Syllable ID="{6203C5AE-C626-426F-AC57-4EE248787790}" Value="tsʼ" />
+					<Syllable ID="{466B7B55-0C95-47F0-8E00-87AF3231E6F2}" Value="tɬʼ" />
+					<Syllable ID="{BCED5EFD-DC80-4B28-B57D-662D411D2633}" Value="tʃʼ" />
+					<Syllable ID="{AA222D09-A0D0-44B2-9DF2-8BC0BBFBA21B}" Value="ʈʂʼ" />
+					<Syllable ID="{6FBF8F54-8E7D-48ED-85EB-9CF5E0925A8C}" Value="tɕʼ" />
+					<Syllable ID="{D09EEE92-CD97-436E-A2DD-FAA1DA008485}" Value="cʎ̝̥ʼ" />
+					<Syllable ID="{9823449D-CD90-4948-A183-1D30E4D35335}" Value="kxʼ" />
+					<Syllable ID="{7C9EE778-834C-4194-A01A-85192EB8FBD8}" Value="kʟ̝̊ʼ" />
+					<Syllable ID="{8A5BB92F-4C99-4760-9E41-07942990FD1A}" Value="qχʼ" />
+					
+					<!-- Co-articulated Consonants -->
+					<!-- Continuants -->
+					<Syllable ID="{3386C229-207A-4C23-A809-F6962A8DA4D6}" Value="ʍ" />
+					<Syllable ID="{17539C1A-D34F-4F0F-90C6-51AE60226EE4}" Value="w" />
+					<Syllable ID="{C2E2BF19-074C-409C-8CB2-B11A0DC7F65E}" Value="ɥ̊" />
+					<Syllable ID="{D6B075ED-5C6D-4375-B141-18B6D28859AD}" Value="ɥ" />
+					<Syllable ID="{C65BF394-8BD5-4D74-B700-F2B2C3C10DE6}" Value="ɫ" />
+					<!-- Occlusives -->
+					<Syllable ID="{43033EA6-1C3D-499E-8DAD-01E0516AEB01}" Value="k͡p" />
+					<Syllable ID="{04D8A09F-E3F9-4859-9C79-6F0D86922993}" Value="ɡ͡b" />
+					<Syllable ID="{38FD2A86-C119-4BA3-A794-6EF517492823}" Value="ŋ͡m" />
+					<Syllable ID="{50BDB858-819A-4510-A4FA-DF6152FF4869}" Value="ɧ" />
+					<Syllable ID="{A212E602-A82F-40BD-8409-BA10949E4E97}" Value="t͡p" />
+					<Syllable ID="{21183278-C5CB-4666-B0FD-1C1A16A329D6}" Value="d͡b" />
+					<Syllable ID="{D4A06CB7-C13D-43FC-9935-7B24C3B87C21}" Value="n͡m" />
+					<Syllable ID="{A4A65BD7-1673-4BEA-AD38-EA4A7A52F360}" Value="q͡ʡ" />
+					
+					<!-- Vowels -->
+					<!-- Close -->
+					<Syllable ID="{9F7301A2-7EC7-4786-B284-21B5A3EE9139}" Value="i" />
+					<Syllable ID="{950E0275-43CC-464D-A0C2-B592F1E90DFB}" Value="y" />
+					<Syllable ID="{6D59B142-C542-4F08-BFE0-2405E857FDBE}" Value="ɨ" />
+					<Syllable ID="{C84E797A-52D4-458F-9C07-8A73590642DA}" Value="ʉ" />
+					<Syllable ID="{AC749FB1-25EA-46BA-A922-F918AB466B88}" Value="ɯ" />
+					<Syllable ID="{C944443B-0AE2-4A1C-A2FB-D5AD5B030592}" Value="u" />
+					
+					<Syllable ID="{3B9B8B34-5ED4-43DD-9A99-B885F0EE5251}" Value="ɪ" />
+					<Syllable ID="{51DAD750-EC39-4810-AE2C-1778E4514016}" Value="ʏ" />
+					<Syllable ID="{CFE86543-CAC1-4949-9664-A4AF5EE04494}" Value="ɪ̈" />
+					<Syllable ID="{6EB20869-AA6A-4E6F-8602-4F3018C91B79}" Value="ʊ̈" />
+					<Syllable ID="{54BCE2B6-FDCB-43B6-9467-46F9DC088C49}" Value="ɯ̽" />
+					<Syllable ID="{44061313-3111-4354-A774-9642BCBBE88D}" Value="ʊ" />
+					
+					<Syllable ID="{68CC8F65-559A-4CFF-8218-BC20DB8E786D}" Value="e" />
+					<Syllable ID="{14B80E51-EE7F-46E8-BC7A-9AEE2988E261}" Value="ø" />
+					<Syllable ID="{1BAAC0D5-C5E6-4BF5-9EF1-9D64B7267213}" Value="ɘ" />
+					<Syllable ID="{8BE97C70-1677-4E1A-BB54-25ED729AF142}" Value="ɵ" />
+					<Syllable ID="{F38DDCF0-FCC7-465A-8ED2-B754745F2722}" Value="ɤ" />
+					<Syllable ID="{01905B65-C4AD-4768-9F8F-0F85359F35A0}" Value="o" />
+					
+					<Syllable ID="{E3E3D8DE-9F5D-41D4-B7E4-68CFE462F27E}" Value="e̞" />
+					<Syllable ID="{DA7D7541-D84B-486E-8480-44560460151C}" Value="ø̞" />
+					<Syllable ID="{E9E628D6-9C91-40DE-A925-68B4FBBDA833}" Value="ə" />
+					<Syllable ID="{F51787AA-2E25-4544-A245-9E0CBF6E9D12}" Value="ɵ̞" />
+					<Syllable ID="{20CE5024-2918-43DE-93B8-4B663B295BDF}" Value="ɤ̞" />
+					<Syllable ID="{6A6F7ED2-D011-4CB7-A5C8-B8A3A92CFAE0}" Value="o̞" />
+					
+					<Syllable ID="{88145E32-7071-45B8-BFF7-7A51F3A4F1BA}" Value="ɛ" />
+					<Syllable ID="{CF5B75CF-84A4-4EFE-B59E-18946EAF7258}" Value="œ" />
+					<Syllable ID="{9D076DDF-1500-450A-B010-F0B4E90FE349}" Value="ɜ" />
+					<Syllable ID="{381E776A-DB71-4CBF-8292-3F4E843D0D64}" Value="ɞ" />
+					<Syllable ID="{257F3485-A60A-4B65-859B-C8AB50C50F75}" Value="ʌ" />
+					<Syllable ID="{3D04B0E4-CA41-450B-8D00-E412E1227A9F}" Value="ɔ" />
+					
+					<Syllable ID="{5F31218D-F97D-4CD7-8D0F-C6FFA7F491D6}" Value="æ" />
+					<Syllable ID="{7CB7300F-1672-40BD-B389-C3228F195B08}" Value="ɐ" />
+					<Syllable ID="{D6A251E5-DFAB-4551-9FD2-628CAC764955}" Value="ɞ̞" />
+					
+					<Syllable ID="{A66873E2-8252-4B08-AE3D-9E6635DC1F97}" Value="a" />
+					<Syllable ID="{3BD4C4E3-48E4-413D-8362-A8A7DF589546}" Value="ɶ" />
+					<Syllable ID="{E05E9035-3C80-4BF9-A7A5-772A8AEE150A}" Value="ä" />
+					<Syllable ID="{B5B8857C-2249-49E0-95B3-C24FCF4DA1C8}" Value="ɒ̈" />
+					<Syllable ID="{A0C65CE6-522B-4B67-8577-8535F3C8DE3F}" Value="ɑ" />
+					<Syllable ID="{18465F01-CF23-4762-8D92-37FF0829B8EA}" Value="ɒ" />
+				</Syllables>
+			</PronunciationKey>
+		</PronunciationKeys>
+	</Pronunciation>
+</Alyx>
