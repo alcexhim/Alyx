@@ -150,6 +150,14 @@
       <Project>{44BB83D2-2DC7-4602-9545-3351137A9E3D}</Project>
       <Name>Alyx.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Imaging\Alyx.Imaging.csproj">
+      <Project>{665B5807-1D4F-47E4-96CC-E9AB26FA5C1A}</Project>
+      <Name>Alyx.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Imaging.Thought\Alyx.Imaging.Thought.csproj">
+      <Project>{A97D9583-13BF-46A4-86B0-060F516B3740}</Project>
+      <Name>Alyx.Imaging.Thought</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MainIcon.ico" />

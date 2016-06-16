@@ -5,15 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Alyx.Core;
+using Alyx.Imaging;
+using Alyx.Imaging.Thought;
+
+using Alyx.Speech;
 using Alyx.Speech.Synthesis;
 using Alyx.Speech.Recognition;
+
+using Alyx.Thought;
+
 using Alyx.Linguistics;
 using Alyx.Linguistics.LanguageParts;
 using Alyx.Linguistics.Predicates;
-
-using Alyx.Core;
-using Alyx.Speech;
-using Alyx.Thought;
 using Alyx.Linguistics.Thought;
 
 using Alyx.Configuration;
@@ -71,7 +75,7 @@ namespace Alyx
 
 		private static Mind mind = new Mind();
 
-		private class VMI_Test_Camera : VideoMindInput
+		private class VMI_Test_Camera : VisualMindInput
 		{
 			protected override void ProcessInternal ()
 			{
