@@ -585,6 +585,26 @@ namespace Alyx.Linguistics
 						}
 					}
 
+					MarkupTagElement tagPronunciations = (tagWord.Elements ["Pronunciations"] as MarkupTagElement);
+					if (tagPronunciations != null)
+					{
+						foreach (MarkupElement elPronunciation in tagPronunciations.Elements)
+						{
+							MarkupTagElement tagPronunciation = (elPronunciation as MarkupTagElement);
+							if (tagPronunciation == null)
+								continue;
+							if (tagPronunciation.FullName != "Pronunciation")
+								continue;
+
+							MarkupAttribute attPronunciationValue = tagPronunciation.Attributes["Value"];
+							if (attPronunciationValue == null)
+								continue;
+
+							Pronunciation.PronunciationString pronstr = Pronunciation.PronunciationString.Parse (attPronunciationValue.Value);
+							word.Pronunciations.Add (pronstr);
+						}
+					}
+
 					lang.Words.Add(word);
 				}
 

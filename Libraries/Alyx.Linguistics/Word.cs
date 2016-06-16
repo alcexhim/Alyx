@@ -168,6 +168,9 @@ namespace Alyx.Linguistics
 		private int mvarPriority = 0;
 		public int Priority { get { return mvarPriority; } set { mvarPriority = value; } }
 
+		private Pronunciation.PronunciationString.PronunciationStringCollection mvarPronunciations = new Pronunciation.PronunciationString.PronunciationStringCollection ();
+		public Pronunciation.PronunciationString.PronunciationStringCollection Pronunciations { get { return mvarPronunciations; } }
+
 		private string mvarValue = String.Empty;
 		public string Value { get { return mvarValue; } set { mvarValue = value; } }
 
