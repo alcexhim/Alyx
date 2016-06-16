@@ -6,12 +6,11 @@ namespace Alyx.Linguistics.Pronunciation
 	{
 		private static PronunciationKey mvarIPA = null;
 		public static PronunciationKey IPA {
-			get
-			{
-				if (mvarIPA == null) {
-					mvarIPA = new PronunciationKey ();
-				}
+			get {
 				return mvarIPA;
+			}
+			set {
+				mvarIPA = value; 
 			}
 		}
 	}

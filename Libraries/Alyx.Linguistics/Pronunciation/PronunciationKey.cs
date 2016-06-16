@@ -80,6 +80,9 @@ namespace Alyx.Linguistics.Pronunciation
 				}
 			}
 
+			if (key.ID == new Guid ("{38175E88-D0DE-46C1-B6A3-822CB11FE7BF}"))
+				PronunciationKeys.IPA = key;
+
 			return key;
 		}
 	}
