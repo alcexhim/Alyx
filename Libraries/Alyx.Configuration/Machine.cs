@@ -44,6 +44,20 @@ namespace Alyx.Configuration
 			MarkupTagElement tagAlyx = (Markup.Elements["Alyx"] as MarkupTagElement);
 			if (tagAlyx != null)
 			{
+				// Pronunciation common to all instances
+				MarkupTagElement tagPronunciation = (tagAlyx.Elements ["Pronunciation"] as MarkupTagElement);
+				if (tagPronunciation != null) {
+					mvarPronunciation = PronunciationInformation.FromMarkup (tagPronunciation);
+
+					foreach (PronunciationKey key in mvarPronunciation.PronunciationKeys) {
+						foreach (PronunciationKeySyllable syllable in key.Syllables) {
+							if (syllable.SyllableID != Guid.Empty) {
+								syllable.Syllable = mvarPronunciation.Syllables [syllable.SyllableID];
+							}
+						}
+					}
+				}
+				
 				// Languages, common to all instances
 				MarkupTagElement tagLanguages = (tagAlyx.Elements["Languages"] as MarkupTagElement);
 				if (tagLanguages != null)
@@ -67,20 +81,6 @@ namespace Alyx.Configuration
 						}
 						if (inst != null)
 							mvarInstances.Add (inst);
-					}
-				}
-				
-				// Pronunciation common to all instances
-				MarkupTagElement tagPronunciation = (tagAlyx.Elements ["Pronunciation"] as MarkupTagElement);
-				if (tagPronunciation != null) {
-					mvarPronunciation = PronunciationInformation.FromMarkup (tagPronunciation);
-
-					foreach (PronunciationKey key in mvarPronunciation.PronunciationKeys) {
-						foreach (PronunciationKeySyllable syllable in key.Syllables) {
-							if (syllable.SyllableID != Guid.Empty) {
-								syllable.Syllable = mvarPronunciation.Syllables [syllable.SyllableID];
-							}
-						}
 					}
 				}
 			}
