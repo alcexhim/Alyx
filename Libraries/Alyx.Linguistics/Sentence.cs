@@ -45,9 +45,10 @@ namespace Alyx.Linguistics
 					}
 					else if (subject is NounInstance)
 					{
-						if (clause.Predicate.Verb != null)
-						{
-							clause.Predicate.Verb.Person = Person.ThirdPerson;
+						if (clause.Predicate != null) {
+							if (clause.Predicate.Verb != null) {
+								clause.Predicate.Verb.Person = Person.ThirdPerson;
+							}
 						}
 					}
 				}
