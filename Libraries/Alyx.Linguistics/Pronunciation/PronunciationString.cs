@@ -25,7 +25,10 @@ namespace Alyx.Linguistics.Pronunciation
 		{
 			if (key == null)
 				key = PronunciationKeys.IPA;
-			
+
+			if (key == null)
+				return null;
+
 			List<PronunciationKeySyllable> listSyllables = new List<PronunciationKeySyllable> (key.Syllables);
 			listSyllables.Sort (PronunciationKeySyllableLengthComparer.Instance);
 
