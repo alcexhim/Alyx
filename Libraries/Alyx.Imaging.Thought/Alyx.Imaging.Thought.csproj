@@ -42,5 +42,21 @@
       <Project>{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}</Project>
       <Name>Alyx.Thought</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+      <Project>{2D4737E6-6D95-408A-90DB-8DFF38147E85}</Project>
+      <Name>UniversalEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+      <Project>{30467E5C-05BC-4856-AADC-13906EF4CADD}</Project>
+      <Name>UniversalEditor.Essential</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Multimedia\UniversalEditor.Plugins.Multimedia.csproj">
+      <Project>{BE4D0BA3-0888-42A5-9C09-FC308A4509D2}</Project>
+      <Name>UniversalEditor.Plugins.Multimedia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Compression\UniversalEditor.Compression.csproj">
+      <Project>{3F664673-7E22-4486-9AD0-FC81861D0B78}</Project>
+      <Name>UniversalEditor.Compression</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
