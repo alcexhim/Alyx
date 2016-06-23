@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,69 +41,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChildWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChildWindow.Designer.cs">
-      <DependentUpon>ChildWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ChildWindows\SpeechMonitorWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChildWindows\SpeechMonitorWindow.Designer.cs">
-      <DependentUpon>SpeechMonitorWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ControlPanel.Designer.cs">
-      <DependentUpon>ControlPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPanels\Applications\Chat\ChatControlPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ControlPanels\Applications\Chat\ChatControlPanel.Designer.cs">
-      <DependentUpon>ChatControlPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.Designer.cs">
-      <DependentUpon>LanguagesControlPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPanels\Configuration\Speech\SpeechControlPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ControlPanels\Configuration\Speech\SpeechControlPanel.Designer.cs">
-      <DependentUpon>SpeechControlPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChildWindows\SpeechMonitorWindow.resx">
-      <DependentUpon>SpeechMonitorWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ControlPanels\Applications\Chat\ChatControlPanel.resx">
-      <DependentUpon>ChatControlPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ControlPanels\Configuration\Languages\LanguagesControlPanel.resx">
-      <DependentUpon>LanguagesControlPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ControlPanels\Configuration\Speech\SpeechControlPanel.resx">
-      <DependentUpon>SpeechControlPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,6 +54,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="MainWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
@@ -157,6 +100,30 @@
     <ProjectReference Include="..\..\Libraries\Alyx.Imaging.Thought\Alyx.Imaging.Thought.csproj">
       <Project>{A97D9583-13BF-46A4-86B0-060F516B3740}</Project>
       <Name>Alyx.Imaging.Thought</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Compression\UniversalEditor.Compression.csproj">
+      <Project>{3F664673-7E22-4486-9AD0-FC81861D0B78}</Project>
+      <Name>UniversalEditor.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+      <Project>{2D4737E6-6D95-408A-90DB-8DFF38147E85}</Project>
+      <Name>UniversalEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+      <Project>{30467E5C-05BC-4856-AADC-13906EF4CADD}</Project>
+      <Name>UniversalEditor.Essential</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Multimedia\UniversalEditor.Plugins.Multimedia.csproj">
+      <Project>{BE4D0BA3-0888-42A5-9C09-FC308A4509D2}</Project>
+      <Name>UniversalEditor.Plugins.Multimedia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalWidgetToolkit\Libraries\UniversalWidgetToolkit\UniversalWidgetToolkit.csproj">
+      <Project>{29E1C1BB-3EA5-4062-B62F-85EEC703FE07}</Project>
+      <Name>UniversalWidgetToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalWidgetToolkit\Engines\GTK\UniversalWidgetToolkit.Engines.GTK\UniversalWidgetToolkit.Engines.GTK.csproj">
+      <Project>{62DC7CF9-C608-49E5-8C39-305B2E3E93F6}</Project>
+      <Name>UniversalWidgetToolkit.Engines.GTK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 using Alyx.Core;
 using Alyx.Imaging;
@@ -22,6 +21,8 @@ using Alyx.Linguistics.Thought;
 
 using Alyx.Configuration;
 
+using UniversalWidgetToolkit;
+
 namespace Alyx
 {
 	static class Program
@@ -29,17 +30,15 @@ namespace Alyx
 		public static SynthesisEngine speaker = null;
 		public static RecognitionEngine listener = null;
 
-		private static ChildWindows.SpeechMonitorWindow mvarSpeechMonitorWindow = null;
-		private static bool mvarShowSpeechMonitorWindow = true;
-
-		private static NotifyIcon nid = new NotifyIcon();
-
 		private static Alyx.Networking.Server server = new Alyx.Networking.Server();
 		public static Alyx.Networking.Server Server { get { return server; } }
 
 		private static Alyx.Networking.Client client = new Alyx.Networking.Client();
 		public static Alyx.Networking.Client Client { get { return client; } }
 
+		private static NotificationIcon nid = new NotificationIcon ();
+
+		/*
 		private static System.Drawing.Image GetImage(string path)
 		{
 			path = path.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
@@ -72,6 +71,7 @@ namespace Alyx
 		
 		private static System.Drawing.Icon iconDefault = null;
 		private static System.Drawing.Icon iconActive = null;
+		*/
 
 		private static Mind mind = new Mind();
 
@@ -208,28 +208,45 @@ namespace Alyx
 			Sentence input1 = Sentence.Parse ("What's your name?");
 			string input1Str = input1.ToString ();
 		}
-		
+
+		private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+		{
+			Application.Stop ();
+			e.Cancel = true;
+		}
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+			UniversalWidgetToolkit.Application.Initialize ();
+
+			Console.CancelKeyPress += Console_CancelKeyPress;
 
 			LocalMachine machine = new LocalMachine ();
 			machine.Load ();
 
 			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
+
+			UniversalEditor.Color fromRGB = UniversalEditor.Color.FromRGBA (192, 168, 140);
+
+			// should be 32, 27, 75... gets 32, 70, 156 (???)
+			Console.WriteLine ("fromRGB HSL : {0} {1} {2}", fromRGB.HueInt32, fromRGB.SaturationInt32, fromRGB.LuminosityInt32);
+			Console.WriteLine ("fromRGB RGB : {0} {1} {2}", fromRGB.RedInt32, fromRGB.GreenInt32, fromRGB.BlueInt32);
+
+			UniversalEditor.Color fromHSL = UniversalEditor.Color.FromHSL (240, 100, 100);
 			
+			Console.WriteLine ("fromHSL HSL : {0} {1} {2}", fromHSL.HueInt32, fromHSL.SaturationInt32, fromHSL.LuminosityInt32);
+			Console.WriteLine ("fromHSL RGB : {0} {1} {2}", fromHSL.RedInt32, fromHSL.GreenInt32, fromHSL.BlueInt32);
 
 			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
 			Language.CurrentLanguage = langEnglish;
+			
+			TestMind();
 
 			// TestConversation ();
-
-			// TestMind();
 
 			// TestSentenceRenderer();
 			TestSentenceParser();
@@ -244,19 +261,24 @@ namespace Alyx
 				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
 			}
 
-			nid.Text = "Alyx";
-			nid.ContextMenu = BuildContextMenu();
+			nid.Name = "alyx-notification";
+			nid.IconNameDefault = "alyx-default";
+			nid.IconNameAttention = "alyx-attention";
+			nid.Text = "ALYX is awake";
+			mvarMainWindow = new MainWindow ();
 
-			nid.MouseDoubleClick += nid_MouseDoubleClick;
+			nid.ContextMenu = BuildContextMenu ();
 
-			iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
-			iconActive = GetImage("TrayIcon/Active.png").ToIcon();
+			// nid.MouseDoubleClick += nid_MouseDoubleClick;
 
-			nid.Icon = iconDefault;
-			nid.Visible = true;
+			// iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
+			// iconActive = GetImage("TrayIcon/Active.png").ToIcon();
+
+			// nid.Icon = iconDefault;
+			// nid.Visible = true;
+			nid.Status = NotificationIconStatus.Visible;
 
 			MainWindow mw = new MainWindow ();
-			mw.Show ();
 			// mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
 			// mvarSpeechMonitorWindow.Show();
 			
@@ -321,17 +343,21 @@ namespace Alyx
 			};
 
 			Random random = new Random();
-			int r = 0;
+			int rand = 0;
 
-			r = random.Next(0, WelcomeLiterals.Length);
-			Speak(String.Format(WelcomeLiterals[r], "Michael"));
+			rand = random.Next(0, WelcomeLiterals.Length);
+			Speak(String.Format(WelcomeLiterals[rand], "Michael"));
 
-			Application.Run();
+			UniversalWidgetToolkit.Application.Start ();
 
-			r = random.Next(0, GoodbyeLiterals.Length);
-			Speak(String.Format(GoodbyeLiterals[r], "Michael"), true);
+			rand = random.Next(0, GoodbyeLiterals.Length);
 
-			nid.Visible = false;
+			Speak(String.Format(GoodbyeLiterals[rand], "Michael"), true);
+
+			// give it a moment
+			System.Threading.Thread.Sleep (500);
+			
+			nid.Status = NotificationIconStatus.Hidden;
 
 			mind.Stop();
 			server.Stop();
@@ -428,10 +454,12 @@ namespace Alyx
 			}
 		}
 
+		/*
 		private static void nid_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			ShowMainWindow();
 		}
+		*/
 
 		private static void speaker_StateChanged(object sender, SynthesisEngineStateChangedEventArgs e)
 		{
@@ -439,16 +467,22 @@ namespace Alyx
 			{
 				case SynthesisEngineState.Ready:
 				{
-					nid.Icon = iconDefault;
+					nid.IconNameAttention = "alyx-active";
+					nid.Status = NotificationIconStatus.Visible;
+					// nid.Icon = iconDefault;
 					break;
 				}
 				case SynthesisEngineState.Speaking:
 				{
+					nid.IconNameAttention = "alyx-active";
+					nid.Status = NotificationIconStatus.Attention;
+					/*
 					if (mvarSpeechMonitorWindow != null)
 					{
 						mvarSpeechMonitorWindow.AddOutputLine(e.Text);
 					}
 					nid.Icon = iconActive;
+					*/
 					break;
 				}
 			}
@@ -458,30 +492,38 @@ namespace Alyx
 		public static void ShowMainWindow()
 		{
 			if (mvarMainWindow == null) mvarMainWindow = new MainWindow();
-			if (mvarMainWindow.IsDisposed) mvarMainWindow = new MainWindow();
+			if (mvarMainWindow.IsDisposed ())
+				mvarMainWindow = new MainWindow ();
+
 			mvarMainWindow.Show();
 		}
 
-
-		private static ContextMenu BuildContextMenu()
+		private static Menu BuildContextMenu()
 		{
-			ContextMenu menu = new ContextMenu();
-
-			menu.MenuItems.Add(new MenuItem("&Options", menuTrayOptions_Click));
-			menu.MenuItems[0].DefaultItem = true;
-
-			menu.MenuItems.Add("-");
-
-			MenuItem menuVoice = new MenuItem("&Voice");
-			menu.MenuItems.Add(menuVoice);
-
-			menu.MenuItems.Add(new MenuItem("-"));
-			menu.MenuItems.Add(new MenuItem("E&xit", mnuTrayExit_Click));
+			Menu menu = new Menu ();
+			menu.Items.AddRange (new MenuItem[] {
+				new CommandMenuItem ("_Options...", null, delegate (object sender, EventArgs e) {
+					ShowMainWindow ();
+				}),
+				new SeparatorMenuItem(),
+				new CommandMenuItem ("_Voices", null, delegate (object sender, EventArgs e) {
+				}),
+				new SeparatorMenuItem(),
+				new CommandMenuItem ("_Connect...", null, delegate (object sender, EventArgs e) {
+				}),
+				new CommandMenuItem ("Dis_connect", null, delegate (object sender, EventArgs e) {
+				}),
+				new SeparatorMenuItem(),
+				new CommandMenuItem ("_Quit", null, delegate (object sender, EventArgs e) {
+					Application.Stop();
+				})
+			});
 			return menu;
 		}
 
 		public static void RefreshAvailableVoices()
 		{
+			/*
 			MenuItem menuVoice = nid.ContextMenu.MenuItems[2];
 			menuVoice.MenuItems.Clear();
 			if (speaker != null)
@@ -496,6 +538,7 @@ namespace Alyx
 			}
 			menuVoice.MenuItems.Add("-");
 			menuVoice.MenuItems.Add(new MenuItem("&Refresh Available Voices", menuTrayVoiceRefresh_Click));
+			*/
 		}
 
 		private static void menuTrayVoiceRefresh_Click(object sender, EventArgs e)
@@ -511,7 +554,7 @@ namespace Alyx
 		private static void menuTrayVoice_Click(object sender, EventArgs e)
 		{
 			MenuItem mi = (sender as MenuItem);
-			Voice voice = (mi.Tag as Voice);
+			Voice voice = (mi.Data as Voice);
 
 			try
 			{
@@ -528,7 +571,7 @@ namespace Alyx
 		{
 			if (listener != null) listener.Stop();
 
-			Application.Exit();
+			Application.Stop ();
 		}
 	}
 }
