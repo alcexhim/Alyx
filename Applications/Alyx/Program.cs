@@ -223,6 +223,29 @@ namespace Alyx
 		{
 			UniversalWidgetToolkit.Application.Initialize ();
 
+			
+			// write local config file, figure out where this goes
+			string homePath = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
+			                              {
+				System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
+				"alyx"
+			});
+			// ensure the directory is created if it doesn't already exist
+			System.IO.Directory.CreateDirectory (homePath);
+
+			
+			string FileName_BootLog = homePath + System.IO.Path.DirectorySeparatorChar.ToString () + "BootLog";
+
+			// write the startup time to the boot log
+			{
+				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
+				// seek to end of stream so we can append
+				wLog.Accessor.Position = wLog.Accessor.Length;
+				wLog.WriteInt16 ((short)0x2232);
+				wLog.WriteDateTime (DateTime.Now);
+				wLog.Close ();
+			}
+
 			Console.CancelKeyPress += Console_CancelKeyPress;
 
 			LocalMachine machine = new LocalMachine ();
@@ -361,6 +384,14 @@ namespace Alyx
 
 			mind.Stop();
 			server.Stop();
+
+			{
+				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
+				wLog.Accessor.Position = wLog.Accessor.Length;
+				wLog.WriteInt16 ((short)0x2233);
+				wLog.WriteDateTime (DateTime.Now);
+				wLog.Close ();
+			}
 		}
 
 		private static Language InitializeLanguage_English()
