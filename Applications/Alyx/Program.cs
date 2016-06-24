@@ -267,27 +267,30 @@ namespace Alyx
 			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
 			Language.CurrentLanguage = langEnglish;
 			
-			TestMind();
+			// TestMind();
 
 			// TestConversation ();
 
 			// TestSentenceRenderer();
 			TestSentenceParser();
 
-			bool enableNetworking = false;
+			bool enableNetworking = true;
 			if (enableNetworking)
 			{
 				// start the Alyx server
 				Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
 				Server.Start();
-
+				
+				client.MessageReceived += delegate(object sender, Alyx.Networking.MessageEventArgs e) {
+					Speak (e.Message, e.WaitUntilFinished);
+				};
 				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
 			}
 
 			nid.Name = "alyx-notification";
 			nid.IconNameDefault = "alyx-default";
 			nid.IconNameAttention = "alyx-attention";
-			nid.Text = "ALYX is awake";
+			nid.Text = "A.L.Y.X. connected to localhost:51221";
 			mvarMainWindow = new MainWindow ();
 
 			nid.ContextMenu = BuildContextMenu ();
@@ -352,39 +355,22 @@ namespace Alyx
 
 			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 
-			string[] WelcomeLiterals = new string[]
-			{
-				"Good to see you again {0}",
-				"Hello {0}",
-				"Welcome back {0}"
-			};
-			string[] GoodbyeLiterals = new string[]
-			{
-				"See you later {0}",
-				"Goodbye {0}",
-				"Have a nice day {0}"
-			};
-
-			Random random = new Random();
-			int rand = 0;
-
-			rand = random.Next(0, WelcomeLiterals.Length);
-			Speak(String.Format(WelcomeLiterals[rand], "Michael"));
-
 			UniversalWidgetToolkit.Application.Start ();
-
-			rand = random.Next(0, GoodbyeLiterals.Length);
-
-			Speak(String.Format(GoodbyeLiterals[rand], "Michael"), true);
 
 			// give it a moment
 			System.Threading.Thread.Sleep (500);
 			
 			nid.Status = NotificationIconStatus.Hidden;
 
-			mind.Stop();
+			// mind.Stop();
+
+			// TODO: for some reason when server.Stop() the client doesn't get kicked... it still thinks it's connected
+			// be sure to disconnect manually before stopping the server
+			client.Disconnect ();
+
 			server.Stop();
 
+			/*
 			{
 				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
 				wLog.Accessor.Position = wLog.Accessor.Length;
@@ -392,6 +378,7 @@ namespace Alyx
 				wLog.WriteDateTime (DateTime.Now);
 				wLog.Close ();
 			}
+			*/
 		}
 
 		private static Language InitializeLanguage_English()
@@ -475,6 +462,13 @@ namespace Alyx
 			{
 				try
 				{
+					ConsoleColor fc = Console.ForegroundColor;
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.Write("A.L.Y.X.: ");
+					Console.ForegroundColor = ConsoleColor.Green;
+					Console.WriteLine(text.Trim());
+					Console.ForegroundColor = fc;
+
 					speaker.Speak(text);
 					if (waitUntilDone) speaker.WaitUntilDone();
 				}

@@ -39,6 +39,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MessageEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Indigo\Libraries\Indigo\Indigo.csproj">
@@ -58,4 +59,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Speech\" />
+  </ItemGroup>
 </Project>

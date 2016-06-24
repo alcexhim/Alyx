@@ -46,8 +46,58 @@ namespace Alyx.Networking
 				if (code == 200)
 				{
 					// we're good!
+					Say_Hello (e.Client);
 				}
 			}
+		}
+
+		private Random random = new Random();
+
+		private void Say_Hello(Indigo.Client client)
+		{
+			string[] WelcomeLiterals = new string[]
+			{
+				"Good to see you again {0}",
+				"Hello {0}",
+				"Welcome back {0}"
+			};
+
+			int rand = random.Next(0, WelcomeLiterals.Length);
+			Speak(client, String.Format(WelcomeLiterals[rand], "Michael"));
+		}
+		private void Say_Goodbye(Indigo.Client client)
+		{
+			string[] GoodbyeLiterals = new string[]
+			{
+				"See you later {0}",
+				"Goodbye {0}",
+				"Have a nice day {0}"
+			};
+
+			int rand = random.Next(0, GoodbyeLiterals.Length);
+			Speak(client, String.Format(GoodbyeLiterals[rand], "Michael"));
+		}
+
+		/// <summary>
+		/// Sends a SAY command over the wire to the connected client.
+		/// </summary>
+		/// <param name="value">The text to speak.</param>
+		private void Speak(Indigo.Client client, string value)
+		{
+			Client_SendChatMessage (client, value);
+		}
+
+		public void Client_SendChatMessage(Indigo.Client client, string message)
+		{
+			Indigo.Protocols.PlainText.Request req = new Indigo.Protocols.PlainText.Request();
+			req.Method = "MESSAGE";
+			req.Path = "/";
+			req.Protocol = "alyx/1.0";
+
+			req.Content = message;
+
+			string content = ptp.CreatePacket(req);
+			client.Transport.GetClientImplementation().Write(content);
 		}
 
 		public Server()

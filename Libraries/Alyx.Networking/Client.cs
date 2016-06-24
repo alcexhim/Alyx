@@ -31,8 +31,14 @@ namespace Alyx.Networking
 			req.Content = message;
 
 			string content = ptp.CreatePacket(req);
+			base.Transport.GetClientImplementation().Write(content);
+		}
 
-			// base.Transport.Send(content);
+		public event MessageEventHandler MessageReceived;
+		protected virtual void OnMessageReceived(MessageEventArgs e)
+		{
+			if (MessageReceived != null)
+				MessageReceived (this, e);
 		}
 
 		protected override void OnDataReceived(Indigo.DataReceivedEventArgs e)
@@ -56,6 +62,15 @@ namespace Alyx.Networking
 
 					byte[] buffer = ma.ToArray();
 					e.Stream.Write(buffer, 0, buffer.Length);
+				}
+				else if (req.Method == "MESSAGE")
+				{
+					bool waitUntilFinished = false;
+					Header header = req.Headers ["Wait-Until-Finished"];
+					if (header != null)
+						waitUntilFinished = (header.Value.ToLower ().Equals ("true"));
+
+					OnMessageReceived (new MessageEventArgs (req.Content, waitUntilFinished));
 				}
 			}
 		}
