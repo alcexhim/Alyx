@@ -53,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.Imaging.Thought", "Lib
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{A679A1AA-81EF-43B2-BD1B-4E6CB479EF8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx", "Applications\Alyx\Alyx.csproj", "{F8069AAD-BE73-4F64-A653-046F76115C7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.ClientApplication", "Applications\Alyx.ClientApplication\Alyx.ClientApplication.csproj", "{F8069AAD-BE73-4F64-A653-046F76115C7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyx.ServerApplication", "Applications\Alyx.ServerApplication\Alyx.ServerApplication.csproj", "{B4B7D3F2-B969-43D9-9408-10AB71B7F1A5}"
 EndProject
