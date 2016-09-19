@@ -45,6 +45,9 @@ namespace Alyx.Networking
 				int code = resp.ResponseCode;
 				if (code == 200)
 				{
+					foreach (Indigo.Protocols.PlainText.Header header in resp.Headers) {
+						Console.WriteLine ("    " + header.ToString ());
+					}
 					// we're good!
 					Say_Hello (e.Client);
 				}
@@ -52,6 +55,16 @@ namespace Alyx.Networking
 		}
 
 		private Random random = new Random();
+
+		private T GetRandomArrayItem<T>(T[] array)
+		{
+			int rand = random.Next(0, array.Length);
+			return array [rand];
+		}
+
+		private string[] mvarUserNames = new string[] {
+			"Michael"
+		};
 
 		private void Say_Hello(Indigo.Client client)
 		{
@@ -62,8 +75,7 @@ namespace Alyx.Networking
 				"Welcome back {0}"
 			};
 
-			int rand = random.Next(0, WelcomeLiterals.Length);
-			Speak(client, String.Format(WelcomeLiterals[rand], "Michael"));
+			Speak(String.Format(GetRandomArrayItem<string>(WelcomeLiterals), GetRandomArrayItem<string>(mvarUserNames)), client);
 		}
 		private void Say_Goodbye(Indigo.Client client)
 		{
@@ -74,20 +86,14 @@ namespace Alyx.Networking
 				"Have a nice day {0}"
 			};
 
-			int rand = random.Next(0, GoodbyeLiterals.Length);
-			Speak(client, String.Format(GoodbyeLiterals[rand], "Michael"));
+			Speak(String.Format(GetRandomArrayItem<string>(GoodbyeLiterals), GetRandomArrayItem<string>(mvarUserNames)), client);
 		}
 
 		/// <summary>
 		/// Sends a SAY command over the wire to the connected client.
 		/// </summary>
 		/// <param name="value">The text to speak.</param>
-		private void Speak(Indigo.Client client, string value)
-		{
-			Client_SendChatMessage (client, value);
-		}
-
-		public void Client_SendChatMessage(Indigo.Client client, string message)
+		public void Speak(string message, Indigo.Client client = null)
 		{
 			Indigo.Protocols.PlainText.Request req = new Indigo.Protocols.PlainText.Request();
 			req.Method = "MESSAGE";
@@ -97,7 +103,13 @@ namespace Alyx.Networking
 			req.Content = message;
 
 			string content = ptp.CreatePacket(req);
-			client.Transport.GetClientImplementation().Write(content);
+			if (client == null) {
+				foreach (Indigo.Client cli in this.Clients) {
+					cli.Transport.GetClientImplementation ().Write (content);
+				}
+			} else { 
+				client.Transport.GetClientImplementation ().Write (content);
+			}
 		}
 
 		public Server()

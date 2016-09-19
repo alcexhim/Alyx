@@ -55,7 +55,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			System.Diagnostics.Process p = new System.Diagnostics.Process();
 
 			Dictionary<string, string> paramz = new Dictionary<string, string>();
-			paramz.Add("speech/rate", "220"); // default is 170
+			paramz.Add("speech/rate", "200"); // default is 170
 
 			StringBuilder sb = new StringBuilder();
 			if (Voice != null)

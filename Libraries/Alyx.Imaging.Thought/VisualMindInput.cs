@@ -4,7 +4,7 @@ using Alyx.Thought;
 
 namespace Alyx.Imaging.Thought
 {
-	public class VisualMindInput : MindInput
+	public class VisualMindInput : MindScript
 	{
 		protected override void ProcessInternal ()
 		{

@@ -224,6 +224,10 @@ namespace Alyx.Linguistics.SentenceParsers.V1
 					{
 						context.Clause.Predicate = new Predicates.PrepositionalObjectPredicate(context.Verb, context.Preposition, new ISubject[] { noun });
 					}
+					else if (context.Verb != null)
+					{
+						context.Clause.Predicate = new Predicates.DirectObjectPredicate (context.Verb, new ISubject[] { noun });
+					}
 					else
 					{
 						context.Clause.Subjects.Add(noun);

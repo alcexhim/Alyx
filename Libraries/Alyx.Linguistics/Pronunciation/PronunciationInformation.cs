@@ -12,6 +12,12 @@ namespace Alyx.Linguistics.Pronunciation
 		private PronunciationSyllable.PronunciationSyllableCollection mvarSyllables = new PronunciationSyllable.PronunciationSyllableCollection ();
 		public PronunciationSyllable.PronunciationSyllableCollection Syllables { get { return mvarSyllables; } }
 
+		public void Clear()
+		{
+			mvarPronunciationKeys.Clear ();
+			mvarSyllables.Clear ();
+		}
+
 		public void LoadMarkup(MarkupTagElement tag, bool append = false)
 		{
 			if (tag == null)

@@ -13,8 +13,14 @@ namespace Alyx.Thought
 		private Idea.IdeaCollection mvarIdeas = new Idea.IdeaCollection();
 		public Idea.IdeaCollection Ideas { get { return mvarIdeas; } }
 
-		private MindInput.MindInputCollection mvarInputs = new MindInput.MindInputCollection();
-		public MindInput.MindInputCollection Inputs { get { return mvarInputs; } }
+		private MindConnection.MindConnectionCollection mvarConnections = new MindConnection.MindConnectionCollection ();
+		public MindConnection.MindConnectionCollection Connections { get { return mvarConnections; } }
+
+		private MindScript.MindScriptCollection mvarScripts = new MindScript.MindScriptCollection();
+		public MindScript.MindScriptCollection Scripts { get { return mvarScripts; } }
+
+		private bool mvarEnableDebugging = false;
+		public bool EnableDebugging { get { return mvarEnableDebugging; } set { mvarEnableDebugging = value; } }
 
 		private System.Threading.Thread _thread = null;
 		private void _thread_ThreadStart()
@@ -22,13 +28,14 @@ namespace Alyx.Thought
 			while (true)
 			{
 				// check our status, process inputs, etc.
-				foreach (MindInput input in mvarInputs)
+				foreach (MindScript script in mvarScripts)
 				{
-					input.Process ();
+					script.Execute ();
 				}
 
 				// finally print our current status
-				debug_PrintStatus();
+				if (mvarEnableDebugging)
+					debug_PrintStatus();
 
 				// and sleep for a while so we don't suck up CPU time
 				System.Threading.Thread.Sleep(500);

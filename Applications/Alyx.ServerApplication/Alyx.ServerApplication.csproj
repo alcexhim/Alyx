@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Alyx.ServerApplication</RootNamespace>
-    <AssemblyName>Alyx.ServerApplication</AssemblyName>
+    <AssemblyName>alyx-server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
@@ -23,6 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,4 +56,30 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ApplicationFramework\CSharp\ApplicationFramework\ApplicationFramework.csproj">
+      <Project>{575C9BFC-445C-45AE-93A2-B06105F743D6}</Project>
+      <Name>ApplicationFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Networking\Alyx.Networking.csproj">
+      <Project>{80656D38-A2CA-4994-9717-1F0F01BD51D5}</Project>
+      <Name>Alyx.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Core\Alyx.Core.csproj">
+      <Project>{35D24257-56A1-40E0-B7C7-530B37C92D25}</Project>
+      <Name>Alyx.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Indigo\Libraries\Indigo\Indigo.csproj">
+      <Project>{8DED80F3-1483-43A7-A37A-86D01C46B992}</Project>
+      <Name>Indigo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Thought\Alyx.Thought.csproj">
+      <Project>{82D8951D-B8D8-4E5A-91B9-F3C4E019FA42}</Project>
+      <Name>Alyx.Thought</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Alyx.Configuration\Alyx.Configuration.csproj">
+      <Project>{44BB83D2-2DC7-4602-9545-3351137A9E3D}</Project>
+      <Name>Alyx.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -52,6 +52,17 @@ namespace Alyx.Networking
 				if (req.Method == "OPTIONS")
 				{
 					Response resp = new Response(200, "OK", "Alyx/1.0");
+
+					resp.Headers.Add ("User-Name", System.Environment.UserName);
+					resp.Headers.Add ("Domain-Name", System.Environment.UserDomainName);
+					resp.Headers.Add ("Computer-Name", System.Environment.MachineName);
+					resp.Headers.Add ("Processor-Count", System.Environment.ProcessorCount.ToString ());
+					resp.Headers.Add ("Command-Line", System.Environment.CommandLine);
+					
+					resp.Headers.Add ("OS-Platform", System.Environment.OSVersion.Platform.ToString ());
+					resp.Headers.Add ("OS-ServicePack", System.Environment.OSVersion.ServicePack);
+					resp.Headers.Add ("OS-Version", System.Environment.OSVersion.Version.ToString ());
+					resp.Headers.Add ("OS-Version-String", System.Environment.OSVersion.VersionString);
 					
 					string data = ptp.CreatePacket(resp);
 					

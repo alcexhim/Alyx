@@ -22,6 +22,7 @@ using Alyx.Linguistics.Thought;
 using Alyx.Configuration;
 
 using UniversalWidgetToolkit;
+using UniversalWidgetToolkit.Dialogs;
 
 namespace Alyx
 {
@@ -29,9 +30,6 @@ namespace Alyx
 	{
 		public static SynthesisEngine speaker = null;
 		public static RecognitionEngine listener = null;
-
-		private static Alyx.Networking.Server server = new Alyx.Networking.Server();
-		public static Alyx.Networking.Server Server { get { return server; } }
 
 		private static Alyx.Networking.Client client = new Alyx.Networking.Client();
 		public static Alyx.Networking.Client Client { get { return client; } }
@@ -90,8 +88,8 @@ namespace Alyx
 			idea.Representations.Add(new WordInstanceIdeaRepresentation(lang.GetNoun(new Guid("{E01FDBD2-758D-42D9-B09C-B43F2B17ACEE}"))));
 			mind.Ideas.Add(idea);
 
-			mind.Inputs.Add (new VMI_Test_Camera ());
-			mind.Inputs.Add (new VMI_Test_Camera ());
+			// mind.Inputs.Add (new VMI_Test_Camera ());
+			// mind.Inputs.Add (new VMI_Test_Camera ());
 
 			Sentence sent1 = Sentence.Parse("You're ugly.");
 			Console.WriteLine (sent1.ToString ());
@@ -134,17 +132,23 @@ namespace Alyx
 			Console.WriteLine (str);
 		}
 
+		private static void Pause()
+		{
+			Console.Write ("Press any key to continue . . .");
+			Console.ReadKey (true);
+		}
+
 		private static void TestSentenceParser(string sentence)
 		{
 			Sentence sent = Sentence.Parse(sentence);
 
 			Console.WriteLine (" Input: " + sentence);
 			Console.WriteLine ("Output: " + sent.ToString ());
+
+			Pause ();
 		}
 		private static void TestSentenceParser()
 		{
-			Language lang = Language.CurrentLanguage;
-
 			// A Word Sequence should be considered a Proper Noun if either of the following conditions apply:
 			//		1.  If a particular word is capitalized, it should be considered a proper noun.
 			//			An example of this case would be "John".
@@ -159,6 +163,8 @@ namespace Alyx
 			// TestSentenceParser ("The boy went fishing after school.");
 
 			// TestSentenceParser ("The boy often went fishing after school.");
+
+			// [The boy] [[often went] [to [the library]]] [after school].
 			// TestSentenceParser ("The boy often went to the library after school.");
 
 			// TestSentenceParser ("The chairman of Walter Industries looks to the future with the company's expansion.");
@@ -222,7 +228,6 @@ namespace Alyx
 		static void Main()
 		{
 			UniversalWidgetToolkit.Application.Initialize ();
-
 			
 			// write local config file, figure out where this goes
 			string homePath = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
@@ -247,9 +252,15 @@ namespace Alyx
 			}
 
 			Console.CancelKeyPress += Console_CancelKeyPress;
-
+			
 			LocalMachine machine = new LocalMachine ();
 			machine.Load ();
+
+			Language.CurrentLanguage = machine.Languages [0];
+
+			TestSentenceParser ();
+
+			/*
 
 			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
 
@@ -273,24 +284,35 @@ namespace Alyx
 
 			// TestSentenceRenderer();
 			TestSentenceParser();
-
-			bool enableNetworking = true;
-			if (enableNetworking)
-			{
-				// start the Alyx server
-				Server.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
-				Server.Start();
-				
-				client.MessageReceived += delegate(object sender, Alyx.Networking.MessageEventArgs e) {
-					Speak (e.Message, e.WaitUntilFinished);
-				};
-				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
-			}
+			*/
 
 			nid.Name = "alyx-notification";
 			nid.IconNameDefault = "alyx-default";
 			nid.IconNameAttention = "alyx-attention";
-			nid.Text = "A.L.Y.X. connected to localhost:51221";
+
+			client.Connected += delegate(object sender, EventArgs e) {
+				Indigo.Transports.TCP.TCPTransport tcp = (client.Transport as Indigo.Transports.TCP.TCPTransport);
+				nid.Text = "A.L.Y.X. connected to " + tcp.Port.ToString();
+			};
+			client.MessageReceived += delegate(object sender, Alyx.Networking.MessageEventArgs e) {
+				if (e.Message.Contains("\0")) {
+					e.Message = e.Message.Substring(0, e.Message.IndexOf('\0'));
+				}
+				e.Message = e.Message.Trim();
+				Speak (e.Message, e.WaitUntilFinished);
+			};
+
+			nid.Text = "A.L.Y.X. disconnected";
+			/*
+			try {
+				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
+				nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
+			}
+			catch (System.Net.Sockets.SocketException ex) {
+				nid.Text = "A.L.Y.X. disconnected";
+			}
+			*/
+
 			mvarMainWindow = new MainWindow ();
 
 			nid.ContextMenu = BuildContextMenu ();
@@ -303,17 +325,17 @@ namespace Alyx
 			// nid.Icon = iconDefault;
 			// nid.Visible = true;
 			nid.Status = NotificationIconStatus.Visible;
-
+			
 			MainWindow mw = new MainWindow ();
 			// mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
 			// mvarSpeechMonitorWindow.Show();
 			
 			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
-			
 			if (engines.Length > 0) speaker = engines[0].Create();
 
-			if (speaker != null)
+			if (speaker != null) {
 				speaker.SuppressSpeechEngineNotFound = true;
+			}
 
 			RefreshAvailableVoices();
 
@@ -324,6 +346,7 @@ namespace Alyx
 				speaker.StateChanged += speaker_StateChanged;
 			}
 
+			/*
 			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
 			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
 			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
@@ -354,6 +377,7 @@ namespace Alyx
 			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
 
 			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
+			*/
 
 			UniversalWidgetToolkit.Application.Start ();
 
@@ -367,8 +391,6 @@ namespace Alyx
 			// TODO: for some reason when server.Stop() the client doesn't get kicked... it still thinks it's connected
 			// be sure to disconnect manually before stopping the server
 			client.Disconnect ();
-
-			server.Stop();
 
 			/*
 			{
@@ -469,6 +491,12 @@ namespace Alyx
 					Console.WriteLine(text.Trim());
 					Console.ForegroundColor = fc;
 
+					NotificationPopup popup = new NotificationPopup();
+					popup.IconName = "alyx-active";
+					popup.Content = text.Trim();
+					popup.Summary = "New message from A.L.Y.X.";
+					popup.Show();
+
 					speaker.Speak(text);
 					if (waitUntilDone) speaker.WaitUntilDone();
 				}
@@ -535,6 +563,41 @@ namespace Alyx
 				}),
 				new SeparatorMenuItem(),
 				new CommandMenuItem ("_Connect...", null, delegate (object sender, EventArgs e) {
+					ConnectDialog dlg = new ConnectDialog();
+					if (dlg.ShowDialog() == DialogResult.OK) {
+						int port = 0;
+
+						// TODO: fix this, GetControlTextInternal on GTK returns a reference that is only valid once
+						// if we check dlg.txtServerName.Text more than once for instance, we get funky results
+
+						string strPort = dlg.txtPort.Text;
+						string strServerName = dlg.txtServerName.Text;
+
+						if (!Int32.TryParse(strPort, out port)) {
+							MessageDialog.ShowDialog("Please enter a valid integer port number", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
+							return;
+						}
+						
+						if (String.IsNullOrEmpty(strServerName)) {
+							MessageDialog.ShowDialog("Please enter a valid server name or IP address", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
+							return;
+						}
+
+						System.Net.IPAddress addr = null;
+						if (!System.Net.IPAddress.TryParse(strServerName, out addr))
+						{
+							System.Net.IPAddress[] addrs = System.Net.Dns.GetHostAddresses(strServerName);
+							if (addrs.Length > 0) addr = addrs[0];
+						}
+						if (addr != null) {
+							try {
+								Client.Connect(addr, port);
+							}
+							catch (System.Net.Sockets.SocketException ex) {
+								MessageDialog.ShowDialog("Cannot connect to the specified server.", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
+							}
+						}
+					}
 				}),
 				new CommandMenuItem ("Dis_connect", null, delegate (object sender, EventArgs e) {
 				}),

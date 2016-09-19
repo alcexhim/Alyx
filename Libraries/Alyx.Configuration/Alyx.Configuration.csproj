@@ -36,6 +36,7 @@
     <Compile Include="Machine.cs" />
     <Compile Include="LocalMachine.cs" />
     <Compile Include="Instance.cs" />
+    <Compile Include="Schemas.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\..\..\ApplicationFramework\CSharp\ApplicationFramework\ApplicationFramework.csproj">
       <Project>{575C9BFC-445C-45AE-93A2-B06105F743D6}</Project>
       <Name>ApplicationFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alyx.Scripting\Alyx.Scripting.csproj">
+      <Project>{F79C2E7C-819A-4873-B34E-A235ECF32CE7}</Project>
+      <Name>Alyx.Scripting</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
