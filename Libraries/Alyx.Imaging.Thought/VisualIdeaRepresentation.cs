@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Alyx.Thought;
-
+using MBS.Framework.Drawing;
 using UniversalEditor;
 using UniversalEditor.ObjectModels.Multimedia.Picture;
 
@@ -30,10 +30,10 @@ namespace Alyx.Imaging.Thought
 					for (int x = 0; x < mvarPicture.Width; x += xstep) {
 						for (int y = 0; y < mvarPicture.Height; y += ystep) {
 							Color color = mvarPicture.GetPixel (x, y);
-							if (!hues.ContainsKey (color.HueInt32)) {
-								hues.Add (color.HueInt32, 0);
+							if (!hues.ContainsKey (color.GetHueScaledInt32())) {
+								hues.Add (color.GetHueScaledInt32(), 0);
 							}
-							hues [color.HueInt32] ++;
+							hues [color.GetHueScaledInt32()] ++;
 						}
 					}
 				}

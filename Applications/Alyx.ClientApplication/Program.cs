@@ -21,12 +21,12 @@ using Alyx.Linguistics.Thought;
 
 using Alyx.Configuration;
 
-using UniversalWidgetToolkit;
-using UniversalWidgetToolkit.Dialogs;
+using MBS.Framework.UserInterface;
+using MBS.Framework.UserInterface.Dialogs;
 
 namespace Alyx
 {
-	static class Program
+	class Program : MBS.Framework.UserInterface.UIApplication
 	{
 		public static SynthesisEngine speaker = null;
 		public static RecognitionEngine listener = null;
@@ -35,6 +35,208 @@ namespace Alyx
 		public static Alyx.Networking.Client Client { get { return client; } }
 
 		private static NotificationIcon nid = new NotificationIcon ();
+
+		public Program()
+		{
+			ShortName = "alyx-client";
+		}
+
+		protected override void OnActivated(MBS.Framework.ApplicationActivatedEventArgs e)
+		{
+			base.OnActivated(e);
+
+			// write local config file, figure out where this goes
+			string homePath = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
+										  {
+				System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
+				"alyx"
+			});
+			// ensure the directory is created if it doesn't already exist
+			System.IO.Directory.CreateDirectory(homePath);
+
+
+			string FileName_BootLog = homePath + System.IO.Path.DirectorySeparatorChar.ToString() + "BootLog";
+
+			// write the startup time to the boot log
+			{
+				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer(new UniversalEditor.Accessors.FileAccessor(FileName_BootLog, true, false, true));
+				// seek to end of stream so we can append
+				wLog.Accessor.Position = wLog.Accessor.Length;
+				wLog.WriteInt16((short)0x2232);
+				wLog.WriteDateTime(DateTime.Now);
+				wLog.Close();
+			}
+
+			Console.CancelKeyPress += Console_CancelKeyPress;
+
+			LocalMachine machine = new LocalMachine();
+			machine.Load();
+
+			if (machine.Languages.Count > 0)
+			{
+				Language.CurrentLanguage = machine.Languages[0];
+			}
+
+			if (Language.CurrentLanguage == null)
+			{
+				Console.Error.WriteLine("no languages found!");
+			}
+			else
+			{
+				TestSentenceParser();
+			}
+			
+
+			/*
+
+			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
+
+			UniversalEditor.Color fromRGB = UniversalEditor.Color.FromRGBA (192, 168, 140);
+
+			// should be 32, 27, 75... gets 32, 70, 156 (???)
+			Console.WriteLine ("fromRGB HSL : {0} {1} {2}", fromRGB.HueInt32, fromRGB.SaturationInt32, fromRGB.LuminosityInt32);
+			Console.WriteLine ("fromRGB RGB : {0} {1} {2}", fromRGB.RedInt32, fromRGB.GreenInt32, fromRGB.BlueInt32);
+
+			UniversalEditor.Color fromHSL = UniversalEditor.Color.FromHSL (240, 100, 100);
+			
+			Console.WriteLine ("fromHSL HSL : {0} {1} {2}", fromHSL.HueInt32, fromHSL.SaturationInt32, fromHSL.LuminosityInt32);
+			Console.WriteLine ("fromHSL RGB : {0} {1} {2}", fromHSL.RedInt32, fromHSL.GreenInt32, fromHSL.BlueInt32);
+
+			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
+			Language.CurrentLanguage = langEnglish;
+			
+			// TestMind();
+
+			// TestConversation ();
+
+			// TestSentenceRenderer();
+			TestSentenceParser();
+			*/
+
+			nid.Name = "alyx-notification";
+			nid.IconNameDefault = "alyx-default";
+			nid.IconNameAttention = "alyx-attention";
+
+			/*
+			client.Connected += delegate (object sender, EventArgs e) {
+				Indigo.Transports.TCP.TCPTransport tcp = (client.Transport as Indigo.Transports.TCP.TCPTransport);
+				nid.Text = "A.L.Y.X. connected to " + tcp.Port.ToString();
+			};
+			*/
+			client.MessageReceived += delegate (object sender, Alyx.Networking.MessageEventArgs e1)
+			{
+				if (e1.Message.Contains("\0"))
+				{
+					e1.Message = e1.Message.Substring(0, e1.Message.IndexOf('\0'));
+				}
+				e1.Message = e1.Message.Trim();
+				Speak(e1.Message, e1.WaitUntilFinished);
+			};
+
+			nid.Text = "A.L.Y.X. disconnected";
+
+			try {
+				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
+				nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
+			}
+			catch (System.Net.Sockets.SocketException ex) {
+				nid.Text = "A.L.Y.X. disconnected";
+			}
+
+			mvarMainWindow = new MainWindow();
+
+			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
+			if (engines.Length > 0) speaker = engines[0].Create();
+
+			nid.ContextMenu = BuildContextMenu();
+
+			// nid.MouseDoubleClick += nid_MouseDoubleClick;
+
+			// iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
+			// iconActive = GetImage("TrayIcon/Active.png").ToIcon();
+
+			// nid.Icon = iconDefault;
+			// nid.Visible = true;
+			nid.Status = NotificationIconStatus.Visible;
+
+			MainWindow mw = new MainWindow();
+			// mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
+			// mvarSpeechMonitorWindow.Show();
+
+			if (speaker != null)
+			{
+				speaker.SuppressSpeechEngineNotFound = true;
+			}
+
+			RefreshAvailableVoices();
+
+			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
+
+			if (speaker != null)
+			{
+				speaker.StateChanged += speaker_StateChanged;
+			}
+
+			/*
+			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
+			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
+			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
+			
+			NounInstance dog = langEnglish.GetNoun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
+			dog.Adjectives.Add(lazy);
+
+			NounInstance fox = langEnglish.GetNoun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"));
+			fox.Adjectives.AddRange<AdjectiveInstance>(quick, brown);
+
+			fox.Definiteness = Definiteness.Definite;
+			fox.Quantity = Quantity.Plural;
+
+			Sentence quickbrownfox = new Sentence(SentenceTypes.Declarative, new Clause[]
+			{
+				new Clause(new ISubject[] { fox }, new PrepositionalObjectPredicate
+				(
+					langEnglish.GetVerb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
+					langEnglish.GetPreposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
+					new ISubject[] { dog }
+				))
+			});
+
+			dog.Definiteness = Definiteness.Definite;
+			dog.Quantity = Quantity.Singular;
+
+			string text = quickbrownfox.ToString();
+			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
+
+			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
+			*/
+
+		}
+
+		protected override void OnStopped(EventArgs e)
+		{
+			base.OnStopped(e);
+
+			// give it a moment
+			System.Threading.Thread.Sleep(500);
+
+			nid.Status = NotificationIconStatus.Hidden;
+
+			// mind.Stop();
+
+			// TODO: for some reason when server.Stop() the client doesn't get kicked... it still thinks it's connected
+			// be sure to disconnect manually before stopping the server
+			//client.Disconnect();
+
+			/*
+			{
+				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
+				wLog.Accessor.Position = wLog.Accessor.Length;
+				wLog.WriteInt16 ((short)0x2233);
+				wLog.WriteDateTime (DateTime.Now);
+				wLog.Close ();
+			}
+			*/
+		}
 
 		/*
 		private static System.Drawing.Image GetImage(string path)
@@ -75,7 +277,7 @@ namespace Alyx
 
 		private class VMI_Test_Camera : VisualMindInput
 		{
-			protected override void ProcessInternal ()
+			protected override void ExecuteInternal ()
 			{
 			}
 		}
@@ -217,7 +419,7 @@ namespace Alyx
 
 		private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
 		{
-			Application.Stop ();
+			MBS.Framework.Application.Instance.Stop ();
 			e.Cancel = true;
 		}
 
@@ -225,182 +427,9 @@ namespace Alyx
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static int Main()
 		{
-			UniversalWidgetToolkit.Application.Initialize ();
-			
-			// write local config file, figure out where this goes
-			string homePath = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
-			                              {
-				System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
-				"alyx"
-			});
-			// ensure the directory is created if it doesn't already exist
-			System.IO.Directory.CreateDirectory (homePath);
-
-			
-			string FileName_BootLog = homePath + System.IO.Path.DirectorySeparatorChar.ToString () + "BootLog";
-
-			// write the startup time to the boot log
-			{
-				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
-				// seek to end of stream so we can append
-				wLog.Accessor.Position = wLog.Accessor.Length;
-				wLog.WriteInt16 ((short)0x2232);
-				wLog.WriteDateTime (DateTime.Now);
-				wLog.Close ();
-			}
-
-			Console.CancelKeyPress += Console_CancelKeyPress;
-			
-			LocalMachine machine = new LocalMachine ();
-			machine.Load ();
-
-			Language.CurrentLanguage = machine.Languages [0];
-
-			TestSentenceParser ();
-
-			/*
-
-			Instance inst = machine.Instances[new Guid ("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
-
-			UniversalEditor.Color fromRGB = UniversalEditor.Color.FromRGBA (192, 168, 140);
-
-			// should be 32, 27, 75... gets 32, 70, 156 (???)
-			Console.WriteLine ("fromRGB HSL : {0} {1} {2}", fromRGB.HueInt32, fromRGB.SaturationInt32, fromRGB.LuminosityInt32);
-			Console.WriteLine ("fromRGB RGB : {0} {1} {2}", fromRGB.RedInt32, fromRGB.GreenInt32, fromRGB.BlueInt32);
-
-			UniversalEditor.Color fromHSL = UniversalEditor.Color.FromHSL (240, 100, 100);
-			
-			Console.WriteLine ("fromHSL HSL : {0} {1} {2}", fromHSL.HueInt32, fromHSL.SaturationInt32, fromHSL.LuminosityInt32);
-			Console.WriteLine ("fromHSL RGB : {0} {1} {2}", fromHSL.RedInt32, fromHSL.GreenInt32, fromHSL.BlueInt32);
-
-			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
-			Language.CurrentLanguage = langEnglish;
-			
-			// TestMind();
-
-			// TestConversation ();
-
-			// TestSentenceRenderer();
-			TestSentenceParser();
-			*/
-
-			nid.Name = "alyx-notification";
-			nid.IconNameDefault = "alyx-default";
-			nid.IconNameAttention = "alyx-attention";
-
-			client.Connected += delegate(object sender, EventArgs e) {
-				Indigo.Transports.TCP.TCPTransport tcp = (client.Transport as Indigo.Transports.TCP.TCPTransport);
-				nid.Text = "A.L.Y.X. connected to " + tcp.Port.ToString();
-			};
-			client.MessageReceived += delegate(object sender, Alyx.Networking.MessageEventArgs e) {
-				if (e.Message.Contains("\0")) {
-					e.Message = e.Message.Substring(0, e.Message.IndexOf('\0'));
-				}
-				e.Message = e.Message.Trim();
-				Speak (e.Message, e.WaitUntilFinished);
-			};
-
-			nid.Text = "A.L.Y.X. disconnected";
-			/*
-			try {
-				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
-				nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
-			}
-			catch (System.Net.Sockets.SocketException ex) {
-				nid.Text = "A.L.Y.X. disconnected";
-			}
-			*/
-
-			mvarMainWindow = new MainWindow ();
-
-			nid.ContextMenu = BuildContextMenu ();
-
-			// nid.MouseDoubleClick += nid_MouseDoubleClick;
-
-			// iconDefault = GetImage("TrayIcon/Default.png").ToIcon();
-			// iconActive = GetImage("TrayIcon/Active.png").ToIcon();
-
-			// nid.Icon = iconDefault;
-			// nid.Visible = true;
-			nid.Status = NotificationIconStatus.Visible;
-			
-			MainWindow mw = new MainWindow ();
-			// mvarSpeechMonitorWindow = new ChildWindows.SpeechMonitorWindow();
-			// mvarSpeechMonitorWindow.Show();
-			
-			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
-			if (engines.Length > 0) speaker = engines[0].Create();
-
-			if (speaker != null) {
-				speaker.SuppressSpeechEngineNotFound = true;
-			}
-
-			RefreshAvailableVoices();
-
-			// speaker.Voice = speaker.GetVoice("Cepstral Callie");
-
-			if (speaker != null)
-			{
-				speaker.StateChanged += speaker_StateChanged;
-			}
-
-			/*
-			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
-			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
-			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
-			
-			NounInstance dog = langEnglish.GetNoun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
-			dog.Adjectives.Add(lazy);
-
-			NounInstance fox = langEnglish.GetNoun(new Guid("{9E3B38FF-631D-475F-B2BA-D0DAD35C15A9}"));
-			fox.Adjectives.AddRange<AdjectiveInstance>(quick, brown);
-
-			fox.Definiteness = Definiteness.Definite;
-			fox.Quantity = Quantity.Plural;
-
-			Sentence quickbrownfox = new Sentence(SentenceTypes.Declarative, new Clause[]
-			{
-				new Clause(new ISubject[] { fox }, new PrepositionalObjectPredicate
-				(
-					langEnglish.GetVerb(new Guid("{0F27D1D0-53E2-45E3-9940-A318FE8E7EF7}"), Person.ThirdPerson, Tense.Past),
-					langEnglish.GetPreposition(new Guid("{FD5B840D-9491-4D00-A338-364AC059521B}")),
-					new ISubject[] { dog }
-				))
-			});
-
-			dog.Definiteness = Definiteness.Definite;
-			dog.Quantity = Quantity.Singular;
-
-			string text = quickbrownfox.ToString();
-			// Speak("I couldn't find your configuration file, so I created a new one. I hope you don't mind.");
-
-			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
-			*/
-
-			UniversalWidgetToolkit.Application.Start ();
-
-			// give it a moment
-			System.Threading.Thread.Sleep (500);
-			
-			nid.Status = NotificationIconStatus.Hidden;
-
-			// mind.Stop();
-
-			// TODO: for some reason when server.Stop() the client doesn't get kicked... it still thinks it's connected
-			// be sure to disconnect manually before stopping the server
-			client.Disconnect ();
-
-			/*
-			{
-				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
-				wLog.Accessor.Position = wLog.Accessor.Length;
-				wLog.WriteInt16 ((short)0x2233);
-				wLog.WriteDateTime (DateTime.Now);
-				wLog.Close ();
-			}
-			*/
+			return (new Program()).Start();
 		}
 
 		private static Language InitializeLanguage_English()
@@ -520,14 +549,12 @@ namespace Alyx
 			{
 				case SynthesisEngineState.Ready:
 				{
-					nid.IconNameAttention = "alyx-active";
 					nid.Status = NotificationIconStatus.Visible;
 					// nid.Icon = iconDefault;
 					break;
 				}
 				case SynthesisEngineState.Speaking:
 				{
-					nid.IconNameAttention = "alyx-active";
 					nid.Status = NotificationIconStatus.Attention;
 					/*
 					if (mvarSpeechMonitorWindow != null)
@@ -545,7 +572,7 @@ namespace Alyx
 		public static void ShowMainWindow()
 		{
 			if (mvarMainWindow == null) mvarMainWindow = new MainWindow();
-			if (mvarMainWindow.IsDisposed ())
+			if (mvarMainWindow.IsDisposed)
 				mvarMainWindow = new MainWindow ();
 
 			mvarMainWindow.Show();
@@ -559,8 +586,7 @@ namespace Alyx
 					ShowMainWindow ();
 				}),
 				new SeparatorMenuItem(),
-				new CommandMenuItem ("_Voices", null, delegate (object sender, EventArgs e) {
-				}),
+				BuildVoiceMenu(),
 				new SeparatorMenuItem(),
 				new CommandMenuItem ("_Connect...", null, delegate (object sender, EventArgs e) {
 					ConnectDialog dlg = new ConnectDialog();
@@ -603,7 +629,7 @@ namespace Alyx
 				}),
 				new SeparatorMenuItem(),
 				new CommandMenuItem ("_Quit", null, delegate (object sender, EventArgs e) {
-					Application.Stop();
+					MBS.Framework.Application.Instance.Stop();
 				})
 			});
 			return menu;
@@ -611,22 +637,30 @@ namespace Alyx
 
 		public static void RefreshAvailableVoices()
 		{
-			/*
-			MenuItem menuVoice = nid.ContextMenu.MenuItems[2];
-			menuVoice.MenuItems.Clear();
+			CommandMenuItem menuVoice = nid.ContextMenu.Items[2] as CommandMenuItem;
+			RefreshVoiceMenu(menuVoice);
+		}
+		public static CommandMenuItem BuildVoiceMenu()
+		{
+			CommandMenuItem menuVoice = new CommandMenuItem("_Voice");
+			RefreshVoiceMenu(menuVoice);
+			return menuVoice;
+		}
+		public static void RefreshVoiceMenu(CommandMenuItem menuVoice)
+		{
+			menuVoice.Items.Clear();
 			if (speaker != null)
 			{
 				foreach (Voice voice in speaker.GetVoices())
 				{
-					MenuItem mi = new MenuItem(voice.Name, menuTrayVoice_Click);
+					CommandMenuItem mi = new CommandMenuItem(voice.Name, null, menuTrayVoice_Click);
 					mi.Enabled = voice.Enabled;
-					mi.Tag = voice;
-					menuVoice.MenuItems.Add(mi);
+					mi.Data = voice;
+					menuVoice.Items.Add(mi);
 				}
 			}
-			menuVoice.MenuItems.Add("-");
-			menuVoice.MenuItems.Add(new MenuItem("&Refresh Available Voices", menuTrayVoiceRefresh_Click));
-			*/
+			menuVoice.Items.Add(new SeparatorMenuItem());
+			menuVoice.Items.Add(new CommandMenuItem("_Refresh Available Voices", null, menuTrayVoiceRefresh_Click));
 		}
 
 		private static void menuTrayVoiceRefresh_Click(object sender, EventArgs e)
@@ -652,6 +686,8 @@ namespace Alyx
 			catch (Exception ex)
 			{
 				speaker.Speak("I can't use that voice. " + ex.Message);
+				Console.Error.WriteLine(ex.Message);
+				Console.Error.WriteLine(ex.StackTrace);
 			}
 		}
 
@@ -659,7 +695,7 @@ namespace Alyx
 		{
 			if (listener != null) listener.Stop();
 
-			Application.Stop ();
+			MBS.Framework.Application.Instance.Stop ();
 		}
 	}
 }

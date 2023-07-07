@@ -1,8 +1,8 @@
 using System;
-
-using UniversalWidgetToolkit;
-using UniversalWidgetToolkit.Controls;
-using UniversalWidgetToolkit.Layouts;
+using MBS.Framework;
+using MBS.Framework.UserInterface;
+using MBS.Framework.UserInterface.Controls;
+using MBS.Framework.UserInterface.Layouts;
 
 namespace Alyx
 {
@@ -23,7 +23,7 @@ namespace Alyx
 
 		private void InitializeComponent ()
 		{
-			this.Title = "Connect to Server";
+			this.Text = "Connect to Server";
 
 			GridLayout layout = new GridLayout ();
 			this.Layout = layout;
@@ -68,8 +68,8 @@ namespace Alyx
 			this.txtPassword.UseSystemPasswordChar = true;
 			this.Controls.Add (this.txtPassword, new GridLayout.Constraints (3, 1, 1, 3));
 
-			this.Buttons.Add (new Button (ButtonStockType.Connect, DialogResult.OK));
-			this.Buttons.Add (new Button (ButtonStockType.Cancel, DialogResult.Cancel));
+			this.Buttons.Add (new Button (StockType.Connect, DialogResult.OK));
+			this.Buttons.Add (new Button (StockType.Cancel, DialogResult.Cancel));
 
 			this.DefaultButton = this.Buttons [0];
 		}

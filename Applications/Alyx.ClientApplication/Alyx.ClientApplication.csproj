@@ -67,14 +67,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AwesomeControls\AwesomeControls\AwesomeControls.csproj">
-      <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
-      <Name>AwesomeControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Indigo\Libraries\Indigo\Indigo.csproj">
-      <Project>{8DED80F3-1483-43A7-A37A-86D01C46B992}</Project>
-      <Name>Indigo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Core\Alyx.Core.csproj">
       <Project>{35D24257-56A1-40E0-B7C7-530B37C92D25}</Project>
       <Name>Alyx.Core</Name>
@@ -86,10 +78,6 @@
     <ProjectReference Include="..\..\Libraries\Alyx.Linguistics\Alyx.Linguistics.csproj">
       <Project>{25670E7F-C070-4CD9-BE17-A3EB012F75FE}</Project>
       <Name>Alyx.Linguistics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\Alyx.Networking\Alyx.Networking.csproj">
-      <Project>{80656D38-A2CA-4994-9717-1F0F01BD51D5}</Project>
-      <Name>Alyx.Networking</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Alyx.Speech\Alyx.Speech.csproj">
       <Project>{D455C456-4EDA-4B4F-8DAD-1378F61248D3}</Project>
@@ -111,29 +99,37 @@
       <Project>{A97D9583-13BF-46A4-86B0-060F516B3740}</Project>
       <Name>Alyx.Imaging.Thought</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Compression\UniversalEditor.Compression.csproj">
+    <ProjectReference Include="..\..\..\MBS.Networking\Libraries\MBS.Networking\MBS.Networking.csproj">
+      <Project>{DBD65B3F-81C8-4E44-B268-3FAB3B12AA1E}</Project>
+      <Name>MBS.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MBS.Framework\MBS.Framework\MBS.Framework.csproj">
+      <Project>{00266B21-35C9-4A7F-A6BA-D54D7FDCC25C}</Project>
+      <Name>MBS.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MBS.Framework.UserInterface\Libraries\MBS.Framework.UserInterface\MBS.Framework.UserInterface.csproj">
+      <Project>{29E1C1BB-3EA5-4062-B62F-85EEC703FE07}</Project>
+      <Name>MBS.Framework.UserInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalEditor\Libraries\UniversalEditor.Compression\UniversalEditor.Compression.csproj">
       <Project>{3F664673-7E22-4486-9AD0-FC81861D0B78}</Project>
       <Name>UniversalEditor.Compression</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+    <ProjectReference Include="..\..\..\UniversalEditor\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
       <Project>{2D4737E6-6D95-408A-90DB-8DFF38147E85}</Project>
       <Name>UniversalEditor.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+    <ProjectReference Include="..\..\..\UniversalEditor\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
       <Project>{30467E5C-05BC-4856-AADC-13906EF4CADD}</Project>
       <Name>UniversalEditor.Essential</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Multimedia\UniversalEditor.Plugins.Multimedia.csproj">
+    <ProjectReference Include="..\..\..\UniversalEditor\Plugins\UniversalEditor.Plugins.Multimedia\UniversalEditor.Plugins.Multimedia.csproj">
       <Project>{BE4D0BA3-0888-42A5-9C09-FC308A4509D2}</Project>
       <Name>UniversalEditor.Plugins.Multimedia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalWidgetToolkit\Libraries\UniversalWidgetToolkit\UniversalWidgetToolkit.csproj">
-      <Project>{29E1C1BB-3EA5-4062-B62F-85EEC703FE07}</Project>
-      <Name>UniversalWidgetToolkit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalWidgetToolkit\Engines\GTK\UniversalWidgetToolkit.Engines.GTK\UniversalWidgetToolkit.Engines.GTK.csproj">
-      <Project>{62DC7CF9-C608-49E5-8C39-305B2E3E93F6}</Project>
-      <Name>UniversalWidgetToolkit.Engines.GTK</Name>
+    <ProjectReference Include="..\..\Libraries\Alyx.Networking\Alyx.Networking.csproj">
+      <Project>{80656D38-A2CA-4994-9717-1F0F01BD51D5}</Project>
+      <Name>Alyx.Networking</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

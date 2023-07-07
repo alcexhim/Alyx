@@ -71,7 +71,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			sb.Append(text.Replace("\"", "\\\""));
 			sb.Append("\"");
 
-			p.StartInfo = CreateProcessStartInfo(sb.ToString());
+			p.StartInfo = CreateProcessStartInfo(sb.ToString(), true);
 
 			try
 			{
@@ -94,9 +94,17 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 			}
 		}
 
-		private ProcessStartInfo CreateProcessStartInfo(string arguments)
+		private ProcessStartInfo CreateProcessStartInfo(string arguments, bool audio)
 		{
-			ProcessStartInfo psi = new ProcessStartInfo(mvarSwiftApplicationPath, arguments);
+			string app = mvarSwiftApplicationPath;
+			string args = arguments;
+
+			if (audio)
+			{
+				app = "padsp"; 
+				args = String.Format("{0} {1}", mvarSwiftApplicationPath, args);
+			}
+			ProcessStartInfo psi = new ProcessStartInfo(app, args);
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
 			psi.RedirectStandardError = true;
@@ -118,7 +126,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 		protected override Voice[] GetVoicesInternal()
 		{
 			Process p = new Process();
-			p.StartInfo = CreateProcessStartInfo("--voices");
+			p.StartInfo = CreateProcessStartInfo("--voices", false);
 
 			try
 			{

@@ -1,6 +1,6 @@
 using System;
 
-using UniversalWidgetToolkit;
+using MBS.Framework.UserInterface;
 
 namespace Alyx
 {

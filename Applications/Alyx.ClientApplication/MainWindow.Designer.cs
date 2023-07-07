@@ -1,8 +1,9 @@
 using System;
 
-using UniversalWidgetToolkit;
-using UniversalWidgetToolkit.Controls;
-using UniversalWidgetToolkit.Layouts;
+using MBS.Framework.UserInterface;
+using MBS.Framework.UserInterface.Controls;
+using MBS.Framework.UserInterface.Controls.ListView;
+using MBS.Framework.UserInterface.Layouts;
 
 namespace Alyx
 {
@@ -10,16 +11,16 @@ namespace Alyx
 	{
 		private SplitContainer scLeftRight;
 
-		private TreeView tv;
+		private ListViewControl tv;
 		private DefaultTreeModel tm;
 
 		private void InitializeComponent()
 		{
 			this.Layout = new BoxLayout (Orientation.Horizontal);
 
-			this.tm = new DefaultTreeModel ();
+			this.tm = new DefaultTreeModel (new Type[] { typeof(string) });
 
-			this.tv = new TreeView ();
+			this.tv = new ListViewControl();
 			this.tv.Model = this.tm;
 
 			this.scLeftRight = new SplitContainer (Orientation.Horizontal);

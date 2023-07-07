@@ -1,10 +1,10 @@
-//
-//  IMindInput.cs
+﻿//
+//  TextToSpeechMindOutput.cs
 //
 //  Author:
 //       beckermj <>
 //
-//  Copyright (c) 2016 beckermj
+//  Copyright (c) 2023 ${CopyrightHolder}
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-
-namespace Alyx.Thought
+namespace Alyx.Thought.MindOutputs
 {
-	public interface IMindInput
+	public class TextToSpeechMindOutput : IMindOutput
 	{
-		string Name { get; set; }
+		private Alyx.Networking.Server Server { get; }
+		public TextToSpeechMindOutput(Alyx.Networking.Server server)
+		{
+			Server = server;
+		}
 
-		object GetValue();
-		void SetValue(object value);
-
+		public void Execute(object param)
+		{
+			Server.Speak(param.ToString());
+		}
 	}
 }
-

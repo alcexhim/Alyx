@@ -1,10 +1,10 @@
-//
-//  IMindInput.cs
+﻿//
+//  AlyxNetworkingProtocol.cs
 //
 //  Author:
 //       beckermj <>
 //
-//  Copyright (c) 2016 beckermj
+//  Copyright (c) 2023 ${CopyrightHolder}
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-
-namespace Alyx.Thought
+namespace Alyx.Networking.Protocols
 {
-	public interface IMindInput
+	public class AlyxNetworkingProtocol : MBS.Networking.Protocols.PlainText.PlainTextProtocol
 	{
-		string Name { get; set; }
+		public AlyxNetworkingProtocol()
+		{
+		}
 
-		object GetValue();
-		void SetValue(object value);
-
+		public override int DefaultPort => 51221;
 	}
 }
-

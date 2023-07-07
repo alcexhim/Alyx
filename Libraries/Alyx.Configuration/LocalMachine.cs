@@ -1,6 +1,6 @@
 using System;
 
-using ApplicationFramework;
+using MBS.Framework;
 
 using UniversalEditor;
 using UniversalEditor.Accessors;
@@ -17,7 +17,7 @@ namespace Alyx.Configuration
 
 		protected override void LoadInternal ()
 		{
-			string[] basePaths = Application.GetBasePaths ();
+			string[] basePaths = Application.Instance.EnumerateDataPaths();
 
 			foreach (string basePath in basePaths)
 			{

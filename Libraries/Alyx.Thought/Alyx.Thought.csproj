@@ -52,6 +52,14 @@
     <Compile Include="MindConnection.cs" />
     <Compile Include="IMindInput.cs" />
     <Compile Include="IMindOutput.cs" />
+    <Compile Include="MindScripts\ClockMindScript.cs" />
+    <Compile Include="MindOutputs\ConsoleMindOutput.cs" />
+    <Compile Include="PropertyValueChangedEvent.cs" />
+    <Compile Include="PropertyValueChangingEvent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MindScripts\" />
+    <Folder Include="MindOutputs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

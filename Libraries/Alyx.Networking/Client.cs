@@ -6,19 +6,21 @@ using System.Text;
 using UniversalEditor.Accessors;
 using UniversalEditor.IO;
 
-using Indigo.Protocols.PlainText;
+using MBS.Networking.Protocols.PlainText;
+using Alyx.Networking.Protocols;
+using MBS.Networking;
 
 namespace Alyx.Networking
 {
-	public class Client : Indigo.Client
+	public class Client : MBS.Networking.Client
 	{
-		private Indigo.Protocols.PlainText.PlainTextProtocol ptp = new Indigo.Protocols.PlainText.PlainTextProtocol();
+		private AlyxNetworkingProtocol ptp = new AlyxNetworkingProtocol();
 
 		public Client()
 		{
 			base.Protocol = ptp;
 			base.Service = null;
-			base.Transport = new Indigo.Transports.TCP.TCPTransport(51221);
+			base.Transport = new MBS.Networking.Transports.TCP.TCPTransport();
 		}
 
 		public void SendChatMessage(string message)
@@ -31,7 +33,7 @@ namespace Alyx.Networking
 			req.Content = message;
 
 			string content = ptp.CreatePacket(req);
-			base.Transport.GetClientImplementation().Write(content);
+			Write(content);
 		}
 
 		public event MessageEventHandler MessageReceived;
@@ -41,7 +43,7 @@ namespace Alyx.Networking
 				MessageReceived (this, e);
 		}
 
-		protected override void OnDataReceived(Indigo.DataReceivedEventArgs e)
+		protected override void OnDataReceived(DataReceivedEventArgs e)
 		{
 			base.OnDataReceived(e);
 

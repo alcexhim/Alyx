@@ -6,7 +6,7 @@ namespace Alyx.Imaging.Thought
 {
 	public class VisualMindInput : MindScript
 	{
-		protected override void ProcessInternal ()
+		protected override void ExecuteInternal ()
 		{
 			throw new NotImplementedException ();
 		}

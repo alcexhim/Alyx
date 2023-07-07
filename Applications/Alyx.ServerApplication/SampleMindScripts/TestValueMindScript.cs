@@ -1,10 +1,10 @@
-//
-//  IMindInput.cs
+﻿//
+//  TestValueMindScript.cs
 //
 //  Author:
 //       beckermj <>
 //
-//  Copyright (c) 2016 beckermj
+//  Copyright (c) 2023 ${CopyrightHolder}
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Alyx.Thought;
 
-namespace Alyx.Thought
+namespace Alyx.ServerApplication.SampleMindScripts
 {
-	public interface IMindInput
+	public class TestValueMindScript : MindScript
 	{
-		string Name { get; set; }
+		public static Guid SR_Entropy { get; } = new Guid("{5f9ea22d-f927-427e-bb85-02b3319da67c}");
 
-		object GetValue();
-		void SetValue(object value);
+		private Random rnd = new Random();
+		protected override void OnInitialized(EventArgs e)
+		{
+			base.OnInitialized(e);
+			Mind.SetPropertyName(SR_Entropy, "entropy");
+		}
+		public override int Interval => 100;
+		protected override void ExecuteInternal()
+		{
+			base.ExecuteInternal();
 
+			Mind.SetPropertyValue(SR_Entropy, rnd.NextDouble());
+		}
 	}
 }
-
