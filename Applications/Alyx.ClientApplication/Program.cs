@@ -212,6 +212,16 @@ namespace Alyx
 
 		}
 
+		protected override void OnCancelKeyPress(ConsoleCancelEventArgs e)
+		{
+			base.OnCancelKeyPress(e);
+
+			Console.WriteLine("Ctrl+C pressed, shutting down client...");
+
+			client.Disconnect();
+			listener.Stop();
+		}
+
 		protected override void OnStopped(EventArgs e)
 		{
 			base.OnStopped(e);
