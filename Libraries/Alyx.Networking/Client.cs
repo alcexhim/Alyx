@@ -47,7 +47,7 @@ namespace Alyx.Networking
 		{
 			base.OnDataReceived(e);
 
-			Packet packet = ptp.ReadPacket(e.Stream, "Alyx/1.0");
+			Packet packet = ptp.ReadPacket(e.Client.GetStream(), "Alyx/1.0");
 			if (packet is Request)
 			{
 				Request req = (packet as Request);
@@ -74,7 +74,7 @@ namespace Alyx.Networking
 					writer.Close();
 
 					byte[] buffer = ma.ToArray();
-					e.Stream.Write(buffer, 0, buffer.Length);
+					e.Client.Write(buffer, 0, buffer.Length);
 				}
 				else if (req.Method == "MESSAGE")
 				{

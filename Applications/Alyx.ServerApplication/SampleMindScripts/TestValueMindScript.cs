@@ -25,20 +25,21 @@ namespace Alyx.ServerApplication.SampleMindScripts
 {
 	public class TestValueMindScript : MindScript
 	{
+		public override Guid ID => new Guid("{84ab78cc-0108-4017-b419-3116867e9fea}");
 		public static Guid SR_Entropy { get; } = new Guid("{5f9ea22d-f927-427e-bb85-02b3319da67c}");
 
 		private Random rnd = new Random();
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
-			Mind.SetPropertyName(SR_Entropy, "entropy");
+			Mind.Properties.SetName(SR_Entropy, "entropy");
 		}
 		public override int Interval => 100;
 		protected override void ExecuteInternal()
 		{
 			base.ExecuteInternal();
 
-			Mind.SetPropertyValue(SR_Entropy, rnd.NextDouble());
+			Mind.Properties.SetValue(SR_Entropy, rnd.NextDouble());
 		}
 	}
 }

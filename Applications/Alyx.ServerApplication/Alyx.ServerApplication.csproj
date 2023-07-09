@@ -52,6 +52,7 @@
     <Compile Include="SampleMindScripts\InternetConnectivityCheckerMindScript.cs" />
     <Compile Include="TextToSpeechMindOutput.cs" />
     <Compile Include="SampleMindScripts\TestValueMindScript.cs" />
+    <Compile Include="SampleMindScripts\GoogleCalendarMindScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

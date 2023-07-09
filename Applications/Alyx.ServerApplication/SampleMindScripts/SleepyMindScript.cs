@@ -29,6 +29,7 @@ namespace Alyx.ServerApplication.SampleMindScripts
 	/// </summary>
 	public class SleepyMindScript : ClockMindScript
 	{
+		public override Guid ID => new Guid("{2a52ef28-d4a0-4fef-a211-b41eda898005}");
 		protected override void OnHourChanged(EventArgs e)
 		{
 			base.OnHourChanged(e);

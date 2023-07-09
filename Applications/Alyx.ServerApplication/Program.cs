@@ -31,6 +31,8 @@ namespace Alyx.ServerApplication
 			CommandLine.Options.Add("help", CommandLineOptionValueType.None, null, '\0', "Display this help text");
 		}
 
+		public override string[] AdditionalShortNames => new string[] { "alyx" };
+
 		protected override void OnActivated(ApplicationActivatedEventArgs e)
 		{
 			base.OnActivated(e);
@@ -59,13 +61,14 @@ namespace Alyx.ServerApplication
 			Server.Start();
 
 			TextMindInput textMindInput = new TextMindInput("TextMindInput");
-			mind.PropertyValueChanged += Mind_PropertyValueChanged;
+			mind.Properties.PropertyValueChanged += Mind_PropertyValueChanged;
 			// configure the Alyx Mind
 			// this is ugly. these are hardcoded scripts... we need to figure out how to do inputs and outputs
 			mind.Scripts.Add(new SleepyMindScript());
 			//mind.Scripts.Add(new SensorsMindScript());
 			mind.Scripts.Add(new InternetConnectivityCheckerMindScript());
 			mind.Scripts.Add(new TestValueMindScript());
+			mind.Scripts.Add(new GoogleCalendarMindScript());
 
 			// MindInput input = new MindInput();
 			// MindOutput outputTextToSpeech = new TTSMindOutput();
@@ -162,10 +165,10 @@ namespace Alyx.ServerApplication
 				}
 				else if (line == "list")
 				{
-					IEnumerable<KeyValuePair<Guid, object>> kvps = mind.GetPropertyValues();
+					IEnumerable<KeyValuePair<Guid, object>> kvps = mind.Properties.GetAll();
 					foreach (KeyValuePair<Guid, object> kvp in kvps)
 					{
-						Console.WriteLine(String.Format("{0} = '{1}'", mind.GetPropertyName(kvp.Key), kvp.Value));
+						Console.WriteLine(String.Format("{0} = '{1}'", mind.Properties.GetName(kvp.Key), kvp.Value));
 					}
 				}
 				else if (line == "clear") {
@@ -178,6 +181,7 @@ namespace Alyx.ServerApplication
 		private static void Server_ClientConnected(object sender, ClientConnectedEventArgs e)
 		{
 			Console.WriteLine ("alyx-server: client connected");
+
 		}
 
 		public static Alyx.Networking.Server Server { get; } = new Alyx.Networking.Server();

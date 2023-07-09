@@ -30,6 +30,8 @@ namespace Alyx.ServerApplication.SampleMindScripts
 	/// </summary>
 	public class SensorsMindScript : ClockMindScript
 	{
+		public override Guid ID => new Guid("{a4a6c71f-654e-4dcc-a328-dab57e7cf5dc}");
+
 		private class SENS_Adapter
 		{
 			private string mvarAdapterName = String.Empty;

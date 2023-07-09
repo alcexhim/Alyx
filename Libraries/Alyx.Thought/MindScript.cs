@@ -1,8 +1,9 @@
 using System;
+using MBS.Framework;
 
 namespace Alyx.Thought
 {
-	public abstract class MindScript
+	public abstract class MindScript : Plugin
 	{
 		public class MindScriptCollection
 			: System.Collections.ObjectModel.Collection<MindScript>
@@ -33,14 +34,8 @@ namespace Alyx.Thought
 			}
 		}
 
+		public new abstract Guid ID { get; }
 		public virtual int Interval => 500;
-
-		public event EventHandler Initialized;
-		protected virtual void OnInitialized(EventArgs e)
-		{
-			if (Initialized != null)
-				Initialized (this, e);
-		}
 
 		public Mind Mind { get; private set; }
 		public virtual bool DebugPrintChanges => true;
@@ -49,13 +44,22 @@ namespace Alyx.Thought
 		{
 		}
 
-		private bool _initialized = false;
+		protected virtual void OnInitialized(EventArgs e)
+		{
+		}
+
+		protected override void InitializeInternal()
+		{
+			base.ID = this.ID;
+
+			base.InitializeInternal();
+			OnInitialized(EventArgs.Empty);
+		}
 
 		public void Execute() 
 		{
-			if (!_initialized) {
-				OnInitialized (EventArgs.Empty);
-				_initialized = true;
+			if (!Initialized) {
+				Initialize();
 			}
 
 			ExecuteInternal ();

@@ -277,9 +277,6 @@ namespace Alyx
 
 		private class VMI_Test_Camera : VisualMindInput
 		{
-			protected override void ExecuteInternal ()
-			{
-			}
 		}
 
 		private static void TestMind()

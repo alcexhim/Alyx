@@ -25,6 +25,7 @@ namespace Alyx.ServerApplication.SampleMindScripts
 {
 	public class InternetConnectivityCheckerMindScript : MindScript
 	{
+		public override Guid ID => new Guid("{3024b3a4-1fe2-48f0-840d-568a7f00eb44}");
 		public override int Interval => 3000;
 
 		public static Guid Prop_HasInternetAccess { get; } = new Guid("{dd3a8525-eb6d-45d8-b6d9-a57eff3b3ccd}");
@@ -32,12 +33,12 @@ namespace Alyx.ServerApplication.SampleMindScripts
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
-			Mind.SetPropertyName(Prop_HasInternetAccess, "Has Internet Access");
+			Mind.Properties.SetName(Prop_HasInternetAccess, "Has Internet Access");
 		}
 
 		protected virtual void OnInternetAccessStatusChange(EventArgs e)
 		{
-			if (Mind.GetPropertyValue<bool>(Prop_HasInternetAccess))
+			if (Mind.Properties.GetValue<bool>(Prop_HasInternetAccess))
 			{
 				Mind.SendInput("TextMindInput", "I have Internet Access!");
 			}
@@ -58,7 +59,7 @@ namespace Alyx.ServerApplication.SampleMindScripts
 				try
 				{
 					System.Net.IPAddress[] ipad = System.Net.Dns.GetHostAddresses(testDomain);
-					bool changed = Mind.SetPropertyValue<bool>(Prop_HasInternetAccess, true);
+					bool changed = Mind.Properties.SetValue<bool>(Prop_HasInternetAccess, true);
 					if (changed)
 					{
 						OnInternetAccessStatusChange(EventArgs.Empty);
@@ -67,7 +68,7 @@ namespace Alyx.ServerApplication.SampleMindScripts
 				}
 				catch
 				{
-					bool changed = Mind.SetPropertyValue<bool>(Prop_HasInternetAccess, false);
+					bool changed = Mind.Properties.SetValue<bool>(Prop_HasInternetAccess, false);
 					if (changed)
 					{
 						OnInternetAccessStatusChange(EventArgs.Empty);

@@ -117,6 +117,9 @@ namespace Alyx.Networking
 			}
 			else
 			{
+				Console.WriteLine("debug: SendPacket()");
+				Console.WriteLine(content);
+
 				client.Write(content);
 			}
 		}

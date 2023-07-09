@@ -24,7 +24,7 @@ namespace Alyx.Thought.MindScripts
 	/// <summary>
 	/// Runs a <see cref="MindScript" /> which responds to year, month, day, hour, minute, and second changes.
 	/// </summary>
-	public class ClockMindScript : MindScript
+	public abstract class ClockMindScript : MindScript
 	{
 		protected virtual void OnYearChanged(EventArgs e)
 		{
