@@ -25,15 +25,17 @@ namespace Alyx.Speech.Synthesis
 	public class SynthesisEngineReference
 	{
 		private Type mvarType = null;
-		public SynthesisEngineReference(Type type)
+		public SynthesisEngineReference(Type type, string title)
 		{
 			mvarType = type;
+			Title = title;
 		}
-		
+
+		public string Title { get; }
+
 		public SynthesisEngine Create()
 		{
 			return (mvarType.Assembly.CreateInstance(mvarType.FullName) as SynthesisEngine);
 		}
 	}
 }
-

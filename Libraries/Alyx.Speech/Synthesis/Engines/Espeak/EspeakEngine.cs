@@ -1,4 +1,4 @@
-﻿//
+//
 //  EspeakEngine.cs
 //
 //  Author:
@@ -30,7 +30,7 @@ namespace Alyx.Speech.Synthesis.Engines.Espeak
         {
             if (_ser == null)
             {
-                _ser = new SynthesisEngineReference(typeof(EspeakEngine));
+                _ser = new SynthesisEngineReference(typeof(EspeakEngine), "Espeak");
             }
             return _ser;
         }

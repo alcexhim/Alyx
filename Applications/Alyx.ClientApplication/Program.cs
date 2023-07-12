@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -40,6 +40,8 @@ namespace Alyx
 		{
 			ShortName = "alyx-client";
 		}
+
+		private SynthesisEngineReference[] engines = null;
 
 		protected override void OnActivated(MBS.Framework.ApplicationActivatedEventArgs e)
 		{
@@ -98,13 +100,13 @@ namespace Alyx
 			Console.WriteLine ("fromRGB RGB : {0} {1} {2}", fromRGB.RedInt32, fromRGB.GreenInt32, fromRGB.BlueInt32);
 
 			UniversalEditor.Color fromHSL = UniversalEditor.Color.FromHSL (240, 100, 100);
-			
+
 			Console.WriteLine ("fromHSL HSL : {0} {1} {2}", fromHSL.HueInt32, fromHSL.SaturationInt32, fromHSL.LuminosityInt32);
 			Console.WriteLine ("fromHSL RGB : {0} {1} {2}", fromHSL.RedInt32, fromHSL.GreenInt32, fromHSL.BlueInt32);
 
 			Language langEnglish = inst.Languages[new Guid("{81B5B066-0E62-4868-81D8-0C9DD388A41B}")];
 			Language.CurrentLanguage = langEnglish;
-			
+
 			// TestMind();
 
 			// TestConversation ();
@@ -139,7 +141,7 @@ namespace Alyx
 
 			mvarMainWindow = new MainWindow();
 
-			SynthesisEngineReference[] engines = SynthesisEngine.GetEngines();
+			engines = SynthesisEngine.GetEngines();
 			if (engines.Length > 0) speaker = engines[0].Create();
 
 			nid.ContextMenu = BuildContextMenu();
@@ -175,7 +177,7 @@ namespace Alyx
 			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
 			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
 			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
-			
+
 			NounInstance dog = langEnglish.GetNoun(new Guid("{5BCA1601-C769-4DD0-BF4E-EDCEC46EF3EB}"));
 			dog.Adjectives.Add(lazy);
 
@@ -259,10 +261,10 @@ namespace Alyx
 			path = path.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
 			path = path.Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
 			string basepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-			
+
 			basepath += System.IO.Path.DirectorySeparatorChar.ToString() + "Images";
 			string imagepath = basepath + System.IO.Path.DirectorySeparatorChar.ToString() + path;
-			
+
 			if (!System.IO.File.Exists(imagepath))
 			{
 				Console.WriteLine("File not exist: '" + imagepath + "'");
@@ -283,7 +285,7 @@ namespace Alyx
 			IntPtr hIcon = bitmap.GetHicon();
 			return System.Drawing.Icon.FromHandle(hIcon);
 		}
-		
+
 		private static System.Drawing.Icon iconDefault = null;
 		private static System.Drawing.Icon iconActive = null;
 		*/
@@ -590,7 +592,7 @@ namespace Alyx
 			mvarMainWindow.Show();
 		}
 
-		private static Menu BuildContextMenu()
+		private Menu BuildContextMenu()
 		{
 			Menu menu = new Menu();
 			menu.Items.AddRange(new MenuItem[]
@@ -656,35 +658,49 @@ namespace Alyx
 			return menu;
 		}
 
-		public static void RefreshAvailableVoices()
+		public void RefreshAvailableVoices()
 		{
 			CommandMenuItem menuVoice = nid.ContextMenu.Items[2] as CommandMenuItem;
 			RefreshVoiceMenu(menuVoice);
 		}
-		public static CommandMenuItem BuildVoiceMenu()
+		public CommandMenuItem BuildVoiceMenu()
 		{
 			CommandMenuItem menuVoice = new CommandMenuItem("_Voice");
 			RefreshVoiceMenu(menuVoice);
 			return menuVoice;
 		}
-		public static void RefreshVoiceMenu(CommandMenuItem menuVoice)
+
+		public void RefreshVoiceMenu(CommandMenuItem menuVoice)
 		{
 			menuVoice.Items.Clear();
-			if (speaker != null)
+			if (engines != null)
 			{
-				foreach (Voice voice in speaker.GetVoices())
+				foreach (SynthesisEngineReference engine in engines)
 				{
-					CommandMenuItem mi = new CommandMenuItem(voice.Name, null, menuTrayVoice_Click);
-					mi.Enabled = voice.Enabled;
-					mi.Data = voice;
-					menuVoice.Items.Add(mi);
+					CommandMenuItem cmi1 = new CommandMenuItem(engine.Title);
+					cmi1.Enabled = false;
+					menuVoice.Items.Add(cmi1);
+
+
+					SynthesisEngine eng = engine.Create();
+					foreach (Voice voice in eng.GetVoices())
+					{
+						CommandMenuItem mi = new CommandMenuItem(voice.Name, null, menuTrayVoice_Click);
+						mi.Enabled = voice.Enabled;
+
+						Dictionary<string, object> dict = new Dictionary<string, object>();
+						dict["voice"] = voice;
+						dict["engine"] = eng;
+						mi.Data = dict;
+						menuVoice.Items.Add(mi);
+					}
 				}
 			}
 			menuVoice.Items.Add(new SeparatorMenuItem());
 			menuVoice.Items.Add(new CommandMenuItem("_Refresh Available Voices", null, menuTrayVoiceRefresh_Click));
 		}
 
-		private static void menuTrayVoiceRefresh_Click(object sender, EventArgs e)
+		private void menuTrayVoiceRefresh_Click(object sender, EventArgs e)
 		{
 			RefreshAvailableVoices();
 		}
@@ -697,12 +713,19 @@ namespace Alyx
 		private static void menuTrayVoice_Click(object sender, EventArgs e)
 		{
 			MenuItem mi = (sender as MenuItem);
-			Voice voice = (mi.Data as Voice);
+
+			Dictionary<string, object> dict = (mi.Data as Dictionary<string, object>);
+			Voice voice = dict["voice"] as Voice;
+			SynthesisEngine engine = dict["engine"] as SynthesisEngine;
+			if (engine != speaker)
+			{
+				speaker = engine;
+			}
 
 			try
 			{
 				speaker.Voice = voice;
-				speaker.Speak("Hello, Michael. I am " + voice.Name + ".");
+				speaker.Speak(String.Format("You have selected {0} {1} as your default voice.", engine.MakeReference().Title, voice.Name));
 			}
 			catch (Exception ex)
 			{

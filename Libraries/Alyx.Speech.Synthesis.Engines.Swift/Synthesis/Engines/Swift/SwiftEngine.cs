@@ -58,7 +58,7 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 		{
 			if (_ser == null)
 			{
-				_ser = new SynthesisEngineReference(GetType());
+				_ser = new SynthesisEngineReference(GetType(), "Cepstral Swift");
 			}
 			return _ser;
 		}
@@ -123,10 +123,9 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 
 		public override void SetVoiceInternal(Voice voice)
 		{
-			
+
 		}
 
 		#endregion
 	}
 }
-
