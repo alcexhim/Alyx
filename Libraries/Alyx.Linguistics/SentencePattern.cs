@@ -87,7 +87,10 @@ namespace Alyx.Linguistics
 					continue;
 
 				WordPattern pat = lang.WordPatterns [new Guid (attWordPatternID.Value)];
-				pattern.WordPatterns.Add (pat);
+                if (pat != null)
+                {
+                    pattern.WordPatterns.Add(pat);
+                }
 			}
 
 			return pattern;

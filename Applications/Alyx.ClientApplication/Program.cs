@@ -70,7 +70,7 @@ namespace Alyx
 			Console.CancelKeyPress += Console_CancelKeyPress;
 
 			LocalMachine machine = new LocalMachine();
-			machine.Load();
+			//machine.Load();
 
 			if (machine.Languages.Count > 0)
 			{
@@ -134,14 +134,8 @@ namespace Alyx
 			};
 
 			nid.Text = "A.L.Y.X. disconnected";
-
-			try {
-				Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
-				nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
-			}
-			catch (System.Net.Sockets.SocketException ex) {
-				nid.Text = "A.L.Y.X. disconnected";
-			}
+            Client.Connected += Client_Connected;
+            Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
 
 			mvarMainWindow = new MainWindow();
 
@@ -177,7 +171,7 @@ namespace Alyx
 				speaker.StateChanged += speaker_StateChanged;
 			}
 
-			/*
+            /*
 			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
 			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
 			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
@@ -210,9 +204,15 @@ namespace Alyx
 			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 			*/
 
-		}
+        }
 
-		protected override void OnCancelKeyPress(ConsoleCancelEventArgs e)
+        private void Client_Connected(object sender, EventArgs e)
+        {
+            nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
+        }
+
+
+        protected override void OnCancelKeyPress(ConsoleCancelEventArgs e)
 		{
 			base.OnCancelKeyPress(e);
 

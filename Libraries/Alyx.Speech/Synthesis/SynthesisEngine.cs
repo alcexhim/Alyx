@@ -20,45 +20,32 @@ namespace Alyx.Speech.Synthesis
 		/// <value><c>true</c> if the SpeechEngineNotFoundException should be suppressed; otherwise, <c>false</c>.</value>
 		public bool SuppressSpeechEngineNotFound { get { return mvarSuppressSpeechEngineNotFound; } set { mvarSuppressSpeechEngineNotFound = value; } }
 
-		public abstract SynthesisEngineReference MakeReference();
+        protected virtual bool IsSupportedInternal() { return true; }
+        public bool IsSupported()
+        {
+            return IsSupportedInternal();
+        }
+
+        public abstract SynthesisEngineReference MakeReference();
 		
 		public static SynthesisEngineReference[] GetEngines()
 		{
 			List<SynthesisEngineReference> list = new List<SynthesisEngineReference>();
 
-			string basePath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			string[] fileNames = System.IO.Directory.GetFiles(basePath, "*.dll");
-			foreach (string fileName in fileNames)
+            Type[] types = MBS.Framework.Reflection.GetAvailableTypes(new Type[] { typeof(SynthesisEngine) });
+			foreach (Type type in types)
 			{
-				Assembly asm = null;
-				try
+				if (type == null) continue;
+                if (type.IsAbstract) continue;
+
+				if (type.IsSubclassOf(typeof(SynthesisEngine)))
 				{
-					asm = Assembly.LoadFile(fileName);
-				}
-				catch
-				{
-					continue;
-				}
-				
-				Type[] types = null;
-				try
-				{
-					types = asm.GetTypes();
-				}
-				catch (System.Reflection.ReflectionTypeLoadException ex)
-				{
-					types = ex.Types;
-				}
-				
-				foreach (Type type in types)
-				{
-					if (type == null) continue;
-					if (type.IsSubclassOf(typeof(SynthesisEngine)))
-					{
-						SynthesisEngine engine = (type.Assembly.CreateInstance(type.FullName) as SynthesisEngine);
-						SynthesisEngineReference er = engine.MakeReference();
-						list.Add(er);
-					}
+					SynthesisEngine engine = (type.Assembly.CreateInstance(type.FullName) as SynthesisEngine);
+                    if (!engine.IsSupported())
+                        continue;
+
+                    SynthesisEngineReference er = engine.MakeReference();
+					list.Add(er);
 				}
 			}
 			return list.ToArray();

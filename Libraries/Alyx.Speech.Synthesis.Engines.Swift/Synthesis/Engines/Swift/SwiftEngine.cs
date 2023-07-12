@@ -25,19 +25,35 @@ using System.Text;
 
 namespace Alyx.Speech.Synthesis.Engines.Swift
 {
-	public class SwiftEngine : SynthesisEngine
+	public class SwiftEngine : ExternalSoftwareSynthesisEngine
 	{
-		public SwiftEngine()
-		{
-		}
+        protected override string ApplicationPath => "swift";
+        protected override bool RequirePulseAudioDSP => true;
 
-		private string mvarSwiftApplicationPath = "swift"; // @"C:\Program Files (x86)\Cepstral\bin\swift.exe";
-		public string SwiftApplicationPath { get { return mvarSwiftApplicationPath; } set { mvarSwiftApplicationPath = value; } }
+        protected override string GetCommandLineArguments(string text)
+        {
+            Dictionary<string, string> paramz = new Dictionary<string, string>();
+            paramz.Add("speech/rate", "200"); // default is 170
 
+            StringBuilder sb = new StringBuilder();
+            if (Voice != null)
+            {
+                sb.Append("-n \"" + Voice.Name + "\" ");
+            }
+            foreach (KeyValuePair<string, string> kvp in paramz)
+            {
+                sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
+            }
 
-		#region implemented abstract members of SynthesisEngine
+            sb.Append("\"");
+            sb.Append(text.Replace("\"", "\\\""));
+            sb.Append("\"");
+            return sb.ToString();
+        }
 
-		private static SynthesisEngineReference _ser = null;
+        #region implemented abstract members of SynthesisEngine
+
+        private static SynthesisEngineReference _ser = null;
 		public override SynthesisEngineReference MakeReference()
 		{
 			if (_ser == null)
@@ -45,82 +61,6 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 				_ser = new SynthesisEngineReference(GetType());
 			}
 			return _ser;
-		}
-
-		private System.Threading.Thread _tSpeak = null;
-		private void _tSpeak_ParameterizedThreadStart(object value)
-		{
-			string text = (value as string);
-
-			System.Diagnostics.Process p = new System.Diagnostics.Process();
-
-			Dictionary<string, string> paramz = new Dictionary<string, string>();
-			paramz.Add("speech/rate", "200"); // default is 170
-
-			StringBuilder sb = new StringBuilder();
-			if (Voice != null)
-			{
-				sb.Append("-n \"" + Voice.Name + "\" ");
-			}
-			foreach (KeyValuePair<string, string> kvp in paramz)
-			{
-				sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
-			}
-
-			sb.Append("\"");
-			sb.Append(text.Replace("\"", "\\\""));
-			sb.Append("\"");
-
-			p.StartInfo = CreateProcessStartInfo(sb.ToString(), true);
-
-			try
-			{
-				p.Start();
-				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking, text));
-				p.WaitForExit();
-				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
-			}
-			catch (System.ComponentModel.Win32Exception ex)
-			{
-				if (ex.NativeErrorCode == 2)
-				{
-					// file not found
-					if (SuppressSpeechEngineNotFound)
-						return;
-
-					throw new SpeechEngineNotFoundException(GetType().FullName, ex);
-				}
-				throw ex;
-			}
-		}
-
-		private ProcessStartInfo CreateProcessStartInfo(string arguments, bool audio)
-		{
-			string app = mvarSwiftApplicationPath;
-			string args = arguments;
-
-			if (audio)
-			{
-				app = "padsp"; 
-				args = String.Format("{0} {1}", mvarSwiftApplicationPath, args);
-			}
-			ProcessStartInfo psi = new ProcessStartInfo(app, args);
-			psi.CreateNoWindow = true;
-			psi.UseShellExecute = false;
-			psi.RedirectStandardError = true;
-			psi.RedirectStandardInput = true;
-			psi.RedirectStandardOutput = true;
-			return psi;
-		}
-
-		[DebuggerNonUserCode()]
-		protected override void SpeakInternal(string text)
-		{
-			if (_tSpeak != null && _tSpeak.IsAlive) _tSpeak.Abort();
-			_tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
-
-			_tSpeak.Name = "Alyx Speech Swift Engine Thread";
-			_tSpeak.Start(text);
 		}
 
 		protected override Voice[] GetVoicesInternal()

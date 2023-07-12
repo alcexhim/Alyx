@@ -189,6 +189,7 @@ FakesAssemblies/
 *.resources
 *.userprefs
 *.vs
+mono_crash.*
 
 # explicitly excluded files from version control
 *.exclude

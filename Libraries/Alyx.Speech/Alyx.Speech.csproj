@@ -46,9 +46,21 @@
     <Compile Include="Synthesis\SynthesisEngineStateChangedEvent.cs" />
     <Compile Include="Recognition\RecognitionEngine.cs" />
     <Compile Include="Synthesis\SynthesisEngineReference.cs" />
+    <Compile Include="Synthesis\Engines\ExternalSoftwareSynthesisEngine.cs" />
+    <Compile Include="Synthesis\Engines\Espeak\EspeakEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SpeechEngineNotFoundException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Synthesis\Engines\" />
+    <Folder Include="Synthesis\Engines\Espeak\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MBS.Framework\MBS.Framework\MBS.Framework.csproj">
+      <Project>{00266B21-35C9-4A7F-A6BA-D54D7FDCC25C}</Project>
+      <Name>MBS.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
