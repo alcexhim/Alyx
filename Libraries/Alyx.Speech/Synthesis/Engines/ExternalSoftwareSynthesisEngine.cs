@@ -25,96 +25,96 @@ using System.Text;
 
 namespace Alyx.Speech.Synthesis.Engines
 {
-    public abstract class ExternalSoftwareSynthesisEngine : SynthesisEngine
-    {
-        protected abstract string ApplicationPath { get; }
-        protected virtual bool RequirePulseAudioDSP { get; } = false;
+	public abstract class ExternalSoftwareSynthesisEngine : SynthesisEngine
+	{
+		protected abstract string ApplicationPath { get; }
+		protected virtual bool RequirePulseAudioDSP { get; } = false;
 
-        protected virtual string GetCommandLineArguments(string text)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("\"");
-            sb.Append(text.Replace("\"", "\\\""));
-            sb.Append("\"");
-            return sb.ToString();
-        }
+		protected virtual string GetCommandLineArguments(string text)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append("\"");
+			sb.Append(text.Replace("\"", "\\\""));
+			sb.Append("\"");
+			return sb.ToString();
+		}
 
-        protected override bool IsSupportedInternal()
-        {
-            Process p = new Process();
-            p.StartInfo = CreateProcessStartInfo("", false);
-            try
-            {
-                p.Start();
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
+		protected override bool IsSupportedInternal()
+		{
+			Process p = new Process();
+			p.StartInfo = CreateProcessStartInfo("", false);
+			try
+			{
+				p.Start();
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+			return true;
+		}
 
-        private System.Threading.Thread _tSpeak = null;
-        private void _tSpeak_ParameterizedThreadStart(object value)
-        {
-            string text = (value as string);
+		private System.Threading.Thread _tSpeak = null;
+		private void _tSpeak_ParameterizedThreadStart(object value)
+		{
+			string text = (value as string);
 
-            Process p = new Process();
+			Process p = new Process();
 
-            string args = GetCommandLineArguments(text);
-            p.StartInfo = CreateProcessStartInfo(args, true);
+			string args = GetCommandLineArguments(text);
+			p.StartInfo = CreateProcessStartInfo(args, true);
 
-            try
-            {
-                p.Start();
-                OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking, text));
-                p.WaitForExit();
-                OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
-            }
-            catch (System.ComponentModel.Win32Exception ex)
-            {
-                if (ex.NativeErrorCode == 2)
-                {
-                    // file not found
-                    if (SuppressSpeechEngineNotFound)
-                        return;
+			try
+			{
+				p.Start();
+				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Speaking, text));
+				p.WaitForExit();
+				OnStateChanged(new SynthesisEngineStateChangedEventArgs(SynthesisEngineState.Ready));
+			}
+			catch (System.ComponentModel.Win32Exception ex)
+			{
+				if (ex.NativeErrorCode == 2)
+				{
+					// file not found
+					if (SuppressSpeechEngineNotFound)
+						return;
 
-                    throw new SpeechEngineNotFoundException(GetType().FullName, ex);
-                }
-                throw ex;
-            }
-        }
+					throw new SpeechEngineNotFoundException(GetType().FullName, ex);
+				}
+				throw ex;
+			}
+		}
 
-        protected ProcessStartInfo CreateProcessStartInfo(string arguments, bool audio)
-        {
-            string app = ApplicationPath;
-            string args = arguments;
+		protected ProcessStartInfo CreateProcessStartInfo(string arguments, bool audio)
+		{
+			string app = ApplicationPath;
+			string args = arguments;
 
-            if (audio && RequirePulseAudioDSP)
-            {
-                app = "padsp";
-                args = String.Format("{0} {1}", ApplicationPath, args);
-            }
+			if (audio && RequirePulseAudioDSP)
+			{
+				app = "padsp";
+				args = String.Format("{0} {1}", ApplicationPath, args);
+			}
 
-            ProcessStartInfo psi = new ProcessStartInfo(app, args);
-            psi.CreateNoWindow = true;
-            psi.UseShellExecute = false;
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-            return psi;
-        }
+			ProcessStartInfo psi = new ProcessStartInfo(app, args);
+			psi.CreateNoWindow = true;
+			psi.UseShellExecute = false;
+			psi.RedirectStandardError = true;
+			psi.RedirectStandardInput = true;
+			psi.RedirectStandardOutput = true;
+			return psi;
+		}
 
-        [DebuggerNonUserCode()]
-        protected override void SpeakInternal(string text)
-        {
-            if (_tSpeak != null && _tSpeak.IsAlive) _tSpeak.Abort();
-            _tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
+		[DebuggerNonUserCode()]
+		protected override void SpeakInternal(string text)
+		{
+			if (_tSpeak != null && _tSpeak.IsAlive) _tSpeak.Abort();
+			_tSpeak = new System.Threading.Thread(_tSpeak_ParameterizedThreadStart);
 
-            _tSpeak.Name = "Alyx Speech Swift Engine Thread";
-            _tSpeak.Start(text);
-        }
+			_tSpeak.Name = "Alyx Speech Swift Engine Thread";
+			_tSpeak.Start(text);
+		}
 
 
-    }
+	}
 }
