@@ -34,7 +34,7 @@ namespace Alyx
 		private static Alyx.Networking.Client client = new Alyx.Networking.Client();
 		public static Alyx.Networking.Client Client { get { return client; } }
 
-		private static NotificationIcon nid = new NotificationIcon ();
+		private static NotificationIcon nid = new NotificationIcon();
 
 		public Program()
 		{
@@ -85,7 +85,7 @@ namespace Alyx
 			{
 				TestSentenceParser();
 			}
-			
+
 
 			/*
 
@@ -134,8 +134,8 @@ namespace Alyx
 			};
 
 			nid.Text = "A.L.Y.X. disconnected";
-            Client.Connected += Client_Connected;
-            Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
+			Client.Connected += Client_Connected;
+			Client.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 51221);
 
 			mvarMainWindow = new MainWindow();
 
@@ -171,7 +171,7 @@ namespace Alyx
 				speaker.StateChanged += speaker_StateChanged;
 			}
 
-            /*
+			/*
 			AdjectiveInstance lazy = langEnglish.GetAdjective(new Guid("{05F6A350-6F7F-4B0A-B95D-1C259D03B111}"));
 			AdjectiveInstance quick = langEnglish.GetAdjective(new Guid("{7AD70B20-468C-47A8-89E9-A4568A0B7C1E}"));
 			AdjectiveInstance brown = langEnglish.GetAdjective(new Guid("{330DF41E-C811-4E61-8E76-7D9D8B85F9D4}"));
@@ -204,22 +204,20 @@ namespace Alyx
 			// Speak("I couldn't find the Microsoft Zira Desktop voice, so I chose Microsoft Anna.");
 			*/
 
-        }
+		}
 
-        private void Client_Connected(object sender, EventArgs e)
-        {
-            nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
-        }
+		private void Client_Connected(object sender, EventArgs e)
+		{
+			nid.Text = "A.L.Y.X. connected to 127.0.0.1:51221";
+		}
 
 
-        protected override void OnCancelKeyPress(ConsoleCancelEventArgs e)
+		protected override void OnCancelKeyPress(ConsoleCancelEventArgs e)
 		{
 			base.OnCancelKeyPress(e);
 
 			Console.WriteLine("Ctrl+C pressed, shutting down client...");
-
-			client.Disconnect();
-			listener.Stop();
+			Stop();
 		}
 
 		protected override void OnStopped(EventArgs e)
@@ -236,7 +234,14 @@ namespace Alyx
 			// TODO: for some reason when server.Stop() the client doesn't get kicked... it still thinks it's connected
 			// be sure to disconnect manually before stopping the server
 			//client.Disconnect();
-
+			if (client != null)
+			{
+				client.Disconnect();
+			}
+			if (listener != null)
+			{
+				listener.Stop();
+			}
 			/*
 			{
 				UniversalEditor.IO.Writer wLog = new UniversalEditor.IO.Writer (new UniversalEditor.Accessors.FileAccessor (FileName_BootLog, true, false, true));
@@ -301,7 +306,7 @@ namespace Alyx
 			// mind.Inputs.Add (new VMI_Test_Camera ());
 
 			Sentence sent1 = Sentence.Parse("You're ugly.");
-			Console.WriteLine (sent1.ToString ());
+			Console.WriteLine(sent1.ToString());
 
 			mind.Start();
 		}
@@ -338,23 +343,23 @@ namespace Alyx
 			(sent.Clauses[0].Subjects[0] as PronounInstance).Quantity = Quantity.Plural;
 
 			string str = sent.ToString();
-			Console.WriteLine (str);
+			Console.WriteLine(str);
 		}
 
 		private static void Pause()
 		{
-			Console.Write ("Press any key to continue . . .");
-			Console.ReadKey (true);
+			Console.Write("Press any key to continue . . .");
+			Console.ReadKey(true);
 		}
 
 		private static void TestSentenceParser(string sentence)
 		{
 			Sentence sent = Sentence.Parse(sentence);
 
-			Console.WriteLine (" Input: " + sentence);
-			Console.WriteLine ("Output: " + sent.ToString ());
+			Console.WriteLine(" Input: " + sentence);
+			Console.WriteLine("Output: " + sent.ToString());
 
-			Pause ();
+			Pause();
 		}
 		private static void TestSentenceParser()
 		{
@@ -368,7 +373,7 @@ namespace Alyx
 			//			a.	the beginning and end word are both capitalized, and
 			//			b.	lowercase words in between are solely of Article and Preposition classes
 			//			An example of this case would be "Lord of the Rings".
-			
+
 			// TestSentenceParser ("The boy went fishing after school.");
 
 			// TestSentenceParser ("The boy often went fishing after school.");
@@ -383,12 +388,12 @@ namespace Alyx
 
 
 			// TODO: fix this, when run more than once it fails epicly
-			TestSentenceParser ("History is an interesting subject.");
+			TestSentenceParser("History is an interesting subject.");
 
-			TestSentenceParser ("History is an interesting subject.");
+			TestSentenceParser("History is an interesting subject.");
 
-			TestSentenceParser ("Jane, John, and Francheska jumped over the lazy dog.");
-			TestSentenceParser ("The name of the boy is John.");
+			TestSentenceParser("Jane, John, and Francheska jumped over the lazy dog.");
+			TestSentenceParser("The name of the boy is John.");
 
 			// [What's] [the boy's name]?
 			// [What is] [the boy's name]?
@@ -414,19 +419,19 @@ namespace Alyx
 			// YOU:		What's your name?
 			// ALYX:	My name is Alyx.
 
-			LocalMachine machine = new LocalMachine ();
-			machine.Load ();
+			LocalMachine machine = new LocalMachine();
+			machine.Load();
 
 			Instance instance = machine.Instances[new Guid("{7A2CD5EF-7D24-456A-B429-0D2C6B544F7A}")];
-			
+
 			Language lang = Language.CurrentLanguage;
-			Sentence input1 = Sentence.Parse ("What's your name?");
-			string input1Str = input1.ToString ();
+			Sentence input1 = Sentence.Parse("What's your name?");
+			string input1Str = input1.ToString();
 		}
 
 		private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
 		{
-			MBS.Framework.Application.Instance.Stop ();
+			MBS.Framework.Application.Instance.Stop();
 			e.Cancel = true;
 		}
 
@@ -555,23 +560,23 @@ namespace Alyx
 			switch (e.State)
 			{
 				case SynthesisEngineState.Ready:
-				{
-					nid.Status = NotificationIconStatus.Visible;
-					// nid.Icon = iconDefault;
-					break;
-				}
-				case SynthesisEngineState.Speaking:
-				{
-					nid.Status = NotificationIconStatus.Attention;
-					/*
-					if (mvarSpeechMonitorWindow != null)
 					{
-						mvarSpeechMonitorWindow.AddOutputLine(e.Text);
+						nid.Status = NotificationIconStatus.Visible;
+						// nid.Icon = iconDefault;
+						break;
 					}
-					nid.Icon = iconActive;
-					*/
-					break;
-				}
+				case SynthesisEngineState.Speaking:
+					{
+						nid.Status = NotificationIconStatus.Attention;
+						/*
+						if (mvarSpeechMonitorWindow != null)
+						{
+							mvarSpeechMonitorWindow.AddOutputLine(e.Text);
+						}
+						nid.Icon = iconActive;
+						*/
+						break;
+					}
 			}
 		}
 
@@ -580,24 +585,28 @@ namespace Alyx
 		{
 			if (mvarMainWindow == null) mvarMainWindow = new MainWindow();
 			if (mvarMainWindow.IsDisposed)
-				mvarMainWindow = new MainWindow ();
+				mvarMainWindow = new MainWindow();
 
 			mvarMainWindow.Show();
 		}
 
 		private static Menu BuildContextMenu()
 		{
-			Menu menu = new Menu ();
-			menu.Items.AddRange (new MenuItem[] {
-				new CommandMenuItem ("_Options...", null, delegate (object sender, EventArgs e) {
+			Menu menu = new Menu();
+			menu.Items.AddRange(new MenuItem[]
+			{
+				new CommandMenuItem ("_Options...", null, delegate (object sender, EventArgs e)
+				{
 					ShowMainWindow ();
 				}),
 				new SeparatorMenuItem(),
 				BuildVoiceMenu(),
 				new SeparatorMenuItem(),
-				new CommandMenuItem ("_Connect...", null, delegate (object sender, EventArgs e) {
+				new CommandMenuItem ("_Connect...", null, delegate (object sender, EventArgs e)
+				{
 					ConnectDialog dlg = new ConnectDialog();
-					if (dlg.ShowDialog() == DialogResult.OK) {
+					if (dlg.ShowDialog() == DialogResult.OK)
+					{
 						int port = 0;
 
 						// TODO: fix this, GetControlTextInternal on GTK returns a reference that is only valid once
@@ -610,7 +619,7 @@ namespace Alyx
 							MessageDialog.ShowDialog("Please enter a valid integer port number", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
 							return;
 						}
-						
+
 						if (String.IsNullOrEmpty(strServerName)) {
 							MessageDialog.ShowDialog("Please enter a valid server name or IP address", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
 							return;
@@ -622,21 +631,26 @@ namespace Alyx
 							System.Net.IPAddress[] addrs = System.Net.Dns.GetHostAddresses(strServerName);
 							if (addrs.Length > 0) addr = addrs[0];
 						}
-						if (addr != null) {
-							try {
+						if (addr != null)
+						{
+							try
+							{
 								Client.Connect(addr, port);
 							}
-							catch (System.Net.Sockets.SocketException ex) {
+							catch (System.Net.Sockets.SocketException ex)
+							{
 								MessageDialog.ShowDialog("Cannot connect to the specified server.", "Error", MessageDialogButtons.OK, MessageDialogIcon.Error);
 							}
 						}
 					}
 				}),
-				new CommandMenuItem ("Dis_connect", null, delegate (object sender, EventArgs e) {
+				new CommandMenuItem ("Dis_connect", null, delegate (object sender, EventArgs e)
+				{
 				}),
 				new SeparatorMenuItem(),
-				new CommandMenuItem ("_Quit", null, delegate (object sender, EventArgs e) {
-					MBS.Framework.Application.Instance.Stop();
+				new CommandMenuItem ("_Quit", null, delegate (object sender, EventArgs e)
+				{
+					Instance.Stop();
 				})
 			});
 			return menu;
@@ -700,9 +714,7 @@ namespace Alyx
 
 		private static void mnuTrayExit_Click(object sender, EventArgs e)
 		{
-			if (listener != null) listener.Stop();
-
-			MBS.Framework.Application.Instance.Stop ();
+			Instance.Stop();
 		}
 	}
 }
