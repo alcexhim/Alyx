@@ -21,35 +21,35 @@
 using System;
 namespace Alyx.Speech.Synthesis.Engines.Espeak
 {
-    public class EspeakEngine : ExternalSoftwareSynthesisEngine
-    {
-        protected override string ApplicationPath => "espeak";
+	public class EspeakEngine : ExternalSoftwareSynthesisEngine
+	{
+		protected override string ApplicationPath => "espeak";
 
-        private static SynthesisEngineReference _ser = null;
-        public override SynthesisEngineReference MakeReference()
-        {
-            if (_ser == null)
-            {
-                _ser = new SynthesisEngineReference(typeof(EspeakEngine), "Espeak");
-            }
-            return _ser;
-        }
+		private static SynthesisEngineReference _ser = null;
+		public override SynthesisEngineReference MakeReference()
+		{
+			if (_ser == null)
+			{
+				_ser = new SynthesisEngineReference(typeof(EspeakEngine), "Espeak");
+			}
+			return _ser;
+		}
 
-        private Voice _Default = null;
-        public EspeakEngine()
-        {
-            _Default = new Voice("Default Voice");
-            Voice = _Default;
-        }
+		private Voice _Default = null;
+		public EspeakEngine()
+		{
+			_Default = new Voice("Default Voice");
+			Voice = _Default;
+		}
 
-        public override void SetVoiceInternal(Voice voice)
-        {
-            // do nothing, Espeak only supports one voice
-        }
+		public override void SetVoiceInternal(Voice voice)
+		{
+			// do nothing, Espeak only supports one voice
+		}
 
-        protected override Voice[] GetVoicesInternal()
-        {
-            return new Voice[] { _Default };
-        }
-    }
+		protected override Voice[] GetVoicesInternal()
+		{
+			return new Voice[] { _Default };
+		}
+	}
 }

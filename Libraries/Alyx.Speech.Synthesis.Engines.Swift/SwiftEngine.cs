@@ -27,33 +27,33 @@ namespace Alyx.Speech.Synthesis.Engines.Swift
 {
 	public class SwiftEngine : ExternalSoftwareSynthesisEngine
 	{
-        protected override string ApplicationPath => "swift";
-        protected override bool RequirePulseAudioDSP => true;
+		protected override string ApplicationPath => "swift";
+		protected override bool RequirePulseAudioDSP => true;
 
-        protected override string GetCommandLineArguments(string text)
-        {
-            Dictionary<string, string> paramz = new Dictionary<string, string>();
-            paramz.Add("speech/rate", "200"); // default is 170
+		protected override string GetCommandLineArguments(string text)
+		{
+			Dictionary<string, string> paramz = new Dictionary<string, string>();
+			paramz.Add("speech/rate", "200"); // default is 170
 
-            StringBuilder sb = new StringBuilder();
-            if (Voice != null)
-            {
-                sb.Append("-n \"" + Voice.Name + "\" ");
-            }
-            foreach (KeyValuePair<string, string> kvp in paramz)
-            {
-                sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
-            }
+			StringBuilder sb = new StringBuilder();
+			if (Voice != null)
+			{
+				sb.Append("-n \"" + Voice.Name + "\" ");
+			}
+			foreach (KeyValuePair<string, string> kvp in paramz)
+			{
+				sb.Append("-p \"" + kvp.Key + "=" + kvp.Value + "\" ");
+			}
 
-            sb.Append("\"");
-            sb.Append(text.Replace("\"", "\\\""));
-            sb.Append("\"");
-            return sb.ToString();
-        }
+			sb.Append("\"");
+			sb.Append(text.Replace("\"", "\\\""));
+			sb.Append("\"");
+			return sb.ToString();
+		}
 
-        #region implemented abstract members of SynthesisEngine
+		#region implemented abstract members of SynthesisEngine
 
-        private static SynthesisEngineReference _ser = null;
+		private static SynthesisEngineReference _ser = null;
 		public override SynthesisEngineReference MakeReference()
 		{
 			if (_ser == null)
