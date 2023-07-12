@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<alyx xmlns="urn:net.alcetech.schemas.Alyx" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<personalities>
+		<personality id="{ebca1974-e7ed-41c3-9bc2-8e86b05cc3f5}">
+
+			<information>
+				<dc:title>System Default Personality</dc:title>
+			</information>
+
+			<phraseGroups>
+				<!--
+					phraseGroups provides a way to handle more-or-less
+					hardcoded phrases selecting from a random phrase within
+					a category. for example:
+
+						SelectPhrase(PhraseGroup.SALUTATION)
+
+					will select a random phrase from the requested phrase
+					group and return it as a Sentence; e.g. "Hello, Ashlyn."
+				-->
+				<phraseGroup id="{6f352d78-6c71-4e7e-b9e7-9a9bd4f7bc05}">
+					<!-- salutation -->
+					<phrases>
+						<phrase id="{0f1a0421-5491-4bb5-88ea-db0e5dc9ee42}">
+							<!-- Hello, %n -->
+							<phraseLiteral>
+								<!-- the word "hello" in the current language -->
+								<wordReference wordId="{827f7ebd-e5a9-4cf5-8a32-f426c53a3178}" />
+								<!-- marks a pause in the current language (e.g., for english, the comma ',') -->
+								<pause />
+								<!-- the concept `Salutation Target Name` (e.g., your name) -->
+								<conceptReference conceptId="{a1f4eddd-ba5f-4714-99cb-b5bd5cda873b}" />
+							</phraseLiteral>
+						</phrase>
+					</phrases>
+				</phraseGroup>
+			</phraseGroups>
+
+		</personality>
+	</personalities>
+</alyx>
